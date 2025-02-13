@@ -1,0 +1,7 @@
+# Ignore IntelliJ and Eclipse metadata
+.idea/
+.classpath
+.project
+.settings/
+target/
+out/
