@@ -1,11 +1,12 @@
 package la1;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class MusicStore {
+public abstract class MusicStore {
     private final Map<String, Album> albumMap;
 
     public MusicStore() {
@@ -13,13 +14,15 @@ public class MusicStore {
         loadAlbums("albums.txt");
     }
 
-    private String generateKey(String title, String artist) {
+    public String generateKey(String title, String artist) {
         return (title.trim().toLowerCase() + "|" + artist.trim().toLowerCase());
     }
 
-    private void loadAlbums(String albumsListFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(albumsListFile))) {
+    public void loadAlbums(String albumsListFile) {
+        try (BufferedReader br = new BufferedReader(
+                new FileReader(new File(albumsListFile).getAbsolutePath()))) {
             String line;
+            String directory = new File(albumsListFile).getParent();
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
                 String[] parts = line.split(",");
@@ -29,9 +32,10 @@ public class MusicStore {
                 }
                 String title = parts[0].trim();
                 String artist = parts[1].trim();
-                String albumFileName = title + "_" + artist + ".txt";
+                String albumFileName = directory + File.separator +
+                                     title + "_" + artist + ".txt";
 
-                // 解析专辑文件
+                // Parse album file with full path
                 Album album = parseAlbumFile(albumFileName);
                 if (album != null) {
                     albumMap.put(generateKey(title, artist), album);
@@ -89,4 +93,9 @@ public class MusicStore {
     public Collection<Album> getAllAlbums() {
         return albumMap.values();
     }
+
+    public Map<String, Album> getAlbumMap() {
+        return new HashMap<>(albumMap);
+    }
+
 }
