@@ -290,7 +290,6 @@ class MusicStoreTest {
         Path albumsListFile = tempDir.resolve("albums.txt");
 
         // Create albums.txt with a reference to a non-existent album file
-        Path nonExistentPath = tempDir.resolve("NonExistent_Artist.txt");
         Files.write(albumsListFile, List.of("NonExistent, Artist"));
 
         // Try to load albums - parseAlbumFile will fail with IOException when trying to read non-existent file
