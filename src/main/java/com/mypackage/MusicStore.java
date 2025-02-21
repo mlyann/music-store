@@ -68,7 +68,8 @@ public abstract class MusicStore {
 
         // if the input format is invalid, throw an exception
         if (parts.length != 2 && parts.length != 3 && parts.length != 4) {
-            throw new IllegalArgumentException("Invalid input format. Expected 2, 3, or 4 parameters separated by commas.");
+            throw new IllegalArgumentException("Invalid input format. Expected 2, 3, or 4 " +
+                    "parameters separated by commas.");
         }
 
         Song song;
@@ -91,7 +92,7 @@ public abstract class MusicStore {
             // if third is a number
             if (third.matches("\\d+")) {
                 int year = Integer.parseInt(third);
-                song = new Song(title, artist, null, year);
+                song = new Song(title, artist, null, year;
             } else {
                 // if third is a string
                 song = new Song(title, artist, third, 0);
@@ -103,7 +104,7 @@ public abstract class MusicStore {
     }
 
 
-    private Album parseAlbumFile(String albumFileName) {
+    public Album parseAlbumFile(String albumFileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(albumFileName))) {
             String headerLine = br.readLine();
             if (headerLine == null) {
@@ -140,8 +141,11 @@ public abstract class MusicStore {
                     songMap.put(generateKey(songLine.trim(), artist), song);
                 }
             }
-
-            return new Album(title, artist, genre, year, songs);
+            Album album = new Album(title, artist, genre, year, songs);
+            for (Song song : album.getSongsDirect()) {
+                song.setAlbum(album);
+            }
+            return album;
         } catch (IOException e) {
             System.err.println("Error reading album file: " + albumFileName);
             return null;
@@ -156,8 +160,13 @@ public abstract class MusicStore {
         return albumMap.values();
     }
 
+    public Map<String, Song> getSongMap() {
+        return new HashMap<>(songMap);
+    }
+
     public Map<String, Album> getAlbumMap() {
         return new HashMap<>(albumMap);
     }
+
 
 }

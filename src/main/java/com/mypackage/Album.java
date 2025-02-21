@@ -35,6 +35,10 @@ public class Album {
         return year;
     }
 
+    public ArrayList<Song> getSongsDirect() {
+        return songs;
+    }
+
     public ArrayList<Song> getSongs() {
         return new ArrayList<Song>(songs); // 深拷贝，避免外部修改
     }

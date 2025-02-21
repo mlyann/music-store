@@ -5,6 +5,7 @@ public class Song {
     private final String artist;
     private final Genre genre;
     private final int year;
+    private Album album;
 
     // The rating of the song. Default is UNRATED, can be rated later
     private Rating rating = Rating.UNRATED;
@@ -27,6 +28,7 @@ public class Song {
             this.genre = Genre.fromString(genre);
         }
         this.year = year;
+        this.album = null;
     }
 
     public String getTitle() {
@@ -58,6 +60,17 @@ public class Song {
     // when you click the favorite button, the state of Favorite will change
     public void changeFavourite() {
         Favourite = !Favourite;
+    }
+
+    public String getAlbum() {
+        if (album == null) {
+            return null;
+        }
+        return album.getTitle();
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     /**

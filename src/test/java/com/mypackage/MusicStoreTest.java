@@ -16,6 +16,11 @@ class MusicStoreTest {
         public void loadAlbums(String albumsListFile) {
             super.loadAlbums(albumsListFile);
         }
+
+        @Override
+        public Album parseAlbumFile(String albumFileName) {
+            return null;
+        }
     }
 
     private TestMusicStore store;
