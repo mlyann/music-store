@@ -6,16 +6,16 @@ import java.util.List;
 public class Album {
     private final String title;
     private final String artist;
-    private final String genre;
+    private final Genre genre;
     private final int year;
-    private final List<String> songs;
+    private final ArrayList<Song> songs;
 
-    public Album(String title, String artist, String genre, int year, List<String> songs) {
+    public Album(String title, String artist, String genre, int year, List<Song> songs) {
         this.title = title;
         this.artist = artist;
-        this.genre = genre;
+        this.genre = Genre.fromString(genre);
         this.year = year;
-        this.songs = new ArrayList<>(songs); // 深拷贝，避免外部修改
+        this.songs = new ArrayList<Song>(songs); // 深拷贝，避免外部修改
     }
 
     // Getter 方法
@@ -28,19 +28,31 @@ public class Album {
     }
 
     public String getGenre() {
-        return genre;
+        return genre.getGenre();
     }
 
     public int getYear() {
         return year;
     }
 
-    public List<String> getSongs() {
-        return new ArrayList<>(songs);
+    public ArrayList<Song> getSongsDirect() {
+        return songs;
+    }
+
+    public ArrayList<Song> getSongs() {
+        return new ArrayList<Song>(songs); // 深拷贝，避免外部修改
+    }
+
+    public List<String> getSongsTitles() {
+        List<String> titles = new ArrayList<>();
+        for (Song s : songs) {
+            titles.add(s.getTitle());
+        }
+        return titles;
     }
 
     @Override
     public String toString() {
-        return String.format("%s by %s (%d, %s)", title, artist, year, genre);
+        return String.format("%s by %s (%d, %s)", title, artist, year, genre.getGenre());
     }
 }
