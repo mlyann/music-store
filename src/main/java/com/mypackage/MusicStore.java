@@ -7,10 +7,15 @@ import java.io.IOException;
 import java.util.*;
 
 public abstract class MusicStore {
+    // albumMap stores all albums in the store, each item is a class Album
     private final Map<String, Album> albumMap;
+
+    // songMap stores all songs in the store, each item is a class song
+    private final Map<String, Song> songMap;
 
     public MusicStore() {
         albumMap = new HashMap<>();
+        songMap = new HashMap<>();
         loadAlbums("albums.txt");
     }
 
@@ -18,6 +23,7 @@ public abstract class MusicStore {
         return (title.trim().toLowerCase() + "|" + artist.trim().toLowerCase());
     }
 
+    // This function loads all albums from the albumsListFile
     public void loadAlbums(String albumsListFile) {
         try (BufferedReader br = new BufferedReader(
                 new FileReader(new File(albumsListFile).getAbsolutePath()))) {
@@ -46,6 +52,57 @@ public abstract class MusicStore {
         }
     }
 
+    /**
+     * This function loads all songs from the input file
+     * @param line is the input line
+     * The input line should be in the format of "title, artist, genre, year"
+     * Title and artist are required, genre and year are optional
+     * If the title and artist are not provided, an exception will be thrown
+     * @author Haocheng
+     */
+    public void loadSong(String line) {
+        String[] parts = line.split(",");
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = parts[i].trim();
+        }
+
+        // if the input format is invalid, throw an exception
+        if (parts.length != 2 && parts.length != 3 && parts.length != 4) {
+            throw new IllegalArgumentException("Invalid input format. Expected 2, 3, or 4 parameters separated by commas.");
+        }
+
+        Song song;
+        if (parts.length == 4) {
+            // input format: title, artist, genre, year
+            String title = parts[0];
+            String artist = parts[1];
+            String genre = parts[2];
+            int year = Integer.parseInt(parts[3]); // if year not number, throw NumberFormatException
+            song = new Song(title, artist, genre, year);
+        } else if (parts.length == 2) {
+            // input format: title, artist
+            song = new Song(parts[0], parts[1]);
+        } else { // parts.length == 3
+            // input format: title, artist, third
+            // figure if third is genre(String) or year(pure number)
+            String title = parts[0];
+            String artist = parts[1];
+            String third = parts[2];
+            // if third is a number
+            if (third.matches("\\d+")) {
+                int year = Integer.parseInt(third);
+                song = new Song(title, artist, null, year);
+            } else {
+                // if third is a string
+                song = new Song(title, artist, third, 0);
+            }
+        }
+
+        // add the song to the songMap
+        songMap.put(generateKey(song.getTitle(), song.getArtist()), song);
+    }
+
+
     private Album parseAlbumFile(String albumFileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(albumFileName))) {
             String headerLine = br.readLine();
@@ -71,11 +128,16 @@ public abstract class MusicStore {
                 return null;
             }
 
-            List<String> songs = new ArrayList<>();
+            // I upload the type of song from String to class Song for better implementation
+            // Also I add the songMap to store all songs in the store
+            // Haocheng
+            List<Song> songs = new ArrayList<>();
             String songLine;
             while ((songLine = br.readLine()) != null) {
                 if (!songLine.trim().isEmpty()) {
-                    songs.add(songLine.trim());
+                    Song song = new Song(songLine.trim(), artist, genre, year);
+                    songs.add(song);
+                    songMap.put(generateKey(songLine.trim(), artist), song);
                 }
             }
 

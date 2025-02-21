@@ -74,7 +74,7 @@ class MusicStoreTest {
         assertEquals("Pink Floyd", dsotm.getArtist());
         assertEquals("Rock", dsotm.getGenre());
         assertEquals(1973, dsotm.getYear());
-        assertEquals(List.of("Speak to Me", "Breathe", "Time"), dsotm.getSongs());
+        assertEquals(List.of("Speak to Me", "Breathe", "Time"), dsotm.getSongsTitles());
 
         // 7. Check details of the second album
         Album abbeyRoad = store.getAlbum("Abbey Road", "The Beatles");
@@ -83,7 +83,7 @@ class MusicStoreTest {
         assertEquals("The Beatles", abbeyRoad.getArtist());
         assertEquals("Rock", abbeyRoad.getGenre());
         assertEquals(1969, abbeyRoad.getYear());
-        assertEquals(List.of("Come Together", "Something"), abbeyRoad.getSongs());
+        assertEquals(List.of("Come Together", "Something"), abbeyRoad.getSongsTitles());
     }
 
     /**
