@@ -60,4 +60,13 @@ public class Album {
         }
         return result.toString();
     }
+
+    public ArrayList<String> toStringList() {
+        ArrayList<String> result = new ArrayList<>();
+        result.add(String.format("%s, by %s (%d, %s)", title, artist, year, genre.getGenre()));
+        for (Song s : songs) {
+            result.add(s.getTitle());
+        }
+        return result;
+    }
 }

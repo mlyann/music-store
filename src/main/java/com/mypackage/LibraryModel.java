@@ -1,37 +1,42 @@
 package la1;
 import java.lang.reflect.Array;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LibraryModel {
     private final String UserID;
     // Function is a class that contains all the functions that can be used in the library
-    private final Function function;
     // UserSongs stores all songs in the user's library, each item is a class Song
-    private final HashMap<String, Song> UserSongs;
+    private final HashMap<List<String>, Song> UserSongs;
     // UserAlbums stores all albums in the user's library, each item is a class Album
-    private final HashMap<String, Album> UserAlbums;
+    private final HashMap<List<String>, Album> UserAlbums;
     private final ArrayList<Song> Playlists;
     private final Scanner scanner;
+    private ArrayList<Song> searchSongList;
+    private ArrayList<Album> searchAlbumList;
+    private final MusicStore musicStore;
 
-    public LibraryModel(String UserID) {
+    public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;
-        this.function = new Function();
         this.UserSongs = new HashMap<>();
         this.UserAlbums = new HashMap<>();
         this.Playlists = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        this.searchSongList = new ArrayList<>();
+        this.searchAlbumList = new ArrayList<>();
+        this.musicStore = musicStore; {
+
+
+        };
     }
 
     public String getUserID() {
         return UserID;
     }
 
-    public String generateKey(String title, String artist) {
-        return (title.trim().toLowerCase() + "|" + artist.trim().toLowerCase());
+    public List<String> generateKey(String title, String artist) {
+        return List.of(title.trim().toLowerCase(), artist.trim().toLowerCase());
     }
+
 
     /**
      * Add a song to the user's library
@@ -70,11 +75,112 @@ public class LibraryModel {
      *          2) Select individually song in album (album will not add in your library)
      *          3) Return back
      */
-    public void search (String keyword, boolean isMusicStore) {
-        Map<String, ArrayList> map = function.search(keyword);
-        if (map == null) {
-            return;
+    public ArrayList<ArrayList<String>> searchSong (String keyword, boolean isMusicStore) {
+        searchSongList = new ArrayList<>();
+        ArrayList<Song> songs;
+        if (isMusicStore) {
+            songs = searchSongSub(keyword, true);
+        } else {
+            songs = searchSongSub(keyword, false);
         }
+        searchSongList = songs;
+
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (Song song : songs) {
+            result.add(song.toStringList());
+        }
+        return result;
+    }
+
+    public ArrayList<ArrayList<String>> searchAlbum (String keyword, boolean isMusicStore) {
+        searchAlbumList = new ArrayList<>();
+        ArrayList<Album> albums;
+        if (isMusicStore) {
+            albums = searchAlbumSub(keyword, true);
+        } else {
+            albums = searchAlbumSub(keyword, false);
+        }
+        searchAlbumList = albums;
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (Album album : albums) {
+            result.add(album.toStringList());
+        }
+        return result;
+    }
+
+    public ArrayList<Song> searchSongSub(String keyword, boolean isMusicStore) {
+        Map<List<String>, Song> songMap;
+        if (isMusicStore) {
+            songMap = musicStore.getSongMap();
+        } else {
+            songMap = UserSongs;
+        }
+        ArrayList<Song> result = new ArrayList<>();
+        String lowerKeyword = keyword.trim().toLowerCase();
+        // 遍历每个 List<String> key，分别比较其中的每个元素
+        for (List<String> key : songMap.keySet()) {
+            for (String part : key) {
+                if (part.equals(lowerKeyword)) {  // 完全匹配（忽略大小写）
+                    result.add(songMap.get(key));
+                    break;  // 一旦匹配，避免重复添加
+                }
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Album> searchAlbumSub(String keyword, boolean isMusicStore) {
+        Map<List<String>, Album> albumMap;
+        if (isMusicStore) {
+            albumMap = musicStore.getAlbumMap();
+        } else {
+            albumMap = UserAlbums;
+        }
+        ArrayList<Album> result = new ArrayList<>();
+        String lowerKeyword = keyword.trim().toLowerCase();
+        // 同样遍历 key 的每个部分，要求完全匹
+        for (List<String> key : albumMap.keySet()) {
+            for (String part : key) {
+                if (part.equals(lowerKeyword)) {
+                    result.add(albumMap.get(key));
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+
+
+    /**
+    public ArrayList search (String keyword, boolean isMusicStore, boolean isSong) {
+        if (isSong) {
+            ArrayList<Song> songs;
+            if (isMusicStore) {
+                songs = function.searchSong(keyword);
+            } else {
+                songs = new ArrayList<>(UserSongs.values());
+            }
+            ArrayList<ArrayList<String>> result = new ArrayList<>();
+            for (Song song : songs) {
+                result.add(song.toStringList());
+            }
+            return result;
+        } else {
+            ArrayList<Album> albums;
+            if (isMusicStore) {
+                albums = function.searchAlbum(keyword);
+            } else {
+                albums = new ArrayList<>(UserAlbums.values());
+            }
+            ArrayList<ArrayList<String>> result = new ArrayList<>();
+            for (Album album : albums) {
+                result.add(album.toStringList());
+            }
+        }
+
+
+
         Scanner scanner = new Scanner(System.in);
         String input = "";
         if (map.get("songs") != null) {
@@ -156,6 +262,7 @@ public class LibraryModel {
             }
         }
     }
+        */
 
     /**
      * Select a song from the list
