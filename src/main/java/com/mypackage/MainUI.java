@@ -11,32 +11,20 @@ package la1;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * MainUI
- *
- * Terminal-based user interface for managing a music library application.
- *
- * IMPORTANT:
- *  - This UI relies on backend/model methods that you will implement yourself (e.g.,
- *    searchSongInMusicStore, playSong, rateSong, etc.).
- *  - All printing and user input are handled here in the View, per the assignment’s MVC guidelines.
- *  - You can rename methods or adjust them as needed to match your model's API.
- *  - Wherever you see "MODEL CALL" or "TODO", you should connect it to your actual model methods.
- */
 public class MainUI {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // A fancy intro banner
+        // A fancy intro banner with extra icons
         System.out.println("======================================================");
-        System.out.println("    Welcome to the Music Library App (CSC 335)        ");
-        System.out.println("        Date: Feb 21, 2025                            ");
-        System.out.println("        Authors: Haocheng Cao & Minglai Yang           ");
+        System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
+        System.out.println("         📅 Date: Feb 21, 2025");
+        System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
         System.out.println("======================================================");
 
         runMainMenu();
-        System.out.println("Exiting application. Goodbye!");
+        System.out.println("🚪 Exiting application. Goodbye!");
     }
 
     /**
@@ -49,12 +37,12 @@ public class MainUI {
      */
     private static void runMainMenu() {
         while (true) {
-            System.out.println("\n---------- MAIN MENU ----------");
-            System.out.println("1) Search");
-            System.out.println("2) Playlist");
-            System.out.println("3) Favorite List");
-            System.out.println("0) Exit");
-            System.out.print("Enter your choice: ");
+            System.out.println("\n---------- 🎵 MAIN MENU 🎵 ----------");
+            System.out.println("1) 🔍 Search");
+            System.out.println("2) 🎧 Playlist");
+            System.out.println("3) ⭐ Favorite List");
+            System.out.println("0) 🚪 Exit");
+            System.out.print("👉 Enter your choice: ");
 
             String choice = SCANNER.nextLine().trim();
 
@@ -71,7 +59,7 @@ public class MainUI {
                 case "0":
                     return; // Exit the main menu (and the program)
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("❗ Invalid choice. Please try again.");
             }
         }
     }
@@ -90,7 +78,7 @@ public class MainUI {
      *   - or Skip
      */
     private static void runSearchMenu() {
-        System.out.println("\n[SEARCH MENU]");
+        System.out.println("\n🔍 [SEARCH MENU]");
 
         // 1) Choose search location
         String location = chooseSearchLocation();
@@ -111,10 +99,10 @@ public class MainUI {
     private static String chooseSearchLocation() {
         while (true) {
             System.out.println("\nWhere would you like to search?");
-            System.out.println("1) Music Store");
-            System.out.println("2) User Library");
-            System.out.println("0) Back to Main Menu");
-            System.out.print("Enter choice: ");
+            System.out.println("1) 🏪 Music Store");
+            System.out.println("2) 🏠 User Library");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter choice: ");
             String choice = SCANNER.nextLine().trim();
 
             switch (choice) {
@@ -125,7 +113,7 @@ public class MainUI {
                 case "0":
                     return "BACK";
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("❗ Invalid choice. Please try again.");
             }
         }
     }
@@ -143,44 +131,37 @@ public class MainUI {
      * The user can:
      *   - choose "0" to skip
      *   - choose a specific index to select a Song
-     *   - we could optionally let them pick "all" (if desired),
-     *     but here we'll keep it simple with "skip" or pick one.
      *
      * Once a Song is selected, we let the user "play" or "rate",
      * then return to the list.
      */
     private static void searchSongsPipeline(String location) {
-        System.out.println("\n--- Searching for Songs ---");
-        System.out.print("Enter song title or artist keyword (or blank to skip): ");
+        System.out.println("\n--- 🎤 Searching for Songs ---");
+        System.out.print("🔎 Enter song title or artist keyword (or blank to skip): ");
         String keyword = SCANNER.nextLine().trim();
         if (keyword.isEmpty()) {
-            System.out.println("Skipping song search...");
+            System.out.println("⏭ Skipping song search...");
             return;
         }
 
         // MODEL CALL: e.g., returns a List of song descriptions
-        // You might have separate methods like
-        //    searchSongInMusicStore(keyword)
-        // or
-        //    searchSongInLibrary(keyword)
-        // depending on the location.
         List<String> songResults = (location.equals("STORE"))
                 ? searchSongInMusicStore(keyword)
                 : searchSongInUserLibrary(keyword);
 
         if (songResults == null || songResults.isEmpty()) {
-            System.out.println("No songs found for '" + keyword + "'.");
+            System.out.println("❗ No songs found for '" + keyword + "'.");
             return;
         }
 
         boolean done = false;
         while (!done) {
-            System.out.println("\nSongs found:");
+            System.out.println("\n🎵 Songs found:");
             for (int i = 0; i < songResults.size(); i++) {
-                System.out.println((i + 1) + ") " + songResults.get(i));
+                System.out.println((i + 1) + ") 🎶 " + songResults.get(i));
             }
-            System.out.println("0) Skip songs (go to album search)");
-            System.out.print("Select a song by number (or 0 to skip): ");
+            System.out.println("0) ⏭ Skip songs (go to album search)");
+            System.out.print("👉 Select a song by number (or 0 to skip): ");
             String choice = SCANNER.nextLine().trim();
 
             if (choice.equals("0")) {
@@ -190,14 +171,13 @@ public class MainUI {
                     int index = Integer.parseInt(choice) - 1;
                     if (index >= 0 && index < songResults.size()) {
                         String selectedSong = songResults.get(index);
-                        // Once a specific song is selected,
-                        // let user "play" or "rate"
+                        // Once a specific song is selected, let user "play" or "rate"
                         handleSongActions(selectedSong);
                     } else {
-                        System.out.println("Invalid index. Try again.");
+                        System.out.println("❗ Invalid index. Try again.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number.");
+                    System.out.println("❗ Please enter a valid number.");
                 }
             }
         }
@@ -215,11 +195,11 @@ public class MainUI {
      * and let them play or rate them.
      */
     private static void searchAlbumsPipeline(String location) {
-        System.out.println("\n--- Searching for Albums ---");
-        System.out.print("Enter album title or artist keyword (or blank to skip): ");
+        System.out.println("\n--- 🎼 Searching for Albums ---");
+        System.out.print("🔎 Enter album title or artist keyword (or blank to skip): ");
         String keyword = SCANNER.nextLine().trim();
         if (keyword.isEmpty()) {
-            System.out.println("Skipping album search...");
+            System.out.println("⏭ Skipping album search...");
             return;
         }
 
@@ -229,18 +209,18 @@ public class MainUI {
                 : searchAlbumInUserLibrary(keyword);
 
         if (albumResults == null || albumResults.isEmpty()) {
-            System.out.println("No albums found for '" + keyword + "'.");
+            System.out.println("❗ No albums found for '" + keyword + "'.");
             return;
         }
 
         boolean done = false;
         while (!done) {
-            System.out.println("\nAlbums found:");
+            System.out.println("\n💿 Albums found:");
             for (int i = 0; i < albumResults.size(); i++) {
-                System.out.println((i + 1) + ") " + albumResults.get(i));
+                System.out.println((i + 1) + ") 💿 " + albumResults.get(i));
             }
-            System.out.println("0) Skip (return to main menu)");
-            System.out.print("Select an album by number (or 0 to skip): ");
+            System.out.println("0) 🔙 Skip (return to main menu)");
+            System.out.print("👉 Select an album by number (or 0 to skip): ");
             String choice = SCANNER.nextLine().trim();
 
             if (choice.equals("0")) {
@@ -252,31 +232,28 @@ public class MainUI {
                         String selectedAlbum = albumResults.get(index);
                         handleAlbumActions(selectedAlbum);
                     } else {
-                        System.out.println("Invalid index. Try again.");
+                        System.out.println("❗ Invalid index. Try again.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number.");
+                    System.out.println("❗ Please enter a valid number.");
                 }
             }
         }
     }
 
     /**
-     * Once a user selects a Song (by search or from a playlist, etc.),
-     * they can choose to play or rate it.
-     * If rating == 5, your model might automatically set it as a favorite.
-     * (This logic belongs in the Model, but the UI calls the method.)
+     * Once a user selects a Song, they can choose to play or rate it.
      */
     private static void handleSongActions(String selectedSong) {
-        System.out.println("\nSelected Song: " + selectedSong);
+        System.out.println("\n🎶 Selected Song: " + selectedSong);
 
         boolean done = false;
         while (!done) {
             System.out.println("Actions: ");
-            System.out.println("1) Play song");
-            System.out.println("2) Rate song");
-            System.out.println("0) Go back to song list");
-            System.out.print("Enter your choice: ");
+            System.out.println("1) ▶️ Play song");
+            System.out.println("2) ⭐ Rate song");
+            System.out.println("0) 🔙 Go back to song list");
+            System.out.print("👉 Enter your choice: ");
             String choice = SCANNER.nextLine().trim();
 
             switch (choice) {
@@ -285,24 +262,24 @@ public class MainUI {
                     playSong(selectedSong);
                     break;
                 case "2":
-                    System.out.print("Enter your rating (1 to 5): ");
+                    System.out.print("✏️ Enter your rating (1 to 5): ");
                     try {
                         int rating = Integer.parseInt(SCANNER.nextLine().trim());
                         if (rating >= 1 && rating <= 5) {
                             // MODEL CALL: rateSong(selectedSong, rating);
                             rateSong(selectedSong, rating);
                         } else {
-                            System.out.println("Rating must be between 1 and 5.");
+                            System.out.println("❗ Rating must be between 1 and 5.");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid rating input.");
+                        System.out.println("❗ Invalid rating input.");
                     }
                     break;
                 case "0":
                     done = true;
                     break;
                 default:
-                    System.out.println("Invalid choice. Try again.");
+                    System.out.println("❗ Invalid choice. Try again.");
             }
         }
     }
@@ -312,22 +289,22 @@ public class MainUI {
      * then let them pick a song to "play" or "rate."
      */
     private static void handleAlbumActions(String selectedAlbum) {
-        System.out.println("\nSelected Album: " + selectedAlbum);
+        System.out.println("\n🎵 Selected Album: " + selectedAlbum);
 
-        // MODEL CALL: getSongListFromAlbum(selectedAlbum) -> returns a List of strings
+        // MODEL CALL: getSongListFromAlbum(selectedAlbum)
         List<String> albumSongs = getSongsInAlbum(selectedAlbum);
         if (albumSongs == null || albumSongs.isEmpty()) {
-            System.out.println("No songs found in this album. Returning to album list...");
+            System.out.println("❗ No songs found in this album. Returning to album list...");
             return;
         }
 
         while (true) {
-            System.out.println("\nSongs in " + selectedAlbum + ":");
+            System.out.println("\n🎶 Songs in " + selectedAlbum + ":");
             for (int i = 0; i < albumSongs.size(); i++) {
-                System.out.println((i + 1) + ") " + albumSongs.get(i));
+                System.out.println((i + 1) + ") 🎶 " + albumSongs.get(i));
             }
-            System.out.println("0) Back to Album List");
-            System.out.print("Select a song to handle: ");
+            System.out.println("0) 🔙 Back to Album List");
+            System.out.print("👉 Select a song to handle: ");
             String choice = SCANNER.nextLine().trim();
 
             if (choice.equals("0")) {
@@ -339,10 +316,10 @@ public class MainUI {
                         String selectedSong = albumSongs.get(index);
                         handleSongActions(selectedSong);
                     } else {
-                        System.out.println("Invalid index.");
+                        System.out.println("❗ Invalid index.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please enter a valid number.");
+                    System.out.println("❗ Please enter a valid number.");
                 }
             }
         }
@@ -362,20 +339,20 @@ public class MainUI {
      */
     private static void runPlaylistMenu() {
         while (true) {
-            System.out.println("\n---------- PLAYLIST MENU ----------");
-            System.out.println("1) Create a new playlist");
-            System.out.println("2) Clear an existing playlist");
-            System.out.println("3) Add songs to a playlist");
-            System.out.println("4) Remove songs from a playlist");
-            System.out.println("5) Play songs in a playlist");
-            System.out.println("6) Rate a song in a playlist");
-            System.out.println("0) Back to Main Menu");
-            System.out.print("Enter your choice: ");
+            System.out.println("\n---------- 🎧 PLAYLIST MENU 🎧 ----------");
+            System.out.println("1) ➕ Create a new playlist");
+            System.out.println("2) 🗑️ Clear an existing playlist");
+            System.out.println("3) ➕ Add songs to a playlist");
+            System.out.println("4) ❌ Remove songs from a playlist");
+            System.out.println("5) ▶️ Play songs in a playlist");
+            System.out.println("6) ⭐ Rate a song in a playlist");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter your choice: ");
 
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    System.out.print("Enter a new playlist name: ");
+                    System.out.print("✏️ Enter a new playlist name: ");
                     String newPlaylist = SCANNER.nextLine().trim();
                     // MODEL CALL: createPlaylist(newPlaylist);
                     createPlaylist(newPlaylist);
@@ -398,7 +375,7 @@ public class MainUI {
                 case "0":
                     return; // back to main menu
                 default:
-                    System.out.println("Invalid choice. Try again.");
+                    System.out.println("❗ Invalid choice. Try again.");
             }
         }
     }
@@ -406,32 +383,27 @@ public class MainUI {
     /**
      * FAVORITE LIST MENU
      * ----------------------------------------------------------
-     * The user can see the favorite songs (or a favorite album list, if you choose),
-     * then optionally:
+     * The user can see the favorite songs, then optionally:
      *   - Play
      *   - Rate
-     *
-     * If rating changes to 5, it remains favorite.
-     * If rating is no longer 5, that depends on your model logic
-     * whether it remains in favorites or not.
      */
     private static void runFavoriteMenu() {
-        System.out.println("\n---------- FAVORITE LIST ----------");
+        System.out.println("\n---------- ⭐ FAVORITE LIST ⭐ ----------");
 
         // MODEL CALL: getFavoriteSongs() -> List<String>
         List<String> favorites = getFavoriteSongs();
         if (favorites == null || favorites.isEmpty()) {
-            System.out.println("No favorite songs yet!");
+            System.out.println("❗ No favorite songs yet!");
             return;
         }
 
         while (true) {
-            System.out.println("\nYour Favorite Songs:");
+            System.out.println("\n🎶 Your Favorite Songs:");
             for (int i = 0; i < favorites.size(); i++) {
-                System.out.println((i + 1) + ") " + favorites.get(i));
+                System.out.println((i + 1) + ") 🎶 " + favorites.get(i));
             }
-            System.out.println("0) Back to Main Menu");
-            System.out.print("Select a favorite song to handle: ");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Select a favorite song to handle: ");
 
             String choice = SCANNER.nextLine().trim();
             if (choice.equals("0")) {
@@ -444,10 +416,10 @@ public class MainUI {
                     String selectedSong = favorites.get(index);
                     handleSongActions(selectedSong);
                 } else {
-                    System.out.println("Invalid index. Try again.");
+                    System.out.println("❗ Invalid index. Try again.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                System.out.println("❗ Please enter a valid number.");
             }
         }
     }
@@ -462,8 +434,7 @@ public class MainUI {
      */
     private static List<String> searchSongInMusicStore(String keyword) {
         // TODO: implement using your model's MusicStore methods
-        // e.g., return musicStore.searchSongByTitle(keyword);
-        return List.of("SongA by ArtistA (STORE)", "SongB by ArtistB (STORE)");
+        return List.of("🎶 SongA by ArtistA (STORE)", "🎶 SongB by ArtistB (STORE)");
     }
 
     /**
@@ -471,8 +442,7 @@ public class MainUI {
      */
     private static List<String> searchSongInUserLibrary(String keyword) {
         // TODO: implement using your model's user library methods
-        // e.g., return libraryModel.searchSongByTitle(keyword);
-        return List.of("SongX by ArtistX (LIBRARY)", "SongY by ArtistY (LIBRARY)");
+        return List.of("🎶 SongX by ArtistX (LIBRARY)", "🎶 SongY by ArtistY (LIBRARY)");
     }
 
     /**
@@ -480,7 +450,7 @@ public class MainUI {
      */
     private static List<String> searchAlbumInMusicStore(String keyword) {
         // TODO: implement using your model
-        return List.of("Album1 by ArtistA (STORE)", "Album2 by ArtistB (STORE)");
+        return List.of("💿 Album1 by ArtistA (STORE)", "💿 Album2 by ArtistB (STORE)");
     }
 
     /**
@@ -488,7 +458,7 @@ public class MainUI {
      */
     private static List<String> searchAlbumInUserLibrary(String keyword) {
         // TODO: implement using your model
-        return List.of("AlbumX by ArtistX (LIBRARY)", "AlbumY by ArtistY (LIBRARY)");
+        return List.of("💿 AlbumX by ArtistX (LIBRARY)", "💿 AlbumY by ArtistY (LIBRARY)");
     }
 
     /**
@@ -496,8 +466,7 @@ public class MainUI {
      */
     private static List<String> getSongsInAlbum(String albumDesc) {
         // TODO: parse the albumDesc if needed, or store an ID.
-        // e.g., return musicStore.getSongsByAlbumTitle(albumDesc);
-        return List.of("Song1_of_" + albumDesc, "Song2_of_" + albumDesc, "Song3_of_" + albumDesc);
+        return List.of("🎶 Song1_of_" + albumDesc, "🎶 Song2_of_" + albumDesc, "🎶 Song3_of_" + albumDesc);
     }
 
     /**
@@ -505,7 +474,7 @@ public class MainUI {
      */
     private static void playSong(String songDesc) {
         // TODO: implement using your model
-        System.out.println("Now playing: " + songDesc + " ...");
+        System.out.println("▶️ Now playing: " + songDesc + " ...");
     }
 
     /**
@@ -513,8 +482,7 @@ public class MainUI {
      */
     private static void rateSong(String songDesc, int rating) {
         // TODO: implement using your model
-        // If rating == 5, it might automatically mark the song as favorite in your model.
-        System.out.println("You rated " + songDesc + " with " + rating + " stars.");
+        System.out.println("⭐ You rated " + songDesc + " with " + rating + " stars.");
     }
 
     /**
@@ -522,100 +490,91 @@ public class MainUI {
      */
     private static void createPlaylist(String playlistName) {
         // TODO: implement using your model
-        System.out.println("Playlist '" + playlistName + "' created.");
+        System.out.println("🎵 Playlist '" + playlistName + "' created.");
     }
 
     private static void clearPlaylist() {
-        // 1) ask which playlist to clear
-        System.out.print("Enter the playlist name to clear: ");
+        System.out.print("🗑️ Enter the playlist name to clear: ");
         String plName = SCANNER.nextLine().trim();
-        // TODO: implement your model call, e.g. libraryModel.clearPlaylist(plName);
-        System.out.println("Cleared all songs from '" + plName + "'.");
+        // TODO: implement your model call
+        System.out.println("🗑️ Cleared all songs from '" + plName + "'.");
     }
 
     private static void addSongToPlaylist() {
-        // 1) ask for playlist name
-        System.out.print("Enter the playlist name to add songs: ");
+        System.out.print("➕ Enter the playlist name to add songs: ");
         String plName = SCANNER.nextLine().trim();
-        // 2) ask for song description or ID
-        System.out.print("Enter the song to add (title or ID): ");
+        System.out.print("🎶 Enter the song to add (title or ID): ");
         String songDesc = SCANNER.nextLine().trim();
-        // TODO: implement your model call, e.g. libraryModel.addSongToPlaylist(plName, someSongObj);
-        System.out.println("Added '" + songDesc + "' to playlist '" + plName + "'.");
+        // TODO: implement your model call
+        System.out.println("🎶 Added '" + songDesc + "' to playlist '" + plName + "'.");
     }
 
     private static void removeSongFromPlaylist() {
-        // 1) ask for playlist name
-        System.out.print("Enter the playlist name to remove songs: ");
+        System.out.print("❌ Enter the playlist name to remove songs: ");
         String plName = SCANNER.nextLine().trim();
-        // 2) ask which song to remove
-        System.out.print("Enter the song to remove: ");
+        System.out.print("🎶 Enter the song to remove: ");
         String songDesc = SCANNER.nextLine().trim();
         // TODO: implement your model
-        System.out.println("Removed '" + songDesc + "' from playlist '" + plName + "'.");
+        System.out.println("❌ Removed '" + songDesc + "' from playlist '" + plName + "'.");
     }
 
     private static void playSongInPlaylist() {
-        // 1) ask for playlist name
-        System.out.print("Enter the playlist name to play a song: ");
+        System.out.print("▶️ Enter the playlist name to play a song: ");
         String plName = SCANNER.nextLine().trim();
-        // 2) get the songs from the model
-        //    e.g. List<String> songs = libraryModel.getPlaylistSongs(plName);
-        List<String> songs = List.of("SongA_of_" + plName, "SongB_of_" + plName); // STUB
+        // MODEL CALL: get the songs from the model
+        List<String> songs = List.of("🎶 SongA_of_" + plName, "🎶 SongB_of_" + plName); // STUB
         if (songs.isEmpty()) {
-            System.out.println("No songs in playlist '" + plName + "'.");
+            System.out.println("❗ No songs in playlist '" + plName + "'.");
             return;
         }
-        System.out.println("Songs in '" + plName + "':");
+        System.out.println("🎵 Songs in '" + plName + "':");
         for (int i = 0; i < songs.size(); i++) {
-            System.out.println((i + 1) + ") " + songs.get(i));
+            System.out.println((i + 1) + ") 🎶 " + songs.get(i));
         }
-        System.out.print("Select a song by number to play: ");
+        System.out.print("👉 Select a song by number to play: ");
         String choice = SCANNER.nextLine().trim();
         try {
             int index = Integer.parseInt(choice) - 1;
             if (index >= 0 && index < songs.size()) {
                 playSong(songs.get(index));
             } else {
-                System.out.println("Invalid selection.");
+                System.out.println("❗ Invalid selection.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input.");
+            System.out.println("❗ Invalid input.");
         }
     }
 
     private static void rateSongInPlaylist() {
-        // 1) ask for playlist name
-        System.out.print("Enter the playlist name to rate a song: ");
+        System.out.print("✏️ Enter the playlist name to rate a song: ");
         String plName = SCANNER.nextLine().trim();
-        // 2) get the songs from the model
-        List<String> songs = List.of("SongA_of_" + plName, "SongB_of_" + plName); // STUB
+        List<String> songs = List.of("🎶 SongA_of_" + plName, "🎶 SongB_of_" + plName); // STUB
         if (songs.isEmpty()) {
-            System.out.println("No songs in playlist '" + plName + "'.");
+            System.out.println("❗ No songs in playlist '" + plName + "'.");
             return;
         }
-        System.out.println("Songs in '" + plName + "':");
+        System.out.println("🎵 Songs in '" + plName + "':");
         for (int i = 0; i < songs.size(); i++) {
-            System.out.println((i + 1) + ") " + songs.get(i));
+            System.out.println((i + 1) + ") 🎶 " + songs.get(i));
         }
-        System.out.print("Select a song by number to rate: ");
+        System.out.print("👉 Select a song by number to rate: ");
         String choice = SCANNER.nextLine().trim();
         try {
             int index = Integer.parseInt(choice) - 1;
             if (index >= 0 && index < songs.size()) {
                 String selectedSong = songs.get(index);
-                System.out.print("Enter rating (1 to 5): ");
+                System.out.print("✏️ Enter rating (1 to 5): ");
                 int rating = Integer.parseInt(SCANNER.nextLine().trim());
                 if (rating < 1 || rating > 5) {
-                    System.out.println("Invalid rating range.");
+                    System.out.println("❗ Invalid rating range.");
                 } else {
                     rateSong(selectedSong, rating);
                 }
             } else {
-                System.out.println("Invalid selection.");
+                System.out.println("❗ Invalid selection.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input.");
+            System.out.println("❗ Invalid input.");
         }
     }
 
@@ -624,6 +583,6 @@ public class MainUI {
      */
     private static List<String> getFavoriteSongs() {
         // TODO: implement using your model
-        return List.of("FavoriteSong1", "FavoriteSong2");
+        return List.of("🎶 FavoriteSong1", "🎶 FavoriteSong2");
     }
 }
