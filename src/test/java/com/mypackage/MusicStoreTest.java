@@ -17,10 +17,6 @@ class MusicStoreTest {
             super.loadAlbums(albumsListFile);
         }
 
-        @Override
-        public Album parseAlbumFile(String albumFileName) {
-            return null;
-        }
     }
 
     private TestMusicStore store;
@@ -318,4 +314,5 @@ class MusicStoreTest {
         store.loadAlbums(albumsListFile.toString());
         assertTrue(store.getAlbumMap().isEmpty(), "Album map should be empty for empty file");
     }
+
 }

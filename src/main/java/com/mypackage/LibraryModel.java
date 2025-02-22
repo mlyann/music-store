@@ -78,7 +78,7 @@ public class LibraryModel {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         if (map.get("songs") != null) {
-            ArrayList songs = map.get("songs");
+            ArrayList<Song> songs = map.get("songs");
             System.out.println("Songs found:");
             for (Song song : songs) {
                 if (song.getAlbum() == null) {
@@ -118,7 +118,7 @@ public class LibraryModel {
         }
 
         if (map.get("album") != null) {
-            ArrayList albums = map.get("albums");
+            ArrayList<Album> albums = map.get("albums");
             System.out.println("albums found:");
             for (Album album : albums) {
                 System.out.println(album.getTitle() + " by " + album.getArtist() +

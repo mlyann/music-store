@@ -27,4 +27,13 @@ public enum Rating {
             default -> throw new IllegalArgumentException("Rating must be between 0 and 5 (0 means unrated).");
         };
     }
+
+    @Override
+    public String toString() {
+        if (value == 0) {
+            return "Unrated";
+        }
+        int empty = 5 - value;
+        return "★".repeat(value) + "☆".repeat(empty);
+    }
 }
