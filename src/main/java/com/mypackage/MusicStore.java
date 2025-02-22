@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public abstract class MusicStore {
+public class MusicStore {
     // albumMap stores all albums in the store, each item is a class Album
-    private final Map<String, Album> albumMap;
+    private final Map<List<String>, Album> albumMap;
 
     // songMap stores all songs in the store, each item is a class song
-    private final Map<String, Song> songMap;
+    private final Map<List<String>, Song> songMap;
 
     public MusicStore() {
         albumMap = new HashMap<>();
@@ -19,16 +19,24 @@ public abstract class MusicStore {
         loadAlbums("albums.txt");
     }
 
-    public String generateKey(String title, String artist) {
-        return (title.trim().toLowerCase() + "|" + artist.trim().toLowerCase());
+    public List<String> generateKey(String title, String artist) {
+        return List.of(title.trim().toLowerCase(), artist.trim().toLowerCase());
     }
 
     // This function loads all albums from the albumsListFile
     public void loadAlbums(String albumsListFile) {
-        try (BufferedReader br = new BufferedReader(
-                new FileReader(new File(albumsListFile).getAbsolutePath()))) {
+        // Update the path to point to the correct location
+        String correctedPath = "src/main/resources/albums/" + albumsListFile;
+        File file = new File(correctedPath);
+        System.out.println("Loading albums from: " + file.getAbsolutePath());
+        if (!file.exists()) {
+            System.err.println("File not found: " + file.getAbsolutePath());
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            String directory = new File(albumsListFile).getParent();
+            String directory = file.getParent();
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
                 String[] parts = line.split(",");
@@ -38,8 +46,7 @@ public abstract class MusicStore {
                 }
                 String title = parts[0].trim();
                 String artist = parts[1].trim();
-                String albumFileName = directory + File.separator +
-                                     title + "_" + artist + ".txt";
+                String albumFileName = directory + File.separator + title + "_" + artist + ".txt";
 
                 // Parse album file with full path
                 Album album = parseAlbumFile(albumFileName);
@@ -48,7 +55,8 @@ public abstract class MusicStore {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading albums list file: " + albumsListFile);
+            System.err.println("Error reading albums list file: " + correctedPath);
+            e.printStackTrace();
         }
     }
 
@@ -161,12 +169,32 @@ public abstract class MusicStore {
         return albumMap.values();
     }
 
-    public Map<String, Song> getSongMap() {
+    public int getSongCount() {
+        return songMap.size();
+    }
+
+    public Map<List<String>, Song> getSongMap() {
         return new HashMap<>(songMap);
     }
 
-    public Map<String, Album> getAlbumMap() {
+    public Map<List<String>, Album> getAlbumMap() {
         return new HashMap<>(albumMap);
+    }
+
+    public String printSongs() {
+        StringBuilder result = new StringBuilder();
+        for (Song song : songMap.values()) {
+            result.append(song.toString()).append("\n");
+        }
+        return result.toString();
+    }
+
+    public String printAlbums() {
+        StringBuilder result = new StringBuilder();
+        for (Album album : albumMap.values()) {
+            result.append(album.toString()).append("\n");
+        }
+        return result.toString();
     }
 
 

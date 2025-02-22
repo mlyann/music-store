@@ -65,7 +65,7 @@ class MusicStoreTest {
         store.loadAlbums(albumsListFile.toString());
 
         // 5. Verify that both albums got loaded
-        Map<String, Album> map = store.getAlbumMap();
+        Map<List<String>, Album> map = store.getAlbumMap();
         assertEquals(2, map.size(), "Should have 2 albums loaded");
 
         // 6. Check details of the first album
@@ -153,8 +153,9 @@ class MusicStoreTest {
      */
     @Test
     void testGenerateKey() {
-        String key = store.generateKey("  The Wall  ", "  PINK FLOYD ");
-        assertEquals("the wall|pink floyd", key, "generateKey should trim and lowercase both parts");
+        List<String> key = store.generateKey("  The Wall  ", "  PINK FLOYD ");
+        List<String> expected = List.of("the wall", "pink floyd");
+        assertEquals(expected, key, "generateKey should trim and lowercase both parts");
     }
 
     /**
@@ -182,7 +183,7 @@ class MusicStoreTest {
         store.loadAlbums(albumsListFile.toString());
 
         // Verify that the album map is not empty
-        Map<String, Album> albumMap = store.getAlbumMap();
+        Map<List<String>, Album> albumMap = store.getAlbumMap();
         assertFalse(albumMap.isEmpty(), "Album map should not be empty");
 
         // Verify that getAllAlbums() returns a non-empty collection

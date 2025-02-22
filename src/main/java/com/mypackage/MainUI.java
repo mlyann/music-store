@@ -15,7 +15,9 @@ public class MainUI {
     public static void main(String[] args) {
         // Initialize your backend objects (as needed)
         musicStore = new MusicStore();
-        libraryModel = new LibraryModel();
+        libraryModel = new LibraryModel("Chcking2", musicStore);
+        String choice = SCANNER.nextLine().trim();
+        inputSongs();
 
         // Example: load your music store data
         // musicStore.loadAlbums("path/to/albums.txt", "path/to/album_files");
@@ -29,6 +31,22 @@ public class MainUI {
 
         runMainMenu();
         System.out.println("🚪 Exiting application. Goodbye!");
+    }
+
+    public static void inputSongs() {
+        while (true) {
+            System.out.print("Enter song details (format: title, artist[, genre, year]) or 0 to exit: ");
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
+                break;
+            }
+            try {
+                musicStore.loadSong(input);
+                System.out.println("Song loaded successfully.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error loading song: " + e.getMessage());
+            }
+        }
     }
 
     /**
@@ -50,11 +68,21 @@ public class MainUI {
                     runSearchMenu();
                     break;
                 case "2":
-                    runPlaylistMenu();
+                    System.out.println("🚧 Playlist feature is under construction.");
+                    //runPlaylistMenu();
                     break;
                 case "3":
-                    runFavoriteMenu();
+                    System.out.println("🚧 Favorite List feature is under construction.");
+                    //runFavoriteMenu();
                     break;
+                case "4":
+                    System.out.println("🚧 ");
+                    //runFavoriteMenu();
+                    System.out.println(musicStore.printSongs());
+                    System.out.println(musicStore.printAlbums());
+                    break;
+
+
                 case "0":
                     return;
                 default:
@@ -67,17 +95,19 @@ public class MainUI {
      * SEARCH MENU
      */
     private static void runSearchMenu() {
-        System.out.println("\n🔍 [SEARCH MENU]");
-        String location = chooseSearchLocation();
-        if (location.equals("BACK")) {
-            return;
+        while (true) {
+            System.out.println("\n🔍 [SEARCH MENU]");
+            String location = chooseSearchLocation();
+            if (location.equals("BACK")) {
+                return;
+            }
+
+            // 1) Search for songs
+            searchSongsPipeline(location);
+
+            // 2) Search for albums
+            // searchAlbumsPipeline(location);
         }
-
-        // 1) Search for songs
-        searchSongsPipeline(location);
-
-        // 2) Search for albums
-        searchAlbumsPipeline(location);
     }
 
     private static String chooseSearchLocation() {
@@ -107,39 +137,40 @@ public class MainUI {
      * We expect a List<List<String>> from your model.
      */
     private static void searchSongsPipeline(String location) {
-        System.out.println("\n--- 🎤 Searching for Songs ---");
-        System.out.print("🔎 Enter song title or artist keyword (or blank to skip): ");
-        String keyword = SCANNER.nextLine().trim();
-        if (keyword.isEmpty()) {
-            System.out.println("⏭ Skipping song search...");
-            return;
+        while (true) {
+            System.out.println("\n--- 🎤 Searching for Songs ---");
+            System.out.print("🔎 Enter song title or artist keyword  ");
+            System.out.print("\uD83D\uDD19 Enter 0 back to search menu: ");
+            String keyword = SCANNER.nextLine().trim();
+            if (keyword.equals("0")) {
+                System.out.println("⏭ Skipping song search...");
+                break;
+            }
+
+            // MODEL CALL:
+            // If location = STORE, we might do: musicStore.searchSong(keyword)
+            // If location = LIBRARY, we might do: libraryModel.searchSongInLibrary(keyword)
+            // In either case, we expect a List<List<String>> of up to 7 fields
+            ArrayList<ArrayList<String>> songResults;
+            if (location.equals("STORE")) {
+                // Example method name - adapt to your actual code:
+                songResults = libraryModel.searchSong(keyword, true);
+            } else {
+                // Example method name - adapt to your actual code:
+                songResults = libraryModel.searchAlbum(keyword, false);
+            }
+
+            if (songResults == null || songResults.isEmpty()) {
+                System.out.println("❗ No songs found for '" + keyword + "'.");
+            } else {
+                // Print them in a table
+                printSongSearchResults(songResults, location);
+                // Let user pick a song to "play" or "rate"
+                // handleSongSelection(songResults, location);
+            }
         }
-
-        // MODEL CALL:
-        // If location = STORE, we might do: musicStore.searchSong(keyword)
-        // If location = LIBRARY, we might do: libraryModel.searchSongInLibrary(keyword)
-        // In either case, we expect a List<List<String>> of up to 7 fields
-        List<List<String>> songResults;
-        if (location.equals("STORE")) {
-            // Example method name - adapt to your actual code:
-            songResults = musicStore.searchSongs(keyword);
-        } else {
-            // Example method name - adapt to your actual code:
-            songResults = libraryModel.searchSongsInLibrary(keyword);
-        }
-
-        if (songResults == null || songResults.isEmpty()) {
-            System.out.println("❗ No songs found for '" + keyword + "'.");
-            return;
-        }
-
-        // Print them in a table
-        printSongSearchResults(songResults, location);
-
-        // Let user pick a song to "play" or "rate"
-        handleSongSelection(songResults, location);
     }
-
+/**
     private static void searchAlbumsPipeline(String location) {
         System.out.println("\n--- 🎼 Searching for Albums ---");
         System.out.print("🔎 Enter album title or artist keyword (or blank to skip): ");
@@ -171,7 +202,8 @@ public class MainUI {
     /**
      * Printing Songs in a Table
      */
-    private static void printSongSearchResults(List<List<String>> songResults, String location) {
+
+    private static void printSongSearchResults(ArrayList<ArrayList<String>> songResults, String location) {
         // Build the header row
         List<String> header = new ArrayList<>();
         header.add("🎵 Title");
@@ -231,7 +263,8 @@ public class MainUI {
     /**
      * Printing Albums in a Table
      */
-    private static void printAlbumSearchResults(List<List<String>> albumResults, String location) {
+/**
+    private static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumResults, String location) {
         // We'll assume the first 4 fields are [title, artist, genre, year],
         // plus field 6 if not null.
         List<String> header = new ArrayList<>();
@@ -275,7 +308,8 @@ public class MainUI {
     /**
      * Let the user pick a song row (by index) to play or rate
      */
-    private static void handleSongSelection(List<List<String>> songResults, String location) {
+/**
+    private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location) {
         while (true) {
             System.out.println("\nEnter the row number of the song to handle, or 0 to skip: ");
             String choice = SCANNER.nextLine().trim();
@@ -300,7 +334,8 @@ public class MainUI {
     /**
      * Let the user pick an album row (by index) to see songs, etc.
      */
-    private static void handleAlbumSelection(List<List<String>> albumResults, String location) {
+/**
+    private static void handleAlbumSelection(ArrayList<ArrayList<String>> albumResults, String location) {
         while (true) {
             System.out.println("\nEnter the row number of the album to handle, or 0 to skip: ");
             String choice = SCANNER.nextLine().trim();
@@ -502,7 +537,7 @@ public class MainUI {
         // Let user pick a song
         handleSongSelection(albumSongs, "STORE");
     }
-
+*/
     // -------------------------------------------------------------------------
     //                     TABLE PRINTER (STATIC NESTED CLASS)
     // -------------------------------------------------------------------------
@@ -582,4 +617,5 @@ public class MainUI {
             return sb.toString();
         }
     }
+
 }

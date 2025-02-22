@@ -31,7 +31,7 @@ public enum Rating {
     @Override
     public String toString() {
         if (value == 0) {
-            return "Unrated";
+            return "☆☆☆☆☆";
         }
         int empty = 5 - value;
         return "★".repeat(value) + "☆".repeat(empty);
