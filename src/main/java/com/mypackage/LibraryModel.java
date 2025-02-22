@@ -70,7 +70,7 @@ public class LibraryModel {
      *          2) Select individually song in album (album will not add in your library)
      *          3) Return back
      */
-    public void search (String keyword) {
+    public void search (String keyword, boolean isMusicStore) {
         Map<String, ArrayList> map = function.search(keyword);
         if (map == null) {
             return;
