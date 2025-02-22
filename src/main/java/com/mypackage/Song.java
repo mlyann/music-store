@@ -1,5 +1,7 @@
 package la1;
 
+import java.util.ArrayList;
+
 public class Song {
     private final String title;
     private final String artist;
@@ -48,13 +50,16 @@ public class Song {
         return year;
     }
 
-    public Rating getRating() {
-        return rating;
+    public String getRating() {
+        return rating.toString();
     }
 
     // get the state of Favorite
-    public boolean getFavourite() {
-        return Favourite;
+    public String getFavourite() {
+        if (Favourite) {
+            return "♥";
+        }
+        return "♡";
     }
 
     // when you click the favorite button, the state of Favorite will change
@@ -83,8 +88,37 @@ public class Song {
         this.rating = rating;
     }
 
-    @Override
+    public String toStringStore() {
+        String result = String.format("[%s, by %s (%s, %d)", title, artist, genre.getGenre(), year);
+        if (album != null) {
+            result += ", Album: " + album.getTitle();
+        }
+        result += "]";
+        return result;
+    }
+
     public String toString() {
-        return "Song: " + title + ", Rating: " + rating.getValue();
+        String result = String.format("[%s, by %s (%s, %d) [%s, %s]", title, artist,
+                genre.getGenre(), year, getFavourite(), rating.toString());
+        if (album != null) {
+            result += " [" + album.getTitle() + "]";
+        }
+        return result;
+    }
+
+    public ArrayList<String> toStringList() {
+        ArrayList<String> result = new ArrayList<>();
+        result.add(title);
+        result.add(artist);
+        result.add(genre.getGenre());
+        result.add(String.valueOf(year));
+        result.add(getFavourite());
+        result.add(rating.toString());
+        if (album != null) {
+            result.add(album.getTitle());
+        } else {
+            result.add(null);
+        }
+        return result;
     }
 }

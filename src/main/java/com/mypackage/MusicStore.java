@@ -54,7 +54,7 @@ public abstract class MusicStore {
 
     /**
      * This function loads all songs from the input file
-     * @param line is the input line
+     * line is the input line
      * The input line should be in the format of "title, artist, genre, year"
      * Title and artist are required, genre and year are optional
      * If the title and artist are not provided, an exception will be thrown
@@ -92,7 +92,7 @@ public abstract class MusicStore {
             // if third is a number
             if (third.matches("\\d+")) {
                 int year = Integer.parseInt(third);
-                song = new Song(title, artist, null, year;
+                song = new Song(title, artist, null, year); // genre is null
             } else {
                 // if third is a string
                 song = new Song(title, artist, third, 0);
@@ -102,6 +102,7 @@ public abstract class MusicStore {
         // add the song to the songMap
         songMap.put(generateKey(song.getTitle(), song.getArtist()), song);
     }
+
 
 
     public Album parseAlbumFile(String albumFileName) {
