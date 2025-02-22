@@ -53,6 +53,11 @@ public class Album {
 
     @Override
     public String toString() {
-        return String.format("%s by %s (%d, %s)", title, artist, year, genre.getGenre());
+        StringBuilder result =
+                new StringBuilder(String.format("%s, by %s (%d, %s)\n", title, artist, year, genre.getGenre()));
+        for (Song s : songs) {
+            result.append("  ").append(s.getTitle()).append("\n");
+        }
+        return result.toString();
     }
 }
