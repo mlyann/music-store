@@ -12,7 +12,7 @@ public class FavoriteList extends Playlist {
         }
         StringBuilder sb = new StringBuilder("Favorite Songs:\n");
         int index = 1;
-        for (var song : getSongs()) {
+        for (Song song : getSongs()) {
             sb.append(index++).append(") ").append(song.getTitle()).append("\n");
         }
         return sb.toString();
