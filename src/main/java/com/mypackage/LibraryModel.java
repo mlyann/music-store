@@ -14,7 +14,7 @@ public class LibraryModel {
     private ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
     private final MusicStore musicStore;
-    private final FavoriteList favoriteList;
+    private static FavoriteList favoriteList;
 
     public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;
@@ -388,7 +388,8 @@ public class LibraryModel {
     }
 
     public void printPlaylist() {
-        playlist.printAsTable();
+        String name = "Playlist";
+        playlist.printAsTable(name);
     }
 
     /**
