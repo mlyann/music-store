@@ -82,8 +82,6 @@ public class MainUI {
                     System.out.println(musicStore.printSongs());
                     System.out.println(musicStore.printAlbums());
                     break;
-
-
                 case "0":
                     return;
                 default:
@@ -107,7 +105,7 @@ public class MainUI {
             searchSongsPipeline(location);
 
             // 2) Search for albums
-            // searchAlbumsPipeline(location);
+            searchAlbumsPipeline(location);
         }
     }
 
@@ -171,7 +169,13 @@ public class MainUI {
             }
         }
     }
-/**
+
+    /**
+     * Search for albums by keyword and print each album with its songs.
+     * For each matching album, the first line shows the album info with a serial number,
+     * followed by its songs (each indented).
+     * Finally, prompt the user to either save all albums or select a single album to load.
+     */
     private static void searchAlbumsPipeline(String location) {
         System.out.println("\n--- 🎼 Searching for Albums ---");
         System.out.print("🔎 Enter album title or artist keyword (or blank to skip): ");
@@ -182,8 +186,8 @@ public class MainUI {
         }
 
         // MODEL CALL:
-        // If location = STORE, maybe: musicStore.searchAlbums(keyword)
-        // If location = LIBRARY, maybe: libraryModel.searchAlbumsInLibrary(keyword)
+        // If location = STORE, use musicStore.searchAlbums(keyword)
+        // If location = LIBRARY, use libraryModel.searchAlbumsInLibrary(keyword)
         List<List<String>> albumResults;
         if (location.equals("STORE")) {
             albumResults = musicStore.searchAlbums(keyword);
@@ -196,14 +200,63 @@ public class MainUI {
             return;
         }
 
-        printAlbumSearchResults(albumResults, location);
-        handleAlbumSelection(albumResults, location);
+        System.out.println("\nFound " + albumResults.size() + " matching album(s):\n");
+        int albumIndex = 1;
+        for (List<String> albumInfo : albumResults) {
+            String albumTitle = albumInfo.get(0);
+            System.out.println(albumIndex + ") 🎵 Album: " + String.join(" | ", albumInfo));
+            List<List<String>> albumSongs = musicStore.getSongsInAlbum(albumTitle);
+            if (albumSongs == null || albumSongs.isEmpty()) {
+                System.out.println("    (No songs found in this album)");
+            } else {
+                for (List<String> songInfo : albumSongs) {
+                    System.out.println("    " + String.join(" | ", songInfo));
+                }
+            }
+            System.out.println();
+            albumIndex++;
+        }
+
+        System.out.println("Options:");
+        System.out.println("1) Save all albums (all albums have been loaded into the library)");
+        System.out.println("2) Select a single album to load into the library");
+        System.out.println("0) Return");
+        System.out.print("👉 Enter your choice: ");
+        String choice = SCANNER.nextLine().trim();
+
+        switch (choice) {
+            case "1":
+                libraryModel.loadAlbums(albumResults);
+                System.out.println("All albums have been loaded into the library.");
+                break;
+            case "2":
+                System.out.print("👉 Enter the album number to load: ");
+                try {
+                    int selectedIndex = Integer.parseInt(SCANNER.nextLine().trim());
+                    if (selectedIndex < 1 || selectedIndex > albumResults.size()) {
+                        System.out.println("❗ Invalid album number.");
+                    } else {
+                        List<String> selectedAlbum = albumResults.get(selectedIndex - 1);
+                        String selectedAlbumTitle = selectedAlbum.get(0);
+
+                        // handle one single album
+                        libraryModel.loadAlbum(selectedAlbum);
+                        System.out.println("The album: " + selectedAlbumTitle + " has been loaded into the library.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("❗ Invalid input. Returning to menu.");
+                }
+                break;
+            case "0":
+                return;
+            default:
+                System.out.println("❗ Invalid choice.");
+        }
     }
 
     /**
      * Printing Songs in a Table
      */
-
     private static void printSongSearchResults(ArrayList<ArrayList<String>> songResults, String location) {
         // Build the header row with a serial number column.
         List<String> header = new ArrayList<>();
@@ -263,54 +316,8 @@ public class MainUI {
     }
 
     /**
-     * Printing Albums in a Table
-     */
-/**
-    private static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumResults, String location) {
-        // We'll assume the first 4 fields are [title, artist, genre, year],
-        // plus field 6 if not null.
-        List<String> header = new ArrayList<>();
-        header.add("💿 Title");
-        header.add("👤 Artist");
-        header.add("🎼 Genre");
-        header.add("📅 Year");
-
-        boolean anyAlbum = false;
-        for (List<String> row : albumResults) {
-            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
-                anyAlbum = true;
-                break;
-            }
-        }
-        if (anyAlbum) {
-            header.add("💿 Album?");
-        }
-
-        List<List<String>> tableRows = new ArrayList<>();
-        tableRows.add(header);
-
-        for (List<String> row : albumResults) {
-            List<String> newRow = new ArrayList<>();
-            newRow.add(row.get(0)); // title
-            newRow.add(row.get(1)); // artist
-            newRow.add(row.get(2)); // genre
-            newRow.add(row.get(3)); // year
-
-            if (anyAlbum) {
-                String alb = (row.size() > 6) ? row.get(6) : "";
-                newRow.add((alb == null) ? "" : alb);
-            }
-
-            tableRows.add(newRow);
-        }
-
-        TablePrinter.printDynamicTable("Search Results (Albums)", tableRows);
-    }
-
-    /**
      * Let the user pick a song row (by index) to play or rate
      */
-/**
     private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location) {
         while (true) {
             System.out.println("\nEnter the row number of the song to handle, or 0 to skip: ");
@@ -336,7 +343,6 @@ public class MainUI {
     /**
      * Let the user pick an album row (by index) to see songs, etc.
      */
-/**
     private static void handleAlbumSelection(ArrayList<ArrayList<String>> albumResults, String location) {
         while (true) {
             System.out.println("\nEnter the row number of the album to handle, or 0 to skip: ");
@@ -539,7 +545,7 @@ public class MainUI {
         // Let user pick a song
         handleSongSelection(albumSongs, "STORE");
     }
-*/
+
     // -------------------------------------------------------------------------
     //                     TABLE PRINTER (STATIC NESTED CLASS)
     // -------------------------------------------------------------------------
