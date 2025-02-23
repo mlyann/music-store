@@ -291,72 +291,63 @@ public class LibraryModel {
         playlist.clear();
     }
 
-    public void addSongToPlaylist(String songTitle) {
-        boolean found = false;
-        for (Song song : UserSongs.values()) {
-            if (song.getTitle().equalsIgnoreCase(songTitle)) {
-                playlist.addSong(song);
-                found = true;
-                break;
-            }
+    /**
+     * Adds a song to the playlist based on the song number shown in the printed table.
+     * The song numbering starts at 1.
+     */
+    public void addSongToPlaylist(int number) {
+        ArrayList<Song> librarySongs = new ArrayList<>(UserSongs.values());
+        if (number < 1 || number > librarySongs.size()) {
+            System.out.println("Invalid selection. Please enter a number between 1 and " + librarySongs.size() + ".");
+            return;
         }
-        if (!found) {
-            System.out.println("Song '" + songTitle + "' not found in your library.");
-        }
+        Song selectedSong = librarySongs.get(number - 1);
+        playlist.addSong(selectedSong);
     }
+
 
     /**
      * remove song via title
      */
-    public void removeSongFromPlaylist(String songTitle) {
-        boolean found = false;
-        for (Song song : playlist.getSongs()) {
-            if (song.getTitle().equalsIgnoreCase(songTitle)) {
-                playlist.removeSong(song);
-                found = true;
-                break;
-            }
+    public void removeSongFromPlaylist(int number) {
+        ArrayList<Song> playlistSongs = new ArrayList<>(playlist.getSongs());
+        if (number < 1 || number > playlistSongs.size()) {
+            System.out.println("Invalid selection. Please enter a number between 1 and " + playlistSongs.size() + ".");
+            return;
         }
-        if (!found) {
-            System.out.println("Song '" + songTitle + "' not found in the playlist.");
-        }
+        Song songToRemove = playlistSongs.get(number - 1);
+        playlist.removeSong(songToRemove);
     }
 
     /**
      * add song based on fovorite list
      */
-    public void addSongToFavorites(String songTitle) {
-        boolean found = false;
-        for (Song song : this.UserSongs.values()) {
-            if (song.getTitle().equalsIgnoreCase(songTitle)) {
-                favoriteList.addSong(song);
-                found = true;
-                break;
-            }
+    public void addSongToFavorites(int number) {
+        ArrayList<Song> librarySongs = new ArrayList<>(UserSongs.values());
+        if (number < 1 || number > librarySongs.size()) {
+            System.out.println("Invalid selection. Please enter a number between 1 and " + librarySongs.size() + ".");
+            return;
         }
-        if (!found) {
-            System.out.println("Song '" + songTitle + "' not found in your library.");
-        }
+        Song selectedSong = librarySongs.get(number - 1);
+        favoriteList.addSong(selectedSong);
+        System.out.println("Added song: " + selectedSong.getTitle() + " to your favorite list.");
     }
 
     /**
      * remove song form favorite list
      */
-    public void removeSongFromFavorites(String songTitle) {
-        boolean found = false;
-        for (Song song : favoriteList.getSongs()) {
-            if (song.getTitle().equalsIgnoreCase(songTitle)) {
-                favoriteList.removeSong(song);
-                found = true;
-                break;
-            }
+    public void removeSongFromFavorites(int number) {
+        ArrayList<Song> favoriteSongs = new ArrayList<>(favoriteList.getSongs());
+        if (number < 1 || number > favoriteSongs.size()) {
+            System.out.println("Invalid selection. Please enter a number between 1 and " + favoriteSongs.size() + ".");
+            return;
         }
-        if (!found) {
-            System.out.println("Song '" + songTitle + "' not found in your favorite list.");
-        }
+        Song songToRemove = favoriteSongs.get(number - 1);
+        favoriteList.removeSong(songToRemove);
+        System.out.println("Removed song: " + songToRemove.getTitle() + " from your favorite list.");
     }
 
-    public ArrayList<ArrayList<String>> getPlaylistSongs(String playListTitle) {
+    public ArrayList<ArrayList<String>> getPlaylistSongs() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (Song s : playlist.getSongs()) {
             result.add(s.toStringList());
@@ -364,6 +355,51 @@ public class LibraryModel {
         return result;
     }
 
+    public ArrayList<Song> getPlaylist() {
+        return playlist.getSongs();
+    }
+    /**
+     * Returns a deep copy of the user's songs as an ArrayList.
+     * Each Song in the returned list is a new object created using the copy constructor.
+     */
+    public ArrayList<Song> getUserSongs() {
+        ArrayList<Song> deepCopyList = new ArrayList<>();
+        for (Song song : UserSongs.values()) {
+            deepCopyList.add(new Song(song));
+        }
+        return deepCopyList;
+    }
 
+
+    /**
+     * Prints a table of the user's songs with a numbered "No." column.
+     */
+    public void printUserSongsTable() {
+        // Prepare the header row. Adjust the column names as needed.
+        List<List<String>> tableData = new ArrayList<>();
+        List<String> header = Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Favorite", "Rating", "Album");
+        tableData.add(header);
+
+        // Add a separator marker to visually separate the header from the data rows.
+        tableData.add(Arrays.asList("###SEPARATOR###"));
+
+        // Iterate over the user's songs and add each one as a row.
+        int index = 1;
+        for (Song song : UserSongs.values()) {
+            List<String> row = new ArrayList<>();
+            row.add(String.valueOf(index++));
+            row.add(song.getTitle());
+            row.add(song.getArtist());
+            row.add(song.getGenre());
+            row.add(String.valueOf(song.getYear()));
+            row.add(song.getFavourite());
+            row.add(song.getRating());
+            row.add(song.getAlbum() != null ? song.getAlbum() : "");
+            tableData.add(row);
+        }
+
+        // Print the table with a title
+        TablePrinter.printDynamicTable("User Songs Library", tableData);
+    }
 
 }

@@ -16,7 +16,7 @@ public class MainUI {
     public static void main(String[] args) {
         // Initialize your backend objects (as needed)
         musicStore = new MusicStore();
-        libraryModel = new LibraryModel("Chcking2", musicStore);
+        libraryModel = new LibraryModel("Checking2", musicStore);
         String choice = SCANNER.nextLine().trim();
         inputSongs();
 
@@ -60,7 +60,7 @@ public class MainUI {
             System.out.println("1) 🔍 Search");
             System.out.println("2) 🎧 Playlist");
             System.out.println("3) ⭐ Favorite List");
-            System.out.println("0) 🚪 Exit");
+            System.out.println("0) 🚪 Quit the application");
             System.out.print("👉 Enter your choice: ");
 
             String choice = SCANNER.nextLine().trim();
@@ -70,7 +70,6 @@ public class MainUI {
                     runSearchMenu();
                     break;
                 case "2":
-                    System.out.println("🚧 Playlist feature is under construction.");
                     runPlaylistMenu();
                     break;
                 case "3":
@@ -78,7 +77,7 @@ public class MainUI {
                     //runFavoriteMenu();
                     break;
                 case "4":
-                    System.out.println("🚧 ");
+                    System.out.println("🚧 Playlist feature is under construction.");
                     //runFavoriteMenu();
                     System.out.println(musicStore.printSongs());
                     System.out.println(musicStore.printAlbums());
@@ -140,7 +139,7 @@ public class MainUI {
         while (true) {
             System.out.println("\n--- 🎤 Searching for Songs ---");
             System.out.print("🔎 Enter song title or artist keyword  ");
-            System.out.print("\uD83D\uDD19 Enter 0 back to search menu: ");
+            System.out.print("BACK Enter 0 back to search menu: ");
             String keyword = SCANNER.nextLine().trim();
             if (keyword.equals("0")) {
                 System.out.println("⏭ Skipping song search...");
@@ -337,11 +336,6 @@ public class MainUI {
     /**
      * Let the user pick a song row (by index) to play or rate
      */
-
-    /**
-     * Let the user pick a song row (by index) to play or rate
-     */
-
     private static void songSelectionMenu(ArrayList<ArrayList<String>> songResults, String location) {
         if (location.equals("STORE")) {
             String choice = songSelectionStore();
@@ -613,41 +607,37 @@ public class MainUI {
     private static void runPlaylistMenu() {
         while (true) {
             System.out.println("\n---------- 🎧 PLAYLIST MENU 🎧 ----------");
-            System.out.println("1) ➕ Create a new playlist");
-            System.out.println("2) 🗑️ Clear an existing playlist");
-            System.out.println("3) ➕ Add songs to a playlist");
-            System.out.println("4) ❌ Remove songs from a playlist");
-            System.out.println("5) ▶️ Play songs in a playlist");
-            System.out.println("6) ⭐ Rate a song in a playlist");
-            System.out.println("7) 📝 Show current playlist");
+            System.out.println("1) 🗑️ Clear playlist");
+            System.out.println("2) ➕ Add songs to a playlist");
+            System.out.println("3) ❌ Remove songs from a playlist");
+            System.out.println("4) ▶️ Play songs in a playlist");
+            System.out.println("5) ⭐ Rate a song in a playlist");
+            System.out.println("6) 📝 Show current playlist");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter your choice: ");
 
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    System.out.print("✏️ Enter a new playlist name: ");
-                    String newPlaylist = SCANNER.nextLine().trim();
-
-                    // libraryModel.createPlaylist(newPlaylist);
-                    System.out.println("🎵 Playlist '" + newPlaylist + "' created.");
-                    break;
-                case "2":
                     clearPlaylist();
                     break;
-                case "3":
+                case "2":
                     addSongToPlaylist();
                     break;
-                case "4":
+                case "3":
                     removeSongFromPlaylist();
+                    libraryModel.printPlaylist();
+                    break;
+                case "4":
+                    playSongInPlaylist();
+                    libraryModel.printPlaylist();
                     break;
                 case "5":
-                    playSongInPlaylist();
+                    libraryModel.printUserSongsTable();
+                    rateSongInPlaylist();
+                    libraryModel.printUserSongsTable();
                     break;
                 case "6":
-                    rateSongInPlaylist();
-                    break;
-                case "7":
                     showCurrentPlaylist();
                     break;
                 case "0":
@@ -659,56 +649,68 @@ public class MainUI {
     }
 
     private static void clearPlaylist() {
-        System.out.print("🗑️ Enter the playlist name to clear: ");
-        String plName = SCANNER.nextLine().trim();
-        // libraryModel.clearPlaylist(plName);
-        System.out.println("🗑️ Cleared all songs from '" + plName + "'.");
+        libraryModel.clearPlaylist();
+        System.out.println("🗑️ Cleared all songs in the playlist.");
     }
 
     private static void addSongToPlaylist() {
-        System.out.print("➕ Enter the playlist name to add songs: ");
-        String plName = SCANNER.nextLine().trim();
-        System.out.print("🎶 Enter the song title (or ID) to add: ");
-        String songTitle = SCANNER.nextLine().trim();
-        // Possibly search or fetch the Song object from your model
-        // libraryModel.addSongToPlaylist(plName, songTitle);
-        System.out.println("🎶 Added '" + songTitle + "' to playlist '" + plName + "'.");
+        // Print the user songs with numbers
+        libraryModel.printUserSongsTable();
+        System.out.print("🎶 Enter the song number to add: ");
+        String input = SCANNER.nextLine().trim();
+        try {
+            int songNumber = Integer.parseInt(input);
+            // Get the library songs list to show which title is being added.
+            ArrayList<Song> librarySongs = new ArrayList<>(libraryModel.getUserSongs());
+            if (songNumber < 1 || songNumber > librarySongs.size()) {
+                System.out.println("Invalid selection. Please enter a valid number.");
+                return;
+            }
+            Song selectedSong = librarySongs.get(songNumber - 1);
+            // Add the song by number
+            libraryModel.addSongToPlaylist(songNumber);
+            System.out.println("🎶 Added '" + selectedSong.getTitle() + "' to the playlist.");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
     }
 
     private static void removeSongFromPlaylist() {
-        System.out.print("❌ Enter the playlist name to remove songs: ");
-        String plName = SCANNER.nextLine().trim();
-        System.out.print("🎶 Enter the song title (or ID) to remove: ");
-        String songTitle = SCANNER.nextLine().trim();
-        // libraryModel.removeSongFromPlaylist(plName, songTitle);
-        System.out.println("❌ Removed '" + songTitle + "' from playlist '" + plName + "'.");
+        // Print the current playlist with numbers
+        libraryModel.printPlaylist();
+        System.out.print("🎶 Enter the song number to remove: ");
+        String input = SCANNER.nextLine().trim();
+        try {
+            int songNumber = Integer.parseInt(input);
+            // Get the current playlist songs for lookup
+            ArrayList<Song> playlistSongs = libraryModel.getPlaylist();
+            if (songNumber < 1 || songNumber > playlistSongs.size()) {
+                System.out.println("Invalid selection. Please enter a valid number.");
+                return;
+            }
+            Song selectedSong = playlistSongs.get(songNumber - 1);
+            // Remove the song by number
+            libraryModel.removeSongFromPlaylist(songNumber);
+            System.out.println("❌ Removed '" + selectedSong.getTitle() + "' from the playlist.");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
     }
 
     private static void playSongInPlaylist() {
-        System.out.print("▶️ Enter the playlist name to play songs: ");
-        String plName = SCANNER.nextLine().trim();
-
         // Example: your libraryModel might have a method that returns a List<List<String>>:
-        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs(plName);
+        ArrayList<ArrayList<String>> songs = libraryModel.getCurrentPlayList();
         if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in playlist '" + plName + "'.");
-            return;
+            System.out.println("❗ No songs in playlist.");
+        }else{
+            libraryModel.printPlaylist();
         }
-
-        // Print them
-        printSongSearchResults("Play list", songs, "LIBRARY");
-
-        // Let the user pick one to play
-        handleSongSelection(songs, "LIBRARY", "Play list");
     }
 
     private static void rateSongInPlaylist() {
-        System.out.print("✏️ Enter the playlist name to rate a song: ");
-        String plName = SCANNER.nextLine().trim();
-
-        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs(plName);
+        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs();
         if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in playlist '" + plName + "'.");
+            System.out.println("❗ No songs in playlist.");
             return;
         }
 
