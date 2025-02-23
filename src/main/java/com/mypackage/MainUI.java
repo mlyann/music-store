@@ -165,7 +165,7 @@ public class MainUI {
                 // Print them in a table
                 printSongSearchResults(songResults, location);
                 // Let user pick a song to "play" or "rate"
-                // handleSongSelection(songResults, location);
+                songSelectionMenu(songResults, location);
             }
         }
     }
