@@ -393,7 +393,10 @@ public class MainUI {
             String choice = SCANNER.nextLine().trim();
             if (choice.equals("0")) {
                 break;
-	@@ -385,17 +337,9 @@ private static void handleSongSelection(ArrayList<ArrayList<String>> songResults
+	    }
+            try {
+                int index = Integer.parseInt(choice);
+                if (index < 1 || index > songResults.size()) {
                     System.out.println("❗ Invalid index. Try again.");
                     continue;
                 }
