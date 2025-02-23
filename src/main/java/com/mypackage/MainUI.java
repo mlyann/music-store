@@ -573,15 +573,19 @@ public class MainUI {
             System.out.println("Actions: ");
             System.out.println("1) ▶️ Play song");
             System.out.println("2) ⭐ Rate song");
+            System.out.println("3) ❤️ Add to favorite");
             System.out.println("0) 🔙 Go back");
             System.out.print("👉 Enter your choice: ");
             String choice = SCANNER.nextLine().trim();
 
             switch (choice) {
                 case "1":
-                    libraryModel.playSong(songTitle);
+                    System.out.println("🚧 Play feature is under construction.");
+                    // libraryModel.playSong(songTitle);
                     break;
                 case "2":
+                    System.out.print("✏️ Enter your rating (1 to 5): ");
+                    /**
                     System.out.print("✏️ Enter your rating (1 to 5): ");
                     try {
                         int rating = Integer.parseInt(SCANNER.nextLine().trim());
@@ -594,6 +598,7 @@ public class MainUI {
                         System.out.println("❗ Invalid rating input.");
                     }
                     break;
+                     */
                 case "0":
                     done = true;
                     break;
