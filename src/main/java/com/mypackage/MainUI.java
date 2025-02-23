@@ -609,7 +609,7 @@ public class MainUI {
                      */
                 case "3":
                     libraryModel.addSongToFavorites(songTitle);
-                    System.out.println("❤️ Added " + songTitle + " to playlist.");
+                    System.out.println("❤️ Added [" + songTitle + "] to favorite list.");
                 case "0":
                     done = true;
                     break;
