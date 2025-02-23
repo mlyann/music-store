@@ -442,43 +442,44 @@ public class MainUI {
         }
     }
 
-    // -------------------------------------------------------------------------
-    //                  PLAYLIST MENU (EXAMPLE)
-    // -------------------------------------------------------------------------
+    // ================================================
+    //              PLAYLIST MENU (single playlist)
+    // ================================================
     private static void runPlaylistMenu() {
         while (true) {
-            System.out.println("\n---------- 🎧 PLAYLIST MENU 🎧 ----------");
-            System.out.println("1) ➕ Create a new playlist");
-            System.out.println("2) 🗑️ Clear an existing playlist");
-            System.out.println("3) ➕ Add songs to a playlist");
-            System.out.println("4) ❌ Remove songs from a playlist");
-            System.out.println("5) ▶️ Play songs in a playlist");
-            System.out.println("6) ⭐ Rate a song in a playlist");
+            System.out.println("\n---------- 🎧 PLAYLIST MENU ----------");
+            System.out.println("1) Clear playlist");
+            System.out.println("2) Add a song to playlist");
+            System.out.println("3) Remove a song from playlist");
+            System.out.println("4) Display playlist (table)");
+            System.out.println("5) Display playlist (list)");
+            System.out.println("6) ▶️ Play a song from playlist");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter your choice: ");
 
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    System.out.print("✏️ Enter a new playlist name: ");
-                    String newPlaylist = SCANNER.nextLine().trim();
-                    libraryModel.createPlaylist(newPlaylist);
-                    System.out.println("🎵 Playlist '" + newPlaylist + "' created.");
+                    libraryModel.clearPlaylist();
                     break;
                 case "2":
-                    clearPlaylist();
+                    System.out.print("Enter the song title to add: ");
+                    String addTitle = SCANNER.nextLine().trim();
+                    libraryModel.addSongToPlaylist(addTitle);
                     break;
                 case "3":
-                    addSongToPlaylist();
+                    System.out.print("Enter the song title to remove: ");
+                    String removeTitle = SCANNER.nextLine().trim();
+                    libraryModel.removeSongFromPlaylist(removeTitle);
                     break;
                 case "4":
-                    removeSongFromPlaylist();
+                    libraryModel.printPlaylist();
                     break;
                 case "5":
-                    playSongInPlaylist();
+                    System.out.println(libraryModel.getPlaylistSongs().toString());
                     break;
                 case "6":
-                    rateSongInPlaylist();
+                    playSongInPlaylist();
                     break;
                 case "0":
                     return;
@@ -489,56 +490,40 @@ public class MainUI {
     }
 
     private static void clearPlaylist() {
-        System.out.print("🗑️ Enter the playlist name to clear: ");
-        String plName = SCANNER.nextLine().trim();
-        libraryModel.clearPlaylist(plName);
-        System.out.println("🗑️ Cleared all songs from '" + plName + "'.");
+        libraryModel.clearPlaylist();
+        System.out.println("🗑️ Cleared all songs.");
     }
 
     private static void addSongToPlaylist() {
-        System.out.print("➕ Enter the playlist name to add songs: ");
-        String plName = SCANNER.nextLine().trim();
         System.out.print("🎶 Enter the song title (or ID) to add: ");
         String songTitle = SCANNER.nextLine().trim();
         // Possibly search or fetch the Song object from your model
         // libraryModel.addSongToPlaylist(plName, songTitle);
-        System.out.println("🎶 Added '" + songTitle + "' to playlist '" + plName + "'.");
+        System.out.println("🎶 Added '" + songTitle + "' to playlist.");
     }
 
     private static void removeSongFromPlaylist() {
-        System.out.print("❌ Enter the playlist name to remove songs: ");
-        String plName = SCANNER.nextLine().trim();
         System.out.print("🎶 Enter the song title (or ID) to remove: ");
         String songTitle = SCANNER.nextLine().trim();
         // libraryModel.removeSongFromPlaylist(plName, songTitle);
-        System.out.println("❌ Removed '" + songTitle + "' from playlist '" + plName + "'.");
+        System.out.println("❌ Removed '" + songTitle + "' from playlist.");
     }
 
     private static void playSongInPlaylist() {
-        System.out.print("▶️ Enter the playlist name to play songs: ");
-        String plName = SCANNER.nextLine().trim();
-
-        // Example: your libraryModel might have a method that returns a List<List<String>>:
-        List<List<String>> songs = libraryModel.getPlaylistSongs(plName);
+        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs();
         if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in playlist '" + plName + "'.");
+            System.out.println("❗ No songs in the playlist.");
             return;
         }
-
-        // Print them
         printSongSearchResults(songs, "LIBRARY");
-
-        // Let the user pick one to play
         handleSongSelection(songs, "LIBRARY");
     }
+
 
     private static void rateSongInPlaylist() {
-        System.out.print("✏️ Enter the playlist name to rate a song: ");
-        String plName = SCANNER.nextLine().trim();
-
-        List<List<String>> songs = libraryModel.getPlaylistSongs(plName);
+        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs();
         if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in playlist '" + plName + "'.");
+            System.out.println("❗ No songs in playlist.");
             return;
         }
 
@@ -546,22 +531,43 @@ public class MainUI {
         handleSongSelection(songs, "LIBRARY");
     }
 
-    // -------------------------------------------------------------------------
-    //                  FAVORITE LIST MENU
-    // -------------------------------------------------------------------------
+    // ================================================
+    //              FAVORITE LIST MENU (single favorite list)
+    // ================================================
     private static void runFavoriteMenu() {
-        System.out.println("\n---------- ⭐ FAVORITE LIST ⭐ ----------");
-        List<List<String>> favorites = libraryModel.getFavoriteSongs();
-        if (favorites == null || favorites.isEmpty()) {
-            System.out.println("❗ No favorite songs yet!");
-            return;
+        while (true) {
+            System.out.println("\n---------- ⭐ FAVORITE LIST MENU ⭐ ----------");
+            System.out.println("1) Add a song to favorite list");
+            System.out.println("2) Remove a song from favorite list");
+            System.out.println("3) Display favorite list (as table)");
+            System.out.println("4) Display favorite list (as list)");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter your choice: ");
+
+            String choice = SCANNER.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter the song title to add to favorites: ");
+                    String addFav = SCANNER.nextLine().trim();
+                    libraryModel.addSongToFavorites(addFav);
+                    break;
+                case "2":
+                    System.out.print("Enter the song title to remove from favorites: ");
+                    String removeFav = SCANNER.nextLine().trim();
+                    libraryModel.removeSongFromFavorites(removeFav);
+                    break;
+                case "3":
+                    libraryModel.getFavoriteList().printAsTable();
+                    break;
+                case "4":
+                    System.out.println(libraryModel.getFavoriteList().toString());
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("❗ Invalid choice. Try again.");
+            }
         }
-
-        // Print them in a table (like user library)
-        printSongSearchResults(favorites, "LIBRARY");
-
-        // Let user pick one
-        handleSongSelection(favorites, "LIBRARY");
     }
 
     // -------------------------------------------------------------------------
