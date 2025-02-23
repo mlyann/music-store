@@ -13,6 +13,9 @@ public class LibraryModel {
     private final Scanner scanner;
     private ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
+    private Song currentSong;
+    private Album currentAlbum;
+
     private final MusicStore musicStore;
     private static FavoriteList favoriteList;
 
@@ -27,6 +30,8 @@ public class LibraryModel {
         this.searchAlbumList = new ArrayList<>();
         this.musicStore = musicStore;
     }
+
+
 
     public String getUserID() {
         return UserID;
@@ -168,229 +173,112 @@ public class LibraryModel {
         return true;
     }
 
+    public boolean allAlbumSelection(int checkSize) {
+        if (checkSize != searchAlbumList.size()) {
+            return false;
+        }
+        for (Album album : searchAlbumList) {
+            addAlbum(album);
+        }
+        return true;
+    }
+
+    public boolean handleAlbumSelection(int index, int checkSize) {
+        if (checkSize != searchAlbumList.size()) {
+            return false;
+        }
+        addAlbum(searchAlbumList.get(index));
+        return true;
+    }
+
     public int getSongListSize() {
         return UserSongs.size();
     }
 
-
-    /**
-    public ArrayList search (String keyword, boolean isMusicStore, boolean isSong) {
-        if (isSong) {
-            ArrayList<Song> songs;
-            if (isMusicStore) {
-                songs = function.searchSong(keyword);
-            } else {
-                songs = new ArrayList<>(UserSongs.values());
-            }
-            ArrayList<ArrayList<String>> result = new ArrayList<>();
-            for (Song song : songs) {
-                result.add(song.toStringList());
-            }
-            return result;
-        } else {
-            ArrayList<Album> albums;
-            if (isMusicStore) {
-                albums = function.searchAlbum(keyword);
-            } else {
-                albums = new ArrayList<>(UserAlbums.values());
-            }
-            ArrayList<ArrayList<String>> result = new ArrayList<>();
-            for (Album album : albums) {
-                result.add(album.toStringList());
-            }
-        }
-
-
-
-        Scanner scanner = new Scanner(System.in);
-        String input = "";
-        if (map.get("songs") != null) {
-            ArrayList<Song> songs = map.get("songs");
-            System.out.println("Songs found:");
-            for (Song song : songs) {
-                if (song.getAlbum() == null) {
-                    System.out.println(song.getTitle() + " by " + song.getArtist());
-                } else {
-                    System.out.println(song.getTitle() + " by " + song.getArtist() + ", album:" + song.getAlbum());
-                }
-            }
-
-            System.out.println("Do you want to add any of these songs to your library? (enter number)");
-            System.out.println("1) Add all songs  2) Select individually  3) Skip");
-            while (true) {
-                input = scanner.nextLine().trim();
-                if (input.equals("1") || input.equals("2") || input.equals("3")) {
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter 1, 2, or 3.\n");
-                }
-            }
-
-            switch (input) {
-                case "1":
-                    System.out.println("Add all songs.");
-                    for (Song song : songs) {
-                        addSong(song);
-                    }
-                    break;
-                case "2":
-                    System.out.println("Select individually.");
-                    System.out.println();
-                    selectSingleSong(songs, false);
-                    break;
-                case "3":
-                    System.out.println("Skip.");
-                    break;
-            }
-        }
-
-        if (map.get("album") != null) {
-            ArrayList<Album> albums = map.get("albums");
-            System.out.println("albums found:");
-            for (Album album : albums) {
-                System.out.println(album.getTitle() + " by " + album.getArtist() +
-                        " (" + album.getYear() + ", " + album.getGenre() + ")");
-                for (Song song : album.getSongs()) {
-                    System.out.println("    " + song.getTitle());
-                }
-            }
-            System.out.println("Do you want to add any of these albums to your library? (enter number)");
-            System.out.println("1) Add all albums  2) Select individually  3) Skip");
-            while (true) {
-                input = scanner.nextLine().trim();
-                if (input.equals("1") || input.equals("2") || input.equals("3")) {
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter 1, 2, or 3.\n");
-                }
-            }
-
-            switch (input) {
-                case "1":
-                    System.out.println("Add all albums.");
-                    for (Album album : albums) {
-                        addAlbum(album);
-                    }
-                    break;
-                case "2":
-                    System.out.println("Select individually.");
-                    System.out.println();
-                    selectSingleAlbum(albums);
-                    break;
-                case "3":
-                    System.out.println("Skip.");
-                    break;
-            }
-        }
-    }
-        */
-
-    /**
-     * Select a song from the list
-     * If the song is found, add it to the user's library
-     * If the song is not found, print "No results found for " + keyword
-     *      enter the number of the song you want to add to your library
-     *      enter 0 to exit
-     */
-
-    private void selectSingleSong(ArrayList<Song> songs, boolean isAlbum) {
-        int i = 1;
-        for (Song song : songs) {
-            System.out.print(i + ") ");
-            if (song.getAlbum() == null || isAlbum) {
-                System.out.println(song.getTitle() + " by " + song.getArtist());
-            } else {
-                System.out.println(song.getTitle() + " by " + song.getArtist() + ", album:" + song.getAlbum());
-            }
-        }
-        System.out.println("Enter the number of the song you want to add to your library. (enter 0 to exit)");
-        while (true) {
-            String input = scanner.nextLine().trim();
-            if (input.matches("\\d+")) {
-                int index = Integer.parseInt(input);
-                if (index == 0) {
-                    return;
-                }
-                if (index >= 1 && index <= songs.size()) {
-                    Song song = songs.get(index - 1);
-                    addSong(song);
-                    System.out.println(song.getTitle() + " by " + song.getArtist() + " added to your library.");
-                } else {
-                    System.out.println("Invalid input. Please enter a number between 1 and " + songs.size() + ".");
-                }
-            } else {
-                System.out.println("Invalid input. Please enter a number.");
-            }
-        }
+    public int getAlbumListSize() {
+        return UserAlbums.size();
     }
 
-    /**
-     * Select an album from the list
-     * If the album is found, add it to the user's library
-     * If the album is not found, print "No results found for " + keyword
-     *      enter the number of the album you want to add to your library
-     *      enter 0 to exit
-     *      1) Add all songs with album
-     *      2) Select individually song in album (album will not add in your library)
-     *      3) Return back
-     */
-    private void selectSingleAlbum(ArrayList<Album> albums) {
-        int i = 1;
-        for (Album album : albums) {
-            System.out.print(i + ") ");
-            System.out.println(album.getTitle() + " by " + album.getArtist() +
-                    " (" + album.getYear() + ", " + album.getGenre() + ")");
-            for (Song song : album.getSongs()) {
-                System.out.println("    " + song.getTitle());
-            }
+    public boolean setCurrentSong(int index, String songTitle) {
+        Song song = searchSongList.get(index);
+        if (!song.getTitle().equalsIgnoreCase(songTitle)) {
+            return false;
         }
-        System.out.println("Enter the number of the album you want to add to your library. (enter 0 to exit)");
-        while (true) {
-            String input = scanner.nextLine().trim();
-            if (input.matches("\\d+")) {
-                int index = Integer.parseInt(input);
-                if (index == 0) {
-                    return;
-                }
-                if (index >= 1 && index <= albums.size()) {
-                    Album album = albums.get(index - 1);
-                    System.out.println("Do you want to add all songs in this album to your library? ");
-                    System.out.println("1) Add all songs with album  " +
-                            "2) Select individually (album will not add in your library)  3) Return back");
-                    while (true) {
-                        input = scanner.nextLine().trim();
-                        if (input.equals("1") || input.equals("2") || input.equals("3")) {
-                            break;
-                        } else {
-                            System.out.println("Invalid input. Please enter 1, 2, or 3.\n");
-                        }
-                    }
-                    switch (input) {
-                        case "1":
-                            System.out.println(album.getTitle() + " by " + album.getArtist() +
-                                    " added to your library.");
-                            addAlbum(albums.get(index - 1));
-                        case "2":
-                            System.out.println("Select individually.");
-                            System.out.println();
-                            selectSingleSong(albums.get(index - 1).getSongs(), true);
-                        case "3":
-                            System.out.println("Return back.");
-                            break;
-                    }
-                } else {
-                    System.out.println("Invalid input. Please enter a number between 1 and " + albums.size() + ".");
-                }
-            } else {
-                System.out.println("Invalid input. Please enter a number.");
-            }
+        currentSong = song;
+        return true;
+    }
+
+    public boolean setCurrentAlbum(int index, String albumTitle) {
+        Album album = searchAlbumList.get(index);
+        if (!album.getTitle().equalsIgnoreCase(albumTitle)) {
+            return false;
         }
+        currentAlbum = album;
+        return true;
+    }
+
+    public boolean openAlbum (String albumTitle) {
+        if (!albumTitle.equals(currentAlbum.getTitle())) {
+            return false;
+        }
+        searchSongList = currentAlbum.getSongs();
+        return true;
+    }
+
+    public ArrayList<ArrayList<String>> getCurrentPlayList () {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (Song album : playlist.getSongs()) {
+            result.add(album.toStringList());
+        }
+        return result;
+    }
+
+    public ArrayList<ArrayList<String>> SongToString () {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        result.add(currentAlbum.getAlbumInfo());
+        for (Song song : searchSongList) {
+            result.add(song.toStringList());
+        }
+        return result;
     }
 
     public void printPlaylist() {
         String name = "Playlist";
         playlist.printAsTable(name);
     }
+
+    public void playSong() {
+        if (currentSong == null) {
+            System.out.println("No song selected.");
+        } else {
+            playlist.insertSong(currentSong);
+            playlist.getPlaying();
+        }
+    }
+
+    public boolean playAlbum(String albumTitle) {
+        if (! albumTitle.equalsIgnoreCase(currentAlbum.getTitle())) {
+            return false;
+        }
+        if (currentAlbum == null) {
+            System.out.println("No album selected.");
+            return false;
+        } else {
+            ArrayList<Song> songs = currentAlbum.getSongs();
+            Collections.reverse(songs);
+            for (Song song : songs) {
+                playlist.insertSong(song);
+            }
+            playlist.getPlaying();
+            return true;
+        }
+    }
+
+    public void playNextSong() {
+        playlist.playNext();
+    }
+
+
 
     /**
      * return copy of the list
@@ -468,7 +356,7 @@ public class LibraryModel {
         }
     }
 
-    public ArrayList<ArrayList<String>> getPlaylistSongs() {
+    public ArrayList<ArrayList<String>> getPlaylistSongs(String playListTitle) {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (Song s : playlist.getSongs()) {
             result.add(s.toStringList());

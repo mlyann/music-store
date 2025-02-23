@@ -16,12 +16,15 @@ public class TablePrinter {
         System.out.println("           🎉 " + tableTitle + " 🎉              ");
         System.out.println("===================================================");
 
-        // Number of columns
+        // Number of columns (以表头行为准)
         int colCount = rows.get(0).size();
 
-        // Compute max width of each column
+        // Compute max width of each column (跳过 marker 行)
         int[] colWidths = new int[colCount];
         for (List<String> row : rows) {
+            if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
+                continue;
+            }
             for (int c = 0; c < colCount; c++) {
                 String cell = (row.get(c) == null) ? "" : row.get(c);
                 colWidths[c] = Math.max(colWidths[c], cell.length());
@@ -31,14 +34,19 @@ public class TablePrinter {
         // Build separator line
         String separator = buildSeparatorLine(colWidths);
 
-        // Print header row (first row), then separator
+        // Print header row (第一行)及分隔线
         System.out.println(separator);
         printRow(rows.get(0), colWidths);
         System.out.println(separator);
 
-        // Print data rows
+        // 打印数据行：如果遇到 marker 行则打印分隔线
         for (int r = 1; r < rows.size(); r++) {
-            printRow(rows.get(r), colWidths);
+            List<String> row = rows.get(r);
+            if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
+                System.out.println(separator);
+            } else {
+                printRow(row, colWidths);
+            }
         }
 
         // Bottom line

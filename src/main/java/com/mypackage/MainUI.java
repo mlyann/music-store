@@ -1,6 +1,7 @@
 package la1; // Or wherever your package is
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,12 +70,12 @@ public class MainUI {
                     runSearchMenu();
                     break;
                 case "2":
-//                    System.out.println("🚧 Playlist feature is under construction.");
+                    System.out.println("🚧 Playlist feature is under construction.");
                     runPlaylistMenu();
                     break;
                 case "3":
-//                    System.out.println("🚧 Favorite List feature is under construction.");
-                    runFavoriteMenu();
+                    System.out.println("🚧 Favorite List feature is under construction.");
+                    //runFavoriteMenu();
                     break;
                 case "4":
                     System.out.println("🚧 ");
@@ -105,7 +106,7 @@ public class MainUI {
             searchSongsPipeline(location);
 
             // 2) Search for albums
-//            searchAlbumsPipeline(location);
+            searchAlbumsPipeline(location);
         }
     }
 
@@ -162,108 +163,59 @@ public class MainUI {
             if (songResults == null || songResults.isEmpty()) {
                 System.out.println("❗ No songs found for '" + keyword + "'.");
             } else {
+                System.out.println("\nFound " + songResults.size() + " matching song(s):\n");
                 // Print them in a table
-                printSongSearchResults(songResults, location);
+                printSongSearchResults("Search Results (Songs)", songResults, location);
                 // Let user pick a song to "play" or "rate"
                 songSelectionMenu(songResults, location);
             }
         }
     }
-//
-//    /**
-//     * Search for albums by keyword and print each album with its songs.
-//     * For each matching album, the first line shows the album info with a serial number,
-//     * followed by its songs (each indented).
-//     * Finally, prompt the user to either save all albums or select a single album to load.
-//     */
-//    private static void searchAlbumsPipeline(String location) {
-//        System.out.println("\n--- 🎼 Searching for Albums ---");
-//        System.out.print("🔎 Enter album title or artist keyword (or blank to skip): ");
-//        String keyword = SCANNER.nextLine().trim();
-//        if (keyword.isEmpty()) {
-//            System.out.println("⏭ Skipping album search...");
-//            return;
-//        }
-//
-//        // MODEL CALL:
-//        // If location = STORE, use musicStore.searchAlbums(keyword)
-//        // If location = LIBRARY, use libraryModel.searchAlbumsInLibrary(keyword)
-//        List<List<String>> albumResults;
-//        if (location.equals("STORE")) {
-//            albumResults = musicStore.searchAlbums(keyword);
-//        } else {
-//            albumResults = libraryModel.searchAlbumsInLibrary(keyword);
-//        }
-//
-//        if (albumResults == null || albumResults.isEmpty()) {
-//            System.out.println("❗ No albums found for '" + keyword + "'.");
-//            return;
-//        }
-//
-//        System.out.println("\nFound " + albumResults.size() + " matching album(s):\n");
-//        int albumIndex = 1;
-//        for (List<String> albumInfo : albumResults) {
-//            // 假设 albumInfo 的第一个字段为专辑标题，其它字段为相关信息
-//            String albumTitle = albumInfo.get(0);
-//            // 打印带序号的专辑信息行，格式为 “🎵 Album: [专辑信息]”
-//            System.out.println(albumIndex + ") 🎵 Album: " + String.join(" | ", albumInfo));
-//
-//            // 获取该专辑中的歌曲列表
-//            List<List<String>> albumSongs = musicStore.getSongsInAlbum(albumTitle);
-//            if (albumSongs == null || albumSongs.isEmpty()) {
-//                System.out.println("    (No songs found in this album)");
-//            } else {
-//                // 对每个歌曲打印一行，并缩进显示
-//                for (List<String> songInfo : albumSongs) {
-//                    System.out.println("    " + String.join(" | ", songInfo));
-//                }
-//            }
-//            System.out.println(); // 空行分隔不同专辑
-//            albumIndex++;
-//        }
-//
-//        // 提示用户操作
-//        System.out.println("Options:");
-//        System.out.println("1) Save all albums (all albums have been loaded into the library)");
-//        System.out.println("2) Select a single album to load into the library");
-//        System.out.println("0) Return");
-//        System.out.print("👉 Enter your choice: ");
-//        String choice = SCANNER.nextLine().trim();
-//
-//        switch (choice) {
-//            case "1":
-//                // 假设 libraryModel 有加载所有专辑的方法
-//                libraryModel.loadAlbums(albumResults);
-//                System.out.println("All albums have been loaded into the library.");
-//                break;
-//            case "2":
-//                System.out.print("👉 Enter the album number to load: ");
-//                try {
-//                    int selectedIndex = Integer.parseInt(SCANNER.nextLine().trim());
-//                    if (selectedIndex < 1 || selectedIndex > albumResults.size()) {
-//                        System.out.println("❗ Invalid album number.");
-//                    } else {
-//                        List<String> selectedAlbum = albumResults.get(selectedIndex - 1);
-//                        String selectedAlbumTitle = selectedAlbum.get(0);
-//                        // 假设 libraryModel 有加载单个专辑的方法
-//                        libraryModel.loadAlbum(selectedAlbum);
-//                        System.out.println("The album: " + selectedAlbumTitle + " has been loaded into the library.");
-//                    }
-//                } catch (NumberFormatException e) {
-//                    System.out.println("❗ Invalid input. Returning to menu.");
-//                }
-//                break;
-//            case "0":
-//                return;
-//            default:
-//                System.out.println("❗ Invalid choice.");
-//        }
-//    }
+
+
+
+    /**
+     * Search for albums by keyword and print each album with its songs.
+     * For each matching album, the first line shows the album info with a serial number,
+     * followed by its songs (each indented).
+     * Finally, prompt the user to either save all albums or select a single album to load.
+     */
+    private static void searchAlbumsPipeline(String location) {
+        while (true) {
+            System.out.println("\n--- 🎼 Searching for Albums ---");
+            System.out.print("🔎 Enter album title or artist keyword (or blank to skip): ");
+            String keyword = SCANNER.nextLine().trim();
+            if (keyword.isEmpty()) {
+                System.out.println("⏭ Skipping album search...");
+                break;
+            }
+
+            // MODEL CALL:
+            // If location = STORE, use musicStore.searchAlbums(keyword)
+            // If location = LIBRARY, use libraryModel.searchAlbumsInLibrary(keyword)
+            ArrayList<ArrayList<String>> albumResults;
+            if (location.equals("STORE")) {
+                albumResults = libraryModel.searchAlbum(keyword, true);
+            } else {
+                albumResults = libraryModel.searchAlbum(keyword, false);
+            }
+
+            if (albumResults == null || albumResults.isEmpty()) {
+                System.out.println("❗ No albums found for '" + keyword + "'.");
+            } else {
+                System.out.println("\nFound " + albumResults.size() + " matching album(s):\n");
+                printAlbumSearchResults(albumResults);
+                albumSelectionMenu(albumResults, location);
+            }
+        }
+    }
+
 
     /**
      * Printing Songs in a Table
      */
-    private static void printSongSearchResults(ArrayList<ArrayList<String>> songResults, String location) {
+    private static void printSongSearchResults(String tableTitle,ArrayList<ArrayList<String>> songResults,
+                                               String location) {
         // Build the header row with a serial number column.
         List<String> header = new ArrayList<>();
         header.add("No.");
@@ -318,8 +270,69 @@ public class MainUI {
             tableRows.add(newRow);
         }
 
-        TablePrinter.printDynamicTable("Search Results (Songs)", tableRows);
+        TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
+
+
+    public static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumList) {
+        if (albumList == null || albumList.isEmpty()) {
+            System.out.println("❗ 未找到任何专辑。");
+            return;
+        }
+
+        // 构建表格行，第一行为表头
+        List<List<String>> tableRows = new ArrayList<>();
+        tableRows.add(Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Album"));
+
+        int albumNo = 1;
+        for (ArrayList<String> albumStrList : albumList) {
+            // 数据格式必须至少包含4个元素
+            if (albumStrList.size() < 4) {
+                continue;
+            }
+
+            // 分别取出 title、artist、year、genre
+            String title = albumStrList.get(0);
+            String artist = albumStrList.get(1);
+            String year = albumStrList.get(2);
+            String genre = albumStrList.get(3);
+            // 剩下的为歌曲列表
+            List<String> tracks = albumStrList.subList(4, albumStrList.size());
+
+            // 第一行：显示专辑信息及第一首歌曲（如果存在）
+            List<String> firstRow = new ArrayList<>();
+            firstRow.add(String.valueOf(albumNo));
+            firstRow.add(title);
+            firstRow.add(artist);
+            // 表头要求 Genre 在 Year 前面
+            firstRow.add(genre);
+            firstRow.add(year);
+            firstRow.add(tracks.isEmpty() ? "" : tracks.get(0));
+            tableRows.add(firstRow);
+
+            // 如果有多首歌曲，后续行仅在 Album 列显示其它歌曲
+            for (int i = 1; i < tracks.size(); i++) {
+                tableRows.add(Arrays.asList("", "", "", "", "", tracks.get(i)));
+            }
+
+            // 插入 marker 行，用于在当前专辑与下一个专辑间分隔
+            tableRows.add(Arrays.asList("###SEPARATOR###"));
+
+            albumNo++;
+        }
+
+        // 移除最后一个 marker 行，避免在最后打印额外的分隔线
+        if (!tableRows.isEmpty()) {
+            List<String> lastRow = tableRows.get(tableRows.size() - 1);
+            if (lastRow.size() == 1 && "###SEPARATOR###".equals(lastRow.get(0))) {
+                tableRows.remove(tableRows.size() - 1);
+            }
+        }
+
+        // 调用 TablePrinter 打印整张表格
+        TablePrinter.printDynamicTable("Album Search Results", tableRows);
+    }
+
 
     /**
      * Let the user pick a song row (by index) to play or rate
@@ -330,11 +343,10 @@ public class MainUI {
      */
 
     private static void songSelectionMenu(ArrayList<ArrayList<String>> songResults, String location) {
-        System.out.println("UserSongs: " + libraryModel.getSongListSize());
         if (location.equals("STORE")) {
             String choice = songSelectionStore();
             if (choice.equals("SKIP")) {
-                System.out.println("⏭ Skipping song search...");
+                System.out.println("🔙 Back to song search");
                 return;
             } else if (choice.equals("ALL")) {
                 if (!libraryModel.allSongSelection(songResults.size())) {
@@ -344,23 +356,21 @@ public class MainUI {
                 System.out.println("All songs added to library! ");
                 return;
             } else {
-                handleSongSelection(songResults, location);
+                handleSongSelection(songResults, location, "Search Results (Songs)");
                 return;
             }
         }
-        handleSongSelection(songResults, location);
+        handleSongSelection(songResults, location, "Search Results (Songs)");
     }
 
 
 
     private static String songSelectionStore() {
-
         while (true) {
-            System.out.println("UserSongs: " + libraryModel.getSongListSize());
             System.out.println("\nWhich song would you like add to library?");
             System.out.println("1) All songs");
             System.out.println("2) Select single song");
-            System.out.println("0) ⏭ Skipping song search...");
+            System.out.println("0) 🔙 Back to song search");
             System.out.print("👉 Enter choice: ");
             String choice = SCANNER.nextLine().trim();
 
@@ -378,9 +388,53 @@ public class MainUI {
         }
     }
 
+    public static void albumSelectionMenu(ArrayList<ArrayList<String>> albumResults, String location) {
+        if (location.equals("STORE")) {
+            String choice = albumSelectionStore();
+            if (choice.equals("SKIP")) {
+                System.out.println("🔙 Back to album search");
+                return;
+            } else if (choice.equals("ALL")) {
+                if (!libraryModel.allAlbumSelection(albumResults.size())) {
+                    System.out.println("❗ System wrong. ");
+                    return;
+                }
+                System.out.println("All albums added to library! ");
+                return;
+            } else {
+                handleAlbumSelection(albumResults, location);
+                return;
+            }
+        }
+        handleAlbumSelection(albumResults, location);
+    }
 
-    private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location) {
-        printSongSearchResults(songResults, location);
+
+    private static String albumSelectionStore() {
+        while (true) {
+            System.out.println("\nWhich album would you like to add to library?");
+            System.out.println("1) All albums");
+            System.out.println("2) Select single album");
+            System.out.println("0) 🔙 Back to album search");
+            System.out.print("👉 Enter choice: ");
+            String choice = SCANNER.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    return "ALL";
+                case "2":
+                    return "SINGLE";
+                case "0":
+                    return "SKIP";
+                default:
+                    System.out.println("❗ Invalid choice. Please try again.");
+            }
+        }
+    }
+
+
+    private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location, String title) {
+        printSongSearchResults(title, songResults, location);
         while (true) {
             System.out.println("UserSongs: " + libraryModel.getSongListSize());
 
@@ -389,7 +443,7 @@ public class MainUI {
             } else {
                 System.out.println("\nWhich song would you like to handle?");
             }
-            System.out.println("Select a song, or 0 to skip: ");
+            System.out.println("Select the number of the song, or 0 to skip: ");
             String choice = SCANNER.nextLine().trim();
             if (choice.equals("0")) {
                 break;
@@ -400,15 +454,18 @@ public class MainUI {
                     System.out.println("❗ Invalid index. Try again.");
                     continue;
                 }
+                String songTitle = songResults.get(index - 1).get(0);
                 if (location.equals("STORE")) {
                     if (!libraryModel.handleSongSelection(index - 1, songResults.size())) {
                         System.out.println("❗ System wrong. ");
                         break;
                     }
-                    System.out.println(String.format("Song %s added to library! ", songResults.get(index - 1).get(0)));
+                    System.out.println(String.format("Song [%s] added to library! ", songTitle));
                 } else {
-                    List<String> selectedRow = songResults.get(index - 1);
-                    String songTitle = selectedRow.get(0);
+                    if (!libraryModel.setCurrentSong(index - 1, songTitle)){
+                        System.out.println("❗ System wrong. ");
+                        break;
+                    }
                     handleSongActions(songTitle);
                 }
             } catch (NumberFormatException e) {
@@ -417,167 +474,55 @@ public class MainUI {
         }
     }
 
+
     /**
      * Let the user pick an album row (by index) to see songs, etc.
      */
     private static void handleAlbumSelection(ArrayList<ArrayList<String>> albumResults, String location) {
+        printAlbumSearchResults(albumResults);
         while (true) {
-            System.out.println("\nEnter the row number of the album to handle, or 0 to skip: ");
+            System.out.println("UserAlbums: " + libraryModel.getAlbumListSize());
+
+            if (location.equals("STORE")) {
+                System.out.println("\nWhich album would you like to add to library?");
+            } else {
+                System.out.println("\nWhich album would you like to handle?");
+            }
+            System.out.println("Select the number of the album, or 0 to skip: ");
             String choice = SCANNER.nextLine().trim();
             if (choice.equals("0")) {
                 break;
             }
+
             try {
                 int index = Integer.parseInt(choice);
                 if (index < 1 || index > albumResults.size()) {
                     System.out.println("❗ Invalid index. Try again.");
                     continue;
                 }
-                List<String> selectedRow = albumResults.get(index - 1);
-                String albumTitle = selectedRow.get(0);
-//                handleAlbumActions(albumTitle);
+                String albumTitle = albumResults.get(index - 1).get(0);
+                if (location.equals("STORE")) {
+                    if (!libraryModel.handleAlbumSelection(index - 1, albumResults.size())) {
+                        System.out.println("❗ System wrong. ");
+                        break;
+                    }
+                    System.out.println(String.format("Album [%s] added to library! ", albumTitle));
+                } else {
+                    if (!libraryModel.setCurrentAlbum(index - 1, albumTitle)) {
+                        System.out.println("❗ System wrong. ");
+                        break;
+                    }
+                    handleAlbumActions(albumTitle);
+                }
             } catch (NumberFormatException e) {
                 System.out.println("❗ Please enter a valid number.");
             }
         }
     }
 
-    // ================================================
-    //              PLAYLIST MENU (single playlist)
-    // ================================================
-    private static void runPlaylistMenu() {
-        while (true) {
-            System.out.println("\n---------- 🎧 PLAYLIST MENU ----------");
-            System.out.println("1) Clear playlist");
-            System.out.println("2) Add a song to playlist");
-            System.out.println("3) Remove a song from playlist");
-            System.out.println("4) Display playlist (table)");
-            System.out.println("5) Display playlist (list)");
-            System.out.println("6) ▶️ Play a song from playlist");
-            System.out.println("0) 🔙 Back to Main Menu");
-            System.out.print("👉 Enter your choice: ");
-
-            String choice = SCANNER.nextLine().trim();
-            switch (choice) {
-                case "1":
-                    libraryModel.clearPlaylist();
-                    break;
-                case "2":
-                    System.out.print("Enter the song title to add: ");
-                    String addTitle = SCANNER.nextLine().trim();
-                    libraryModel.addSongToPlaylist(addTitle);
-                    break;
-                case "3":
-                    System.out.print("Enter the song title to remove: ");
-                    String removeTitle = SCANNER.nextLine().trim();
-                    libraryModel.removeSongFromPlaylist(removeTitle);
-                    break;
-                case "4":
-                    libraryModel.printPlaylist();
-                    break;
-                case "5":
-                    System.out.println(libraryModel.getPlaylistSongs().toString());
-                    break;
-                case "6":
-                    playSongInPlaylist();
-                    break;
-                case "0":
-                    return;
-                default:
-                    System.out.println("❗ Invalid choice. Try again.");
-            }
-        }
-    }
-
-    private static void clearPlaylist() {
-        libraryModel.clearPlaylist();
-        System.out.println("🗑️ Cleared all songs.");
-    }
-
-    private static void addSongToPlaylist() {
-        System.out.print("🎶 Enter the song title (or ID) to add: ");
-        String songTitle = SCANNER.nextLine().trim();
-        libraryModel.addSongToPlaylist(songTitle);
-        System.out.println("🎶 Added '" + songTitle + "' to playlist.");
-    }
-
-    private static void removeSongFromPlaylist() {
-        System.out.print("🎶 Enter the song title (or ID) to remove: ");
-        String songTitle = SCANNER.nextLine().trim();
-        libraryModel.removeSongFromPlaylist(songTitle);
-        System.out.println("❌ Removed '" + songTitle + "' from playlist.");
-    }
-
-    private static void playSongInPlaylist() {
-        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs();
-        if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in the playlist.");
-            return;
-        }
-        printSongSearchResults(songs, "LIBRARY");
-        handleSongSelection(songs, "LIBRARY");
-    }
-
-
-    private static void rateSongInPlaylist() {
-        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs();
-        if (songs == null || songs.isEmpty()) {
-            System.out.println("❗ No songs in playlist.");
-            return;
-        }
-
-        printSongSearchResults(songs, "LIBRARY");
-        handleSongSelection(songs, "LIBRARY");
-    }
-
-    // ================================================
-    //              FAVORITE LIST MENU (single favorite list)
-    // ================================================
-    private static void runFavoriteMenu() {
-        while (true) {
-            System.out.println("\n---------- ⭐ FAVORITE LIST MENU ⭐ ----------");
-            System.out.println("1) Add a song to favorite list");
-            System.out.println("2) Remove a song from favorite list");
-            System.out.println("3) Display favorite list (as table)");
-            System.out.println("4) Display favorite list (as list)");
-            System.out.println("0) 🔙 Back to Main Menu");
-            System.out.print("👉 Enter your choice: ");
-
-            String choice = SCANNER.nextLine().trim();
-            switch (choice) {
-                case "1":
-                    System.out.print("Enter the song title to add to favorites: ");
-                    String addFav = SCANNER.nextLine().trim();
-                    libraryModel.addSongToFavorites(addFav);
-                    break;
-                case "2":
-                    System.out.print("Enter the song title to remove from favorites: ");
-                    String removeFav = SCANNER.nextLine().trim();
-                    libraryModel.removeSongFromFavorites(removeFav);
-                    break;
-                case "3":
-                    String name = "Favorite Menu";
-                    libraryModel.getFavoriteList().printAsTable(name);
-                    break;
-                case "4":
-                    System.out.println(libraryModel.getFavoriteList().toString());
-                    break;
-                case "0":
-                    return;
-                default:
-                    System.out.println("❗ Invalid choice. Try again.");
-            }
-        }
-    }
-
-    // -------------------------------------------------------------------------
-    //                  SONG / ALBUM ACTIONS
-    // -------------------------------------------------------------------------
     private static void handleSongActions(String songTitle) {
-        System.out.println("\n🎶 Selected Song: " + songTitle);
-
-        boolean done = false;
-        while (!done) {
+        System.out.println("\n🎶 Selected Song: [" + songTitle + "]");
+        while (true) {
             System.out.println("Actions: ");
             System.out.println("1) ▶️ Play song");
             System.out.println("2) ⭐ Rate song");
@@ -588,17 +533,14 @@ public class MainUI {
 
             switch (choice) {
                 case "1":
-                    System.out.println("🚧 Play feature is under construction.");
-//                     libraryModel.playSong(songTitle);
+                    libraryModel.playSong();
                     break;
                 case "2":
-                    System.out.print("✏️ Enter your rating (1 to 5): ");
-                    /**
                     System.out.print("✏️ Enter your rating (1 to 5): ");
                     try {
                         int rating = Integer.parseInt(SCANNER.nextLine().trim());
                         if (rating >= 1 && rating <= 5) {
-                            libraryModel.rateSong(songTitle, rating);
+                            // libraryModel.rateSong(songTitle, rating);
                         } else {
                             System.out.println("❗ Rating must be between 1 and 5.");
                         }
@@ -606,34 +548,206 @@ public class MainUI {
                         System.out.println("❗ Invalid rating input.");
                     }
                     break;
-                     */
-                case "3":
-                    libraryModel.addSongToFavorites(songTitle);
-                    System.out.println("❤️ Added [" + songTitle + "] to favorite list.");
+
                 case "0":
-                    done = true;
-                    break;
+                    return;
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
             }
         }
     }
 
-//    private static void handleAlbumActions(String albumTitle) {
-//        System.out.println("\n🎵 Selected Album: " + albumTitle);
-//
-//        // Possibly fetch the songs from the album in your library or store
-//        // e.g. List<List<String>> albumSongs = musicStore.getSongsInAlbum(albumTitle);
-//        List<List<String>> albumSongs = musicStore.getSongsInAlbum(albumTitle);
-//        if (albumSongs == null || albumSongs.isEmpty()) {
-//            System.out.println("❗ No songs found in this album.");
-//            return;
-//        }
-//
-//        // Print them
-//        printSongSearchResults(albumSongs, "STORE");
-//
-//        // Let user pick a song
-//        handleSongSelection(albumSongs, "STORE");
-//    }
+    private static void handleAlbumActions(String albumTitle) {
+        System.out.println("\n🎵 Selected Album: [" + albumTitle + "]");
+        while (true) {
+            System.out.println("Actions: ");
+            System.out.println("1) ▶️ Play album");
+            System.out.println("2) ⭐ Open album");
+            System.out.println("0) 🔙 Go back");
+            System.out.print("👉 Enter your choice: ");
+            String choice = SCANNER.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    if (!libraryModel.playAlbum(albumTitle)) {
+                        System.out.println("❗ System wrong. ");
+                    }
+                    return;
+                case "2":
+                    openAlbum(albumTitle);
+                    return;
+                case "0":
+                    break;
+            }
+        }
+
+    }
+
+    public static void openAlbum(String albumTitle) {
+        if (!libraryModel.openAlbum(albumTitle)) {
+            System.out.println("❗ System wrong. ");
+        }
+        ArrayList<ArrayList<String>> albumSongs = libraryModel.SongToString();
+        ArrayList<String> albumInfo = albumSongs.remove(0);
+        if (albumInfo == null || albumInfo.size() < 4) {
+            System.out.println("❗ System wrong. ");
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(albumInfo.get(0));
+        sb.append(" by ");
+        sb.append(albumInfo.get(1));
+        sb.append(" (");
+        sb.append(albumInfo.get(2));
+        sb.append(", ");
+        sb.append(albumInfo.get(3));
+        sb.append(")\n");
+        printSongSearchResults(sb.toString(), albumSongs, "LIBRARY");
+        handleSongSelection(albumSongs, "LIBRARY", sb.toString());
+
+    }
+
+    // -------------------------------------------------------------------------
+    //                  PLAYLIST MENU (EXAMPLE)
+    // -------------------------------------------------------------------------
+    private static void runPlaylistMenu() {
+        while (true) {
+            System.out.println("\n---------- 🎧 PLAYLIST MENU 🎧 ----------");
+            System.out.println("1) ➕ Create a new playlist");
+            System.out.println("2) 🗑️ Clear an existing playlist");
+            System.out.println("3) ➕ Add songs to a playlist");
+            System.out.println("4) ❌ Remove songs from a playlist");
+            System.out.println("5) ▶️ Play songs in a playlist");
+            System.out.println("6) ⭐ Rate a song in a playlist");
+            System.out.println("7) 📝 Show current playlist");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter your choice: ");
+
+            String choice = SCANNER.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    System.out.print("✏️ Enter a new playlist name: ");
+                    String newPlaylist = SCANNER.nextLine().trim();
+
+                    // libraryModel.createPlaylist(newPlaylist);
+                    System.out.println("🎵 Playlist '" + newPlaylist + "' created.");
+                    break;
+                case "2":
+                    clearPlaylist();
+                    break;
+                case "3":
+                    addSongToPlaylist();
+                    break;
+                case "4":
+                    removeSongFromPlaylist();
+                    break;
+                case "5":
+                    playSongInPlaylist();
+                    break;
+                case "6":
+                    rateSongInPlaylist();
+                    break;
+                case "7":
+                    showCurrentPlaylist();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("❗ Invalid choice. Try again.");
+            }
+        }
+    }
+
+    private static void clearPlaylist() {
+        System.out.print("🗑️ Enter the playlist name to clear: ");
+        String plName = SCANNER.nextLine().trim();
+        // libraryModel.clearPlaylist(plName);
+        System.out.println("🗑️ Cleared all songs from '" + plName + "'.");
+    }
+
+    private static void addSongToPlaylist() {
+        System.out.print("➕ Enter the playlist name to add songs: ");
+        String plName = SCANNER.nextLine().trim();
+        System.out.print("🎶 Enter the song title (or ID) to add: ");
+        String songTitle = SCANNER.nextLine().trim();
+        // Possibly search or fetch the Song object from your model
+        // libraryModel.addSongToPlaylist(plName, songTitle);
+        System.out.println("🎶 Added '" + songTitle + "' to playlist '" + plName + "'.");
+    }
+
+    private static void removeSongFromPlaylist() {
+        System.out.print("❌ Enter the playlist name to remove songs: ");
+        String plName = SCANNER.nextLine().trim();
+        System.out.print("🎶 Enter the song title (or ID) to remove: ");
+        String songTitle = SCANNER.nextLine().trim();
+        // libraryModel.removeSongFromPlaylist(plName, songTitle);
+        System.out.println("❌ Removed '" + songTitle + "' from playlist '" + plName + "'.");
+    }
+
+    private static void playSongInPlaylist() {
+        System.out.print("▶️ Enter the playlist name to play songs: ");
+        String plName = SCANNER.nextLine().trim();
+
+        // Example: your libraryModel might have a method that returns a List<List<String>>:
+        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs(plName);
+        if (songs == null || songs.isEmpty()) {
+            System.out.println("❗ No songs in playlist '" + plName + "'.");
+            return;
+        }
+
+        // Print them
+        printSongSearchResults("Play list", songs, "LIBRARY");
+
+        // Let the user pick one to play
+        handleSongSelection(songs, "LIBRARY", "Play list");
+    }
+
+    private static void rateSongInPlaylist() {
+        System.out.print("✏️ Enter the playlist name to rate a song: ");
+        String plName = SCANNER.nextLine().trim();
+
+        ArrayList<ArrayList<String>> songs = libraryModel.getPlaylistSongs(plName);
+        if (songs == null || songs.isEmpty()) {
+            System.out.println("❗ No songs in playlist '" + plName + "'.");
+            return;
+        }
+
+        printSongSearchResults("Play list", songs, "LIBRARY");
+        handleSongSelection(songs, "LIBRARY", "Play list");
+
+    }
+
+    private static void showCurrentPlaylist () {
+        ArrayList<ArrayList<String>> songs = libraryModel.getCurrentPlayList();
+        printSongSearchResults("Play list", songs, "LIBRARY");
+    }
+
+    // -------------------------------------------------------------------------
+    //                  FAVORITE LIST MENU
+    // -------------------------------------------------------------------------
+    /*
+    private static void runFavoriteMenu() {
+        System.out.println("\n---------- ⭐ FAVORITE LIST ⭐ ----------");
+        ArrayList<ArrayList<String>> favorites = libraryModel.getFavoriteSongs();
+        if (favorites == null || favorites.isEmpty()) {
+            System.out.println("❗ No favorite songs yet!");
+            return;
+        }
+
+        // Print them in a table (like user library)
+        printSongSearchResults("Favourite list", favorites, "LIBRARY");
+
+        // Let user pick one
+        handleSongSelection(favorites, "LIBRARY", "Favourite list");
+    }
+
+    // -------------------------------------------------------------------------
+    //                  SONG / ALBUM ACTIONS
+    // -------------------------------------------------------------------------
+
+
+
+*/
+
 }
+
