@@ -9,24 +9,23 @@ public class LibraryModel {
     private final HashMap<List<String>, Song> UserSongs;
     // UserAlbums stores all albums in the user's library, each item is a class Album
     private final HashMap<List<String>, Album> UserAlbums;
-    private final ArrayList<Song> Playlists;
+    private final HashMap<String, Playlist> playlists;
     private final Scanner scanner;
     private ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
     private final MusicStore musicStore;
+    private final FavoriteList favoriteList;
 
     public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;
+        this.playlists = new HashMap<>();
+        this.favoriteList = new FavoriteList();
         this.UserSongs = new HashMap<>();
         this.UserAlbums = new HashMap<>();
-        this.Playlists = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.searchSongList = new ArrayList<>();
         this.searchAlbumList = new ArrayList<>();
-        this.musicStore = musicStore; {
-
-
-        };
+        this.musicStore = musicStore;
     }
 
     public String getUserID() {
@@ -387,4 +386,130 @@ public class LibraryModel {
             }
         }
     }
+    // ==================== playlist ====================
+
+    /**
+     * create a playlist
+     */
+    public void createPlaylist(String playlistName) {
+        String key = playlistName.trim().toLowerCase();
+        if (!playlists.containsKey(key)) {
+            playlists.put(key, new Playlist());
+            System.out.println("Playlist '" + playlistName + "' created.");
+        } else {
+            System.out.println("Playlist '" + playlistName + "' already exists.");
+        }
+    }
+
+    /**
+     * return the list, null if not exist
+     */
+    public Playlist getPlaylist(String playlistName) {
+        return playlists.get(playlistName.trim().toLowerCase());
+    }
+
+    /**
+     * clean up
+     */
+    public void clearPlaylist(String playlistName) {
+        Playlist pl = getPlaylist(playlistName);
+        if (pl != null) {
+            pl.clear();
+        } else {
+            System.out.println("Playlist '" + playlistName + "' does not exist.");
+        }
+    }
+
+    /**
+     * find a song
+     */
+    private Song findSongInLibrary(String songTitle) {
+        for (Song s : UserSongs.values()) {
+            if (s.getTitle().equalsIgnoreCase(songTitle)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * put the song into playlist
+     */
+    public void addSongToPlaylist(String playlistName, String songTitle) {
+        Song song = findSongInLibrary(songTitle);
+        if (song == null) {
+            System.out.println("Song '" + songTitle + "' not found in your library.");
+            return;
+        }
+        Playlist pl = getPlaylist(playlistName);
+        if (pl != null) {
+            pl.addSong(song);
+        } else {
+            System.out.println("Playlist '" + playlistName + "' does not exist.");
+        }
+    }
+
+    /**
+     * remove a song from playlist
+     */
+    public void removeSongFromPlaylist(String playlistName, String songTitle) {
+        Playlist pl = getPlaylist(playlistName);
+        if (pl == null) {
+            System.out.println("Playlist '" + playlistName + "' does not exist.");
+            return;
+        }
+        Song found = null;
+        for (Song s : pl.getSongs()) {
+            if (s.getTitle().equalsIgnoreCase(songTitle)) {
+                found = s;
+                break;
+            }
+        }
+        if (found != null) {
+            pl.removeSong(found);
+        } else {
+            System.out.println("Song '" + songTitle + "' not found in playlist '" + playlistName + "'.");
+        }
+    }
+    // ==================== fav list ====================
+
+    /**
+     * return current fav list
+     */
+    public FavoriteList getFavoriteList() {
+        return favoriteList;
+    }
+
+    /**
+     * add a song in the fav list
+     */
+    public void addSongToFavorite(String songTitle) {
+        Song song = findSongInLibrary(songTitle);
+        if (song == null) {
+            System.out.println("Song '" + songTitle + "' not found in your library.");
+            return;
+        }
+        favoriteList.addSong(song);
+    }
+
+    /**
+     * remove
+     */
+    public void removeSongFromFavorite(String songTitle) {
+        Song found = null;
+        for (Song s : favoriteList.getSongs()) {
+            if (s.getTitle().equalsIgnoreCase(songTitle)) {
+                found = s;
+                break;
+            }
+        }
+        if (found != null) {
+            favoriteList.removeSong(found);
+        } else {
+            System.out.println("Song '" + songTitle + "' not found in your favorite list.");
+        }
+    }
+
+
+
 }
