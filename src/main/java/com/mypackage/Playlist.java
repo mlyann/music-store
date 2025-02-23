@@ -53,7 +53,7 @@ public class Playlist {
     /**
      * use table to print
      */
-    public void printAsTable() {
+    public void printAsTable(String name) {
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -83,7 +83,7 @@ public class Playlist {
         }
 
         // TablePrinter prints information in a table
-        TablePrinter.printDynamicTable("Playlist", rows);
+        TablePrinter.printDynamicTable(name, rows);
     }
 
     /**

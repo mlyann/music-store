@@ -5,6 +5,7 @@ public class FavoriteList extends Playlist {
     public FavoriteList() {
         super();
     }
+
     @Override
     public String toString() {
         if (getSongs().isEmpty()) {
