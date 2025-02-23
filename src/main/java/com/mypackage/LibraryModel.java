@@ -150,6 +150,28 @@ public class LibraryModel {
         return result;
     }
 
+    public boolean allSongSelection(int checkSize) {
+        if (checkSize != searchSongList.size()) {
+            return false;
+        }
+        for (Song song : searchSongList) {
+            addSong(song);
+        }
+        return true;
+    }
+
+    public boolean handleSongSelection(int index, int checkSize) {
+        // make sure the searchSongList print String is the same as the searchSongList Song Object
+        if (checkSize != searchSongList.size()) {
+            return false;
+        }
+        addSong(searchSongList.get(index));
+        return true;
+    }
+
+    public int getSongListSize() {
+        return UserSongs.size();
+    }
 
 
     /**
