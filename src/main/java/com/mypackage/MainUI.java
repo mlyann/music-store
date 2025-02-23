@@ -46,6 +46,7 @@ public class MainUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Error loading song: " + e.getMessage());
             }
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
     }
 
@@ -204,21 +205,22 @@ public class MainUI {
      */
 
     private static void printSongSearchResults(ArrayList<ArrayList<String>> songResults, String location) {
-        // Build the header row
+        // Build the header row with a serial number column.
         List<String> header = new ArrayList<>();
-        header.add("🎵 Title");
-        header.add("👤 Artist");
-        header.add("🎼 Genre");
-        header.add("📅 Year");
+        header.add("No.");
+        header.add("Title");
+        header.add("Artist");
+        header.add("Genre");
+        header.add("Year");
 
         boolean isStore = location.equals("STORE");
         if (!isStore) {
-            // If user library, also show favorite + rating
-            header.add("❤️ Fav?");
-            header.add("⭐ Rating");
+            // For user library, also show favorite and rating.
+            header.add("Fav?");
+            header.add("Rating");
         }
 
-        // Check if we should include "💿 Album" column
+        // Check if we should include the "Album" column.
         boolean anyAlbum = false;
         for (List<String> row : songResults) {
             if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
@@ -227,31 +229,31 @@ public class MainUI {
             }
         }
         if (anyAlbum) {
-            header.add("💿 Album");
+            header.add("Album");
         }
 
-        // Combine into a 2D structure for TablePrinter
+        // Combine into a 2D structure for TablePrinter.
         List<List<String>> tableRows = new ArrayList<>();
         tableRows.add(header);
 
+        int index = 1;
         for (List<String> row : songResults) {
             // row: [title, artist, genre, year, favorite, rating, album]
             List<String> newRow = new ArrayList<>();
-            // 0..3 are always present
-            newRow.add(row.get(0)); // title
-            newRow.add(row.get(1)); // artist
-            newRow.add(row.get(2)); // genre
-            newRow.add(row.get(3)); // year
+            newRow.add(String.valueOf(index++));  // Serial number
+            newRow.add(row.get(0)); // Title
+            newRow.add(row.get(1)); // Artist
+            newRow.add(row.get(2)); // Genre
+            newRow.add(row.get(3)); // Year
 
             if (!isStore) {
-                // user library => indices 4..5
-                newRow.add(row.get(4)); // favorite
-                newRow.add(row.get(5)); // rating
+                newRow.add(row.get(4)); // Favorite
+                newRow.add(row.get(5)); // Rating
             }
 
             if (anyAlbum) {
                 String album = (row.size() > 6) ? row.get(6) : "";
-                newRow.add((album == null) ? "" : album);
+                newRow.add(album == null ? "" : album);
             }
 
             tableRows.add(newRow);
