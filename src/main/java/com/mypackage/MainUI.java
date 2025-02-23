@@ -156,7 +156,7 @@ public class MainUI {
                 songResults = libraryModel.searchSong(keyword, true);
             } else {
                 // Example method name - adapt to your actual code:
-                songResults = libraryModel.searchAlbum(keyword, false);
+                songResults = libraryModel.searchSong(keyword, false);
             }
 
             if (songResults == null || songResults.isEmpty()) {
