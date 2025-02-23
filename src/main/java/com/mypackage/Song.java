@@ -32,6 +32,16 @@ public class Song {
         this.year = year;
         this.album = null;
     }
+//ming: it's a copy constructor
+    public Song(Song other) {
+        this.title = other.title;
+        this.artist = other.artist;
+        this.genre = other.genre;
+        this.year = other.year;
+        this.album = other.album;
+        this.rating = other.rating;
+        this.Favourite = other.Favourite;
+    }
 
     public String getTitle() {
         return title;
