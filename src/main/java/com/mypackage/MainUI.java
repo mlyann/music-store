@@ -46,6 +46,7 @@ public class MainUI {
             } catch (IllegalArgumentException e) {
                 System.out.println("Error loading song: " + e.getMessage());
             }
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
     }
 
