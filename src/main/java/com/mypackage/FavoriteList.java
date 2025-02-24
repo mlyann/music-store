@@ -10,7 +10,7 @@ public class FavoriteList extends Playlist {
     }
 
     /**
-     * 重写 addSong 方法，添加歌曲到收藏列表
+     * Overrides the addSong method to add a given song to the favorite list.
      */
     @Override
     public void addSong(Song song) {
@@ -19,22 +19,22 @@ public class FavoriteList extends Playlist {
     }
 
     /**
-     * 重写 removeSong 方法，从收藏列表中移除歌曲
+     * Overrides the removeSong method to remove the specified song from the favorite list.
      */
     @Override
     public void removeSong(Song song) {
         getSongs().remove(song);
     }
 
-    /**
-     * 返回收藏列表中歌曲的数量
-     */
+
     public int getSize() {
         return getSongs().size();
     }
 
+
     /**
-     * 以表格形式打印收藏列表的详细信息
+     *  Overrides the printAsTable method to print detailed information of the favorite list in a table format.
+     *  and then prints the table using the TablePrinter.
      */
     @Override
     public void printAsTable(String name) {
@@ -60,7 +60,7 @@ public class FavoriteList extends Playlist {
 
         boolean anyAlbum = false;
         for (List<String> row : playString) {
-            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
+            if (row.size() > 6 && row.get(6) != null) {
                 anyAlbum = true;
                 break;
             }
@@ -96,7 +96,8 @@ public class FavoriteList extends Playlist {
     }
 
     /**
-     * 重写 toString 方法，返回收藏列表的字符串表示
+     * Overrides the toString method to return a string representation of the favorite list.
+     * Lists each song with its index, or returns a message indicating that the favorite list is empty if there are no songs.
      */
     @Override
     public String toString() {

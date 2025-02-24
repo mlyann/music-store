@@ -62,7 +62,6 @@ public class TablePrinterTest {
 
         TablePrinter.printDynamicTable("MarkerTest", rows);
         String output = outContent.toString();
-
         assertTrue(output.contains("🎉 MarkerTest 🎉"), "Should display the table title");
         assertTrue(output.contains("+-----+--------+----------+"), "Should display separator lines correctly");
         assertTrue(output.contains("| 2   | Song B | Artist B |"), "Should handle full rows with padding");
@@ -88,8 +87,6 @@ public class TablePrinterTest {
 
     @Test
     public void testPrintDynamicTableWithNullCell() {
-        // Create a table where the header is "Header1" and "Header2"
-        // and a data row contains a null in the first column.
         List<List<String>> rows = Arrays.asList(
                 Arrays.asList("Header1", "Header2"),
                 Arrays.asList(null, "NonNull")
@@ -97,13 +94,6 @@ public class TablePrinterTest {
 
         TablePrinter.printDynamicTable("NullCellTest", rows);
         String output = outContent.toString();
-
-        // Check that the table prints an empty string for the null cell.
-        // The expected output row should replace null with an empty string.
-        // For instance, if "Header1" is 7 characters and "Header2" is 7 characters,
-        // the data row should appear similar to: "|        | NonNull |"
-        // We'll check that the printed output contains "|  | NonNull |"
-        // (allowing for extra padding spaces).
         assertTrue(output.contains("| "), "The printed row should contain the left boundary for the null cell.");
         assertTrue(output.contains("NonNull"), "The non-null cell should be printed correctly.");
 
