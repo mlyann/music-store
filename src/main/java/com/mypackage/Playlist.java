@@ -1,6 +1,7 @@
 package la1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import la1.TablePrinter;
 import la1.Song;
@@ -32,11 +33,11 @@ public class Playlist {
     }
 
     public void playNext() {
-        if (songs.isEmpty()) {
-            System.out.println("The playlist is empty.");
+        if (songs.isEmpty() || songs.size() == 1) {
+            System.out.println("No song to play next.");
         } else {
-            System.out.println("Playing: [" + songs.get(0).getTitle() + "]");
             songs.remove(0);
+            System.out.println("Playing: [" + songs.get(0).getTitle() + "]");
         }
     }
 
@@ -79,6 +80,10 @@ public class Playlist {
             System.out.println("The playlist is empty.");
             return;
         }
+        ArrayList<ArrayList<String>> playString = new ArrayList<>();
+        for (Song s : songs) {
+            playString.add(s.toStringList());
+        }
 
         // table head
         List<String> header = new ArrayList<>();
@@ -87,24 +92,55 @@ public class Playlist {
         header.add("Artist");
         header.add("Genre");
         header.add("Year");
+        header.add("Favorite");
+        header.add("Rating  ");
 
-        // combine table
-        List<List<String>> rows = new ArrayList<>();
-        rows.add(header);
+
+        boolean anyAlbum = false;
+        for (List<String> row : playString) {
+            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
+                anyAlbum = true;
+                break;
+            }
+        }
+        if (anyAlbum) {
+            header.add("Album");
+        }
+
+        // Combine into a 2D structure for TablePrinter.
+        List<List<String>> tableRows = new ArrayList<>();
+        tableRows.add(header);
 
         int index = 1;
         for (Song s : songs) {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(index++));
-            row.add(s.getTitle());
-            row.add(s.getArtist());
-            row.add(s.getGenre());
-            row.add(String.valueOf(s.getYear()));
-            rows.add(row);
+            ArrayList<String> info = s.toStringList();
+            row.add(info.get(0)); // Title
+            row.add(info.get(1)); // Artist
+            row.add(info.get(2)); // Genre
+            row.add(info.get(3)); // Year
+            row.add(info.get(4)); // Favorite
+            row.add(info.get(5)); // Rating
+            if (anyAlbum) {
+                String album = (info.size() > 6) ? info.get(6) : "";
+                row.add(album == null ? "" : album);
+            }
+            tableRows.add(row);
         }
 
         // TablePrinter prints information in a table
-        TablePrinter.printDynamicTable(name, rows);
+        TablePrinter.printDynamicTable(name, tableRows);
+    }
+
+    public void shuffle() {
+        if (songs.isEmpty()) {
+            System.out.println("The playlist is empty.");
+            return;
+        }
+        System.out.println("Shuffling the playlist...");
+        Collections.shuffle(songs);
+        System.out.println("The playlist has been shuffled.");
     }
 
     /**
