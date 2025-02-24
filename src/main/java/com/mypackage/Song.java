@@ -111,15 +111,6 @@ public class Song {
         this.rating = rating;
     }
 
-    public String toStringStore() {
-        String result = String.format("[%s, by %s (%s, %d)", title, artist, genre.getGenre(), year);
-        if (album != null) {
-            result += ", Album: " + album.getTitle();
-        }
-        result += "]";
-        return result;
-    }
-
     public String toString() {
         String result = String.format("[%s, by %s (%s, %d) [%s, %s]", title, artist,
                 genre.getGenre(), year, getFavourite(), rating.toString());
