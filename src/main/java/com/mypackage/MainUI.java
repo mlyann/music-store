@@ -57,8 +57,9 @@ public class MainUI {
             System.out.println("\n---------- 🎵 MAIN MENU 🎵 ----------");
             System.out.println("1) 🔍 Search");
             System.out.println("2) 🎧 Playlist");
-            System.out.println("3) ⭐ Favorite List");
-            System.out.println("4) 🚧 Load Songs single");
+            System.out.println("3) ❤️ Favorite List");
+            System.out.println("4) 🏠 Library Lists");
+            System.out.println("5) ➕ Load Songs single");
             System.out.println("0) 🚪 Quit the application");
             System.out.print("👉 Enter your choice: ");
 
@@ -75,13 +76,40 @@ public class MainUI {
                     runFavoriteMenu();
                     break;
                 case "4":
-                    inputSongs();
+                    libraryListsMenu();
                     break;
                 case "222":
                     System.out.println("🚧 Playlist feature is under construction.");
-                    //runFavoriteMenu();
                     System.out.println(musicStore.printSongs());
                     System.out.println(musicStore.printAlbums());
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("❗ Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void libraryListsMenu() {
+        while (true) {
+            System.out.println("\n---------- 🏠 Library Lists 🏠 ----------");
+            System.out.println("1) 🎤 Show all songs");
+            System.out.println("2) 🎼 Show all albums");
+            System.out.println("3) 🎸 Show all artists");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter choice: ");
+            String choice = SCANNER.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    printSongSearchResults("Library Songs", libraryModel.getSongList(), "LIBRARY");
+                    break;
+                case "2":
+                    printAlbumSearchResults(libraryModel.getAlbumList());
+                    break;
+                case "3":
+                    libraryModel.printAllArtists();
                     break;
                 case "0":
                     return;
@@ -213,6 +241,10 @@ public class MainUI {
      */
     private static void printSongSearchResults(String tableTitle,ArrayList<ArrayList<String>> songResults,
                                                String location) {
+        if (songResults == null || songResults.isEmpty()) {
+            System.out.println("❗ No Songs in Library.");
+            return;
+        }
         // Build the header row with a serial number column.
         List<String> header = new ArrayList<>();
         header.add("No.");
@@ -470,7 +502,7 @@ public class MainUI {
 
     public static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumList) {
         if (albumList == null || albumList.isEmpty()) {
-            System.out.println("❗ 未找到任何专辑。");
+            System.out.println("❗ No Albums in Library.");
             return;
         }
 

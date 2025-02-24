@@ -118,6 +118,21 @@ public class LibraryModel {
     //                  ALL FUNCTIONS
     // -------------------------------------------------------------------------
 
+    public void printAllArtists() {
+        if (UserSongs.isEmpty()) {
+            System.out.println("The library is empty.");
+            return;
+        }
+        Set<String> artists = new HashSet<>();
+        for (Song song : UserSongs.values()) {
+            artists.add(song.getArtist());
+        }
+        System.out.println("All artists in the library:");
+        for (String artist : artists) {
+            System.out.println(artist);
+        }
+    }
+
     // -------------------------------------------------------------------------
     //                  SONG FUNCTIONS
     // -------------------------------------------------------------------------
@@ -244,6 +259,14 @@ public class LibraryModel {
         TablePrinter.printDynamicTable("User Songs Library", tableData);
     }
 
+    public ArrayList<ArrayList<String>> getSongList() {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (Song song : UserSongs.values()) {
+            result.add(song.toStringList());
+        }
+        return result;
+    }
+
 
     // -------------------------------------------------------------------------
     //                  ALBUM FUNCTIONS
@@ -322,15 +345,20 @@ public class LibraryModel {
         return UserAlbums.size();
     }
 
-
-
-
     public boolean openAlbum (String albumTitle) {
         if (!albumTitle.equals(currentAlbum.getTitle())) {
             return false;
         }
         searchSongList = currentAlbum.getSongs();
         return true;
+    }
+
+    public ArrayList<ArrayList<String>> getAlbumList () {
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        for (Album album : UserAlbums.values()) {
+            result.add(album.toStringList());
+        }
+        return result;
     }
 
     // -------------------------------------------------------------------------
