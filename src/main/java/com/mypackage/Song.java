@@ -64,12 +64,25 @@ public class Song {
         return rating.toString();
     }
 
+    public int getRatingInt() {
+        return rating.getValue();
+    }
+
     // get the state of Favorite
     public String getFavourite() {
         if (Favourite) {
             return "♥";
         }
         return "♡";
+    }
+
+    public boolean isFavourite() {
+        boolean result = Favourite;
+        return result;
+    }
+
+    public void setFavourite(boolean favourite) {
+        Favourite = favourite;
     }
 
     // when you click the favorite button, the state of Favorite will change

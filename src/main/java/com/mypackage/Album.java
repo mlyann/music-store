@@ -61,6 +61,10 @@ public class Album {
         return result.toString();
     }
 
+    public String getAlbumInfoString() {
+        return String.format("%s, by %s (%d, %s)\n", title, artist, year, genre.getGenre());
+    }
+
     public ArrayList<String> getAlbumInfo() {
         ArrayList<String> result = new ArrayList<>();
         result.add(title);
