@@ -98,13 +98,13 @@ public class Playlist {
 
         boolean anyAlbum = false;
         for (List<String> row : playString) {
-            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
+            if (row.size() > 6 && row.get(6) != null) {
                 anyAlbum = true;
                 break;
             }
         }
         if (anyAlbum) {
-            header.add("Album");
+            header.add("THE ALBUM");
         }
 
         // Combine into a 2D structure for TablePrinter.
@@ -123,8 +123,8 @@ public class Playlist {
             row.add(info.get(4)); // Favorite
             row.add(info.get(5)); // Rating
             if (anyAlbum) {
-                String album = (info.size() > 6) ? info.get(6) : "";
-                row.add(album == null ? "" : album);
+                String album = (info.size() > 6) ? info.get(6) : "NO ALBUM";
+                row.add(album == null ? "NO ALBUM" : album);
             }
             tableRows.add(row);
         }

@@ -9,9 +9,7 @@ public class Song {
     private final int year;
     private Album album;
 
-    // The rating of the song. Default is UNRATED, can be rated later
     private Rating rating = Rating.UNRATED;
-    // The favourite status of the song. Default is false, can be changed later
     private boolean Favourite = false;
 
     public Song(String title, String artist) {
@@ -102,22 +100,13 @@ public class Song {
     }
 
     /**
-     * 设置歌曲评分。传入 null 会抛出异常，若想表示未评分，请使用 Rating.UNRATED。
+     * set numbers for rating, if null, it will be Rating.UNRATED。
      */
     public void setRating(Rating rating) {
         if (rating == null) {
             throw new IllegalArgumentException("Rating cannot be null. Use Rating.UNRATED to represent no rating.");
         }
         this.rating = rating;
-    }
-
-    public String toStringStore() {
-        String result = String.format("[%s, by %s (%s, %d)", title, artist, genre.getGenre(), year);
-        if (album != null) {
-            result += ", Album: " + album.getTitle();
-        }
-        result += "]";
-        return result;
     }
 
     public String toString() {

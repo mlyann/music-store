@@ -15,10 +15,10 @@ public class Album {
         this.artist = artist;
         this.genre = Genre.fromString(genre);
         this.year = year;
-        this.songs = new ArrayList<Song>(songs); // 深拷贝，避免外部修改
+        this.songs = new ArrayList<Song>(songs); // DEEPCOPY HERE
     }
 
-    // Getter 方法
+    // Getter
     public String getTitle() {
         return title;
     }
@@ -40,7 +40,7 @@ public class Album {
     }
 
     public ArrayList<Song> getSongs() {
-        return new ArrayList<Song>(songs); // 深拷贝，避免外部修改
+        return new ArrayList<Song>(songs); // DEEPCOPY HERE
     }
 
     public List<String> getSongsTitles() {
