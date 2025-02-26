@@ -6,7 +6,7 @@ import java.util.List;
 public class FavoriteList extends Playlist {
 
     public FavoriteList() {
-        super();
+        super("Favorite List");
     }
 
     /**
@@ -37,7 +37,7 @@ public class FavoriteList extends Playlist {
      *  and then prints the table using the TablePrinter.
      */
     @Override
-    public void printAsTable(String name) {
+    public void printAsTable() {
         if (getSongs().isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -92,7 +92,7 @@ public class FavoriteList extends Playlist {
         }
 
         // TablePrinter prints information in a table
-        TablePrinter.printDynamicTable(name, tableRows);
+        TablePrinter.printDynamicTable("Favourite List", tableRows);
     }
 
     /**

@@ -1,5 +1,4 @@
 package la1;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class LibraryModel {
@@ -9,10 +8,12 @@ public class LibraryModel {
     private final HashMap<List<String>, Song> UserSongs;
     // UserAlbums stores all albums in the user's library, each item is a class Album
     private final HashMap<List<String>, Album> UserAlbums;
-    private Playlist playlist;
+    private final PlayLists PlayLists;
+    private Playlist playingList;
     private final Scanner scanner;
     private ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
+    private Playlist currentPlaylist;
     private Song currentSong;
     private Album currentAlbum;
 
@@ -21,10 +22,11 @@ public class LibraryModel {
 
     public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;
-        this.playlist = new Playlist();
         this.favoriteList = new FavoriteList();
         this.UserSongs = new HashMap<>();
         this.UserAlbums = new HashMap<>();
+        this.playingList = new PlayingList("Playing List");
+        this.PlayLists = new PlayLists();
         this.scanner = new Scanner(System.in);
         this.searchSongList = new ArrayList<>();
         this.searchAlbumList = new ArrayList<>();
@@ -103,7 +105,7 @@ public class LibraryModel {
     }
 
     public void playListSearch() {
-        searchSongList = new ArrayList<>(playlist.getSongs());
+        searchSongList = new ArrayList<>(playingList.getSongs());
     }
 
     public void favoriteListSearch() {
@@ -362,12 +364,12 @@ public class LibraryModel {
     }
 
     // -------------------------------------------------------------------------
-    //                  PLAYLIST FUNCTIONS
+    //                  PLAYINGLIST FUNCTIONS
     // -------------------------------------------------------------------------
 
     public ArrayList<ArrayList<String>> getCurrentPlayList () {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
-        for (Song album : playlist.getSongs()) {
+        for (Song album : playingList.getSongs()) {
             result.add(album.toStringList());
         }
         return result;
@@ -376,16 +378,15 @@ public class LibraryModel {
 
 
     public void printPlaylist() {
-        String name = "Playlist";
-        playlist.printAsTable(name);
+        playingList.printAsTable();
     }
 
     public void playSong() {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playlist.insertSong(currentSong);
-            playlist.getPlaying();
+            playingList.insertSong(currentSong);
+            playingList.getPlaying();
         }
     }
 
@@ -400,28 +401,28 @@ public class LibraryModel {
             ArrayList<Song> songs = currentAlbum.getSongs();
             Collections.reverse(songs);
             for (Song song : songs) {
-                playlist.insertSong(song);
+                playingList.insertSong(song);
             }
-            playlist.getPlaying();
+            playingList.getPlaying();
             return true;
         }
     }
 
     public int getPlayerSize() {
-        return playlist.getSongs().size();
+        return playingList.getSongs().size();
     }
 
     public void getPlaying() {
-        playlist.getPlaying();
+        playingList.getPlaying();
     }
 
     public void playNextSong() {
-        playlist.playNext();
+        playingList.playNext();
     }
 
 
     public void clearPlaylist() {
-        playlist.clear();
+        playingList.clear();
     }
 
     /**
@@ -432,7 +433,7 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playlist.addSong(currentSong);
+            playingList.addSong(currentSong);
         }
     }
 
@@ -440,24 +441,104 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playlist.removeSong(currentSong);
+            playingList.removeSong(currentSong);
         }
     }
 
     public ArrayList<ArrayList<String>> getPlaylistSongs() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
-        for (Song s : playlist.getSongs()) {
+        for (Song s : playingList.getSongs()) {
             result.add(s.toStringList());
         }
         return result;
     }
 
     public ArrayList<Song> getPlaylist() {
-        return playlist.getSongs();
+        return playingList.getSongs();
     }
 
 
     // -------------------------------------------------------------------------
+    //                  PLAYLISTS FUNCTIONS
+    // -------------------------------------------------------------------------
+    public ArrayList<String> getPlayListNames() {
+        return PlayLists.getPlayListNames();
+    }
+
+    public void printAllPlayLists() {
+        PlayLists.printAllPlayLists();
+    }
+
+    public Boolean createPlaylist (String name) {
+        return PlayLists.addPlayList(name);
+    }
+
+    public Boolean removePlayList(int index) {
+        return PlayLists.removePlayList(index);
+    }
+
+    public int getPlayListsSize() {
+        return PlayLists.getSize();
+    }
+
+    public void clearAllPlayLists() {
+        PlayLists.clearAllPlayLists();
+    }
+
+    public void addSongToPlayLists() {
+        if (currentPlaylist == null) {
+            System.out.println("No playlist selected.");
+        } else if (currentSong == null) {
+            System.out.println("No song selected.");
+        } else {
+            assert currentPlaylist != null;
+            PlayLists.addSongToPlayList(currentPlaylist.getName(), currentSong);
+        }
+    }
+
+    public void removeSongFromPlayLists() {
+        if (currentPlaylist == null) {
+            System.out.println("No playlist selected.");
+        } else if (currentSong == null) {
+            System.out.println("No song selected.");
+        } else {
+            assert currentPlaylist != null;
+            PlayLists.removeSongFromPlayList(currentPlaylist.getName(), currentSong);
+        }
+    }
+
+
+
+
+    public void selectCurrentPlaylist(int index) {
+        currentPlaylist = PlayLists.getPlayList(index);
+    }
+
+    public void playCurrentPlayList() {
+        ArrayList<Song> songs = currentPlaylist.getSongs();
+        Collections.reverse(songs);
+        for (Song song : songs) {
+            if (playingList.getSongs().contains(song)) {
+                playingList.removeSong(song);
+            }
+            playingList.insertSong(song);
+        }
+        playingList.getPlaying();
+    }
+
+    public int currentPlistSize() {
+        return currentPlaylist.getSize();
+    }
+
+    public void printCurrentPlaylist() {
+        currentPlaylist.printAsTable();
+    }
+
+    public String getCurrentPlaylistName() {
+        return currentPlaylist.getName();
+    }
+
+    //-------------------------------------------------------------------------
     //                  FAVORITE LIST FUNCTIONS
     // -------------------------------------------------------------------------
 
@@ -478,8 +559,7 @@ public class LibraryModel {
     }
 
     public void printFavoriteList() {
-        String name = "Favorite List";
-        favoriteList.printAsTable(name);
+        favoriteList.printAsTable();
     }
 
     public void clearFavoriteList() {
@@ -511,16 +591,16 @@ public class LibraryModel {
         ArrayList<Song> songs = favoriteList.getSongs();
         Collections.reverse(songs);
         for (Song song : songs) {
-            if (playlist.getSongs().contains(song)) {
-                playlist.removeSong(song);
+            if (playingList.getSongs().contains(song)) {
+                playingList.removeSong(song);
             }
-            playlist.insertSong(song);
+            playingList.insertSong(song);
         }
-        playlist.getPlaying();
+        playingList.getPlaying();
     }
 
     public void shufflePlaylist() {
-        playlist.shuffle();
+        playingList.shuffle();
     }
 
     // -------------------------------------------------------------------------

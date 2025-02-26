@@ -3,14 +3,18 @@ package la1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SplittableRandom;
+
 import la1.TablePrinter;
 import la1.Song;
 
 public class Playlist {
-    private ArrayList<Song> songs;
+    private final ArrayList<Song> songs;
+    private final String name;
 
-    public Playlist() {
+    public Playlist(String name) {
         this.songs = new ArrayList<>();
+        this.name = name;
     }
 
     /**
@@ -20,6 +24,13 @@ public class Playlist {
         return songs;
     }
 
+    public int getSize() {
+        return songs.size();
+    }
+
+    public String getName() {
+        return name;
+    }
     public void insertSong(Song song) {
         songs.add(0, song);
     }
@@ -75,7 +86,7 @@ public class Playlist {
     /**
      * use table to print
      */
-    public void printAsTable(String name) {
+    public void printAsTable() {
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -142,6 +153,7 @@ public class Playlist {
         Collections.shuffle(songs);
         System.out.println("The playlist has been shuffled.");
     }
+
 
     /**
      * string representation

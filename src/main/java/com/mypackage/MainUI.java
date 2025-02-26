@@ -56,10 +56,11 @@ public class MainUI {
         while (true) {
             System.out.println("\n---------- 🎵 MAIN MENU 🎵 ----------");
             System.out.println("1) 🔍 Search");
-            System.out.println("2) 🎧 Playlist");
-            System.out.println("3) ❤️ Favorite List");
-            System.out.println("4) 🏠 Library Lists");
-            System.out.println("5) ➕ Load Songs single");
+            System.out.println("2) 🎧 PlayingList");
+            System.out.println("3) 📝 View all PlayLists");
+            System.out.println("4) ❤️ Favorite List");
+            System.out.println("5) 🏠 Library Lists");
+            System.out.println("6) ➕ Load Songs single");
             System.out.println("0) 🚪 Quit the application");
             System.out.print("👉 Enter your choice: ");
 
@@ -73,9 +74,12 @@ public class MainUI {
                     runPlaylistMenu();
                     break;
                 case "3":
-                    runFavoriteMenu();
+                    runPlayListsMenu();
                     break;
                 case "4":
+                    runFavoriteMenu();
+                    break;
+                case "5":
                     libraryListsMenu();
                     break;
                 case "222":
@@ -366,7 +370,6 @@ public class MainUI {
     private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location, String title) {
         while (true) {
             System.out.println("UserSongs: " + libraryModel.getSongListSize());
-
             if (location.equals("STORE")) {
                 System.out.println("\nWhich song would you like to add to library?");
             } else {
@@ -419,6 +422,8 @@ public class MainUI {
             } else {
                 System.out.println("3) ❤️ Add to favorite");
             }
+            System.out.println("4) Add to a playlist");
+            System.out.println("5) remove from a playlist");
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -438,6 +443,16 @@ public class MainUI {
                     } else {
                         libraryModel.addFavourite();
                         System.out.printf("Song [%s] added to favorite.%n", songTitle);
+                    }
+                    break;
+                case "4":
+                    if (openPlayList()) {
+                        libraryModel.addSongToPlayLists();
+                    }
+                    break;
+                case "5":
+                    if (openPlayList()) {
+                        libraryModel.removeSongFromPlayLists();
                     }
                     break;
                 case "0":
@@ -715,6 +730,7 @@ public class MainUI {
         sb.append(", ");
         sb.append(albumInfo.get(3));
         sb.append(")\n");
+        printSongSearchResults("Album Songs", albumSongs, "LIBRARY");
         handleSongSelection(albumSongs, "LIBRARY", sb.toString());
 
     }
@@ -898,6 +914,195 @@ public class MainUI {
         }
 
     }
+
+
+    // -------------------------------------------------------------------------
+    //                  PLAYLISTS FUNCTIONS
+    // -------------------------------------------------------------------------
+
+    private static void runPlayListsMenu() {
+        while (true) {
+            System.out.println("\n---------- 🎵 PLAYLISTS MENU 🎵 ----------");
+            System.out.println("1) 📝 Open a playlists");
+            System.out.println("2) 🗑️ Clear all playlists");
+            System.out.println("3) ➕ Add a playlist");
+            System.out.println("4) ❌ Delete a playlist");
+            System.out.println("0) 🔙 Back to Main Menu");
+            System.out.print("👉 Enter choice: ");
+
+            String choice = SCANNER.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    if (openPlayList()){
+                        playListSubMenu();
+                    }
+                    break;
+                case "2":
+                    libraryModel.clearAllPlayLists();
+                    System.out.println("🗑️ Cleared all playlists.");
+                    break;
+                case "3":
+                    createNewPlaylist();
+                    break;
+                case "4":
+                    deletePlaylist();
+                    break;
+                case "0":
+                    return;
+
+                default:
+                    System.out.println("❗ Invalid choice. Try again.");
+            }
+        }
+    }
+
+
+    private static void playListSubMenu() {
+        System.out.println("Selected Playlist: " + libraryModel.getCurrentPlaylistName());
+        while (true) {
+            System.out.println("\n---------- 🎵 PLAYLISTS SUBMENU 🎵 ----------");
+            System.out.println("1) 📝 Add song to playlist");
+            System.out.println("2) 🗑️ Delete song from playlist");
+            System.out.println("3) ⏩ play this playlist");
+            System.out.println("0) 🔙 Go back");
+            System.out.println("h) 🚪 Back to Main Menu");
+            System.out.print("👉 Enter choice: ");
+
+            String choice = SCANNER.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    searchSongToPlaylists();
+                    break;
+                case "2":
+                    searchSongFromPlaylists();
+                    break;
+                case "3":
+                    libraryModel.playCurrentPlayList();
+                    break;
+                case "0":
+                    return;
+                case "h":
+                    runMainMenu();
+                    return;
+                default:
+                    System.out.println("❗ Invalid choice. Try again.");
+            }
+        }
+    }
+
+    private static void createNewPlaylist() {
+        while (true) {
+            System.out.print("🎵 Enter the playlist name: ");
+            String playlistName = SCANNER.nextLine().trim();
+            if (playlistName.isEmpty()) {
+                System.out.println("❗ Playlist name cannot be empty.");
+            }
+            if (libraryModel.createPlaylist(playlistName)) {
+                System.out.println("🎵 Playlist created: " + playlistName);
+                return;
+            } else {
+                System.out.println("❗ Playlist already exists: " + playlistName);
+            }
+        }
+    }
+
+    private static boolean openPlayList() {
+        libraryModel.printAllPlayLists();
+        System.out.print("🎵 Enter the playlist number to open: ");
+        while (true) {
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
+                return false;
+            }
+            try {
+                int playlistNumber = Integer.parseInt(input);
+                if (playlistNumber < 1 || playlistNumber > libraryModel.getPlayListsSize()) {
+                    System.out.println("Invalid selection. Please enter a valid number.");
+                } else {
+                    libraryModel.selectCurrentPlaylist(playlistNumber - 1);
+                    libraryModel.printCurrentPlaylist();
+                    return true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
+    private static void deletePlaylist() {
+        libraryModel.printAllPlayLists();
+        System.out.print("🎵 Enter the playlist number to delete: ");
+        String input = SCANNER.nextLine().trim();
+        if (input.equals("0")) {
+            return;
+        }
+        try {
+            int playlistNumber = Integer.parseInt(input);
+            if (playlistNumber < 1 || playlistNumber > libraryModel.getPlayListsSize()) {
+                System.out.println("Invalid selection. Please enter a valid number.");
+                return;
+            }
+            libraryModel.removePlayList(playlistNumber - 1);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+        }
+    }
+
+
+    private static void searchSongToPlaylists() {
+        // Print the user songs with numbers
+        libraryModel.userSongSerch();   // set the search list to user songs
+        libraryModel.printUserSongsTable();
+        int size = libraryModel.getSearchSongListSize();
+        while (true) {
+            System.out.print("🎶 Enter the song number to add: ");
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
+                return;
+            }
+            try {
+                int songNumber = Integer.parseInt(input);
+                // Get the library songs list to show which title is being added.
+                if (songNumber < 1 || songNumber > size) {
+                    System.out.println("Invalid selection. Please enter a valid number.");
+                    return;
+                }
+                libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
+                libraryModel.addSongToPlayLists();
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
+    private static void searchSongFromPlaylists() {
+        // Print the current playlist with numbers
+        libraryModel.playListSearch();  // set the search list to playlist
+        libraryModel.printCurrentPlaylist();
+        int size = libraryModel.currentPlistSize();
+        while (true) {
+            System.out.print("🎶 Enter the song number to remove: ");
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
+                return;
+            }
+            try {
+                int songNumber = Integer.parseInt(input);
+                // Get the current playlist songs for lookup
+                ArrayList<Song> playlistSongs = libraryModel.getPlaylist();
+                if (songNumber < 1 || songNumber > size) {
+                    System.out.println("Invalid selection. Please enter a valid number.");
+                    return;
+                }
+                libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
+                libraryModel.removeSongFromPlayLists();
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
+
 
     // -------------------------------------------------------------------------
     //                  FAVORITE LIST MENU
