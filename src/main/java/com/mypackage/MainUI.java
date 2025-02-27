@@ -82,11 +82,6 @@ public class MainUI {
                 case "5":
                     libraryListsMenu();
                     break;
-                case "222":
-                    System.out.println("🚧 Playlist feature is under construction.");
-                    System.out.println(musicStore.printSongs());
-                    System.out.println(musicStore.printAlbums());
-                    break;
                 case "0":
                     return;
                 default:
@@ -1140,6 +1135,7 @@ public class MainUI {
                     break;
                 case "0":
                     return;
+                    
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
             }

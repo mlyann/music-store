@@ -75,7 +75,7 @@ public class FavoriteListTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
 
-        favList.printAsTable("EmptyPlaylist");
+        favList.printAsTable();
 
         System.out.flush();
         System.setOut(originalOut);
@@ -104,7 +104,7 @@ public class FavoriteListTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
 
-        favList.printAsTable("NoAlbumPlaylist");
+        favList.printAsTable();
 
         System.out.flush();
         System.setOut(originalOut);
@@ -139,7 +139,7 @@ public class FavoriteListTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
 
-        favList.printAsTable("AlbumPlaylist");
+        favList.printAsTable();
         System.out.flush();
         System.setOut(originalOut);
         String printed = baos.toString();
@@ -192,7 +192,7 @@ public class FavoriteListTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
-        favList.printAsTable("TestAlbumColumn");
+        favList.printAsTable();
         System.out.flush();
         System.setOut(originalOut);
 

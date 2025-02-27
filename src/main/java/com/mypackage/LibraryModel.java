@@ -12,7 +12,7 @@ public class LibraryModel {
     private Playlist playingList;
     private final Scanner scanner;
     private ArrayList<Song> searchSongList;
-    private ArrayList<Album> searchAlbumList;
+    protected ArrayList<Album> searchAlbumList;
     private Playlist currentPlaylist;
     private Song currentSong;
     private Album currentAlbum;
@@ -84,6 +84,7 @@ public class LibraryModel {
     }
 
     public boolean setCurrentAlbum(int index, String albumTitle) {
+
         Album album = searchAlbumList.get(index);
         if (!album.getTitle().equalsIgnoreCase(albumTitle)) {
             return false;
@@ -354,6 +355,7 @@ public class LibraryModel {
         searchSongList = currentAlbum.getSongs();
         return true;
     }
+
 
     public ArrayList<ArrayList<String>> getAlbumList () {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
