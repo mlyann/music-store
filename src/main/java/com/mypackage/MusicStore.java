@@ -5,12 +5,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.net.URL;
+import java.net.URISyntaxException;
 
 public class MusicStore {
-    // albumMap stores all albums in the store, each item is a class Album
     private final Map<List<String>, Album> albumMap;
-
-    // songMap stores all songs in the store, each item is a class song
     private final Map<List<String>, Song> songMap;
 
     public MusicStore() {
@@ -29,10 +28,6 @@ public class MusicStore {
         String correctedPath = "src/main/resources/albums/" + albumsListFile;
         File file = new File(correctedPath);
         System.out.println("Loading albums from: " + file.getAbsolutePath());
-        if (!file.exists()) {
-            System.err.println("File not found: " + file.getAbsolutePath());
-            return;
-        }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -40,10 +35,6 @@ public class MusicStore {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
                 String[] parts = line.split(",");
-                if (parts.length < 2) {
-                    System.err.println("Invalid album entry: " + line);
-                    continue;
-                }
                 String title = parts[0].trim();
                 String artist = parts[1].trim();
                 String albumFileName = directory + File.separator + title + "_" + artist + ".txt";
@@ -59,7 +50,6 @@ public class MusicStore {
             e.printStackTrace();
         }
     }
-
     /**
      * This function loads all songs from the input file
      * line is the input line
@@ -73,8 +63,6 @@ public class MusicStore {
         for (int i = 0; i < parts.length; i++) {
             parts[i] = parts[i].trim();
         }
-
-        // if the input format is invalid, throw an exception
         if (parts.length != 2 && parts.length != 3 && parts.length != 4) {
             throw new IllegalArgumentException("Invalid input format. Expected 2, 3, or 4 " +
                     "parameters separated by commas.");
@@ -82,32 +70,24 @@ public class MusicStore {
 
         Song song;
         if (parts.length == 4) {
-            // input format: title, artist, genre, year
             String title = parts[0];
             String artist = parts[1];
             String genre = parts[2];
             int year = Integer.parseInt(parts[3]); // if year not number, throw NumberFormatException
             song = new Song(title, artist, genre, year);
         } else if (parts.length == 2) {
-            // input format: title, artist
             song = new Song(parts[0], parts[1]);
-        } else { // parts.length == 3
-            // input format: title, artist, third
-            // figure if third is genre(String) or year(pure number)
+        } else {
             String title = parts[0];
             String artist = parts[1];
             String third = parts[2];
-            // if third is a number
             if (third.matches("\\d+")) {
                 int year = Integer.parseInt(third);
                 song = new Song(title, artist, null, year); // genre is null
             } else {
-                // if third is a string
                 song = new Song(title, artist, third, 0);
             }
         }
-
-        // add the song to the songMap
         songMap.put(generateKey(song.getTitle(), song.getArtist()), song);
     }
 
@@ -180,22 +160,4 @@ public class MusicStore {
     public Map<List<String>, Album> getAlbumMap() {
         return new HashMap<>(albumMap);
     }
-
-    public String printSongs() {
-        StringBuilder result = new StringBuilder();
-        for (Song song : songMap.values()) {
-            result.append(song.toString()).append("\n");
-        }
-        return result.toString();
-    }
-
-    public String printAlbums() {
-        StringBuilder result = new StringBuilder();
-        for (Album album : albumMap.values()) {
-            result.append(album.toString()).append("\n");
-        }
-        return result.toString();
-    }
-
-
 }
