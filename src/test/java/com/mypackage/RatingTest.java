@@ -36,17 +36,11 @@ public class RatingTest {
 
     @Test
     public void testToStringRepresentation() {
-        // 当 value = 0 时，toString() 返回 "☆☆☆☆☆"
         assertEquals("☆☆☆☆☆", Rating.UNRATED.toString());
-        // 当 value = 1 时，返回 "★☆☆☆☆"
         assertEquals("★☆☆☆☆", Rating.ONE.toString());
-        // 当 value = 2 时，返回 "★★☆☆☆"
         assertEquals("★★☆☆☆", Rating.TWO.toString());
-        // 当 value = 3 时，返回 "★★★☆☆"
         assertEquals("★★★☆☆", Rating.THREE.toString());
-        // 当 value = 4 时，返回 "★★★★☆"
         assertEquals("★★★★☆", Rating.FOUR.toString());
-        // 当 value = 5 时，返回 "★★★★★"
         assertEquals("★★★★★", Rating.FIVE.toString());
     }
 }

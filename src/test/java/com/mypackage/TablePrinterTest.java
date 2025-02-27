@@ -96,8 +96,6 @@ public class TablePrinterTest {
         String output = outContent.toString();
         assertTrue(output.contains("| "), "The printed row should contain the left boundary for the null cell.");
         assertTrue(output.contains("NonNull"), "The non-null cell should be printed correctly.");
-
-        // Ensure that there is no "null" string in the output.
         assertFalse(output.contains("null"), "The null cell should be printed as an empty string, not 'null'.");
     }
 
