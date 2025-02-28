@@ -268,7 +268,7 @@ We deeply appreciate the guidance and support of our instructor Malenie Lotz and
 
 
 ## License
-This project is licensed under the MIT License. We warmly welcome collaboration on our project! If you have any questions, please feel free to contact us at haochengcao2003@gmail.com or millermlyang@gmail.com.
+This project is licensed under the MIT License. We warmly welcome collaboration on our project! 
 
 <!-- PROJECT LINKS -->
 [contributors-shield]: https://img.shields.io/github/contributors/mlyann/music-store.svg?style=for-the-badge
