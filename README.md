@@ -242,3 +242,5 @@ h) 🚪 Back to Main Menu
 2. **Mentors**:
  - Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
  - Teaching Assistant: Jenny Yu
+
+We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊
