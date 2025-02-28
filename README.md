@@ -235,6 +235,16 @@ h) 🚪 Back to Main Menu
 .....
 ```
 
+<!-- CONTACT -->
+## Contact
+
+Haocheng Cao - [@](https://twitter.com/your_username) - haochengcao2003@gmail.com
+
+Minglai Yang - [@](https://x.com/iammilleryang) - millermlyang@gmail.com
+
+Project Link: [https://github.com/mlyann/music-store](https://github.com/mlyann/music-store)
+
+
 ## Author & Acknowledgments
 1. **Authors**:
  - [Haocheng Cao](https://github.com/Boldthinkingcat)
