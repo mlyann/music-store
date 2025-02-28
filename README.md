@@ -1,12 +1,8 @@
 # Music Library App (CSC 335 LA1)
+* [![Java][Java]][Java-url]
+* [![IntelliJ IDEA][IntelliJ]][IntelliJ-url]
 
-<!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![License][license-shield]][license-url]
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 Welcome to the **Music Library App**! This console-based Java application allows you to manage a music library, search for songs/albums, create playlists, rate songs, and maintain a list of favorites. It is a project for **CSC 335 LA1**, taught by **Instructor Malenie Lotz** with the assistance of **TA Jenny Yu**. The authors of this project are **[Haocheng Cao](https://github.com/Boldthinkingcat)** and **[Minglai Yang](https://ymingl.com)**. This project will be open-source after the grades released.
 
@@ -266,3 +262,11 @@ This project is licensed under the MIT License. We warmly welcome collaboration 
 [issues-url]: https://github.com/mlyann/music-store/issues
 [license-shield]: https://img.shields.io/github/license/mlyann/music-store.svg?style=for-the-badge
 [license-url]: https://github.com/mlyann/music-store/blob/main/LICENSE
+
+
+
+<!-- BADGE LINKS -->
+[Java]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white
+[Java-url]: https://www.java.com/
+[IntelliJ]: https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellij-idea&logoColor=white
+[IntelliJ-url]: https://www.jetbrains.com/idea/
