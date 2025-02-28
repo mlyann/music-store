@@ -1,11 +1,11 @@
 # Music Library App (CSC 335 LA1)
 
+<!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![License][license-shield]][license-url]
 
 
 Welcome to the **Music Library App**! This console-based Java application allows you to manage a music library, search for songs/albums, create playlists, rate songs, and maintain a list of favorites. It is a project for **CSC 335 LA1**, taught by **Instructor Malenie Lotz** with the assistance of **TA Jenny Yu**. The authors of this project are **[Haocheng Cao](https://github.com/Boldthinkingcat)** and **[Minglai Yang](https://ymingl.com)**. This project will be open-source after the grades released.
@@ -254,3 +254,15 @@ We deeply appreciate the guidance and support of our instructor Malenie Lotz and
 
 ## License
 This project is licensed under the MIT License. We warmly welcome collaboration on our project! If you have any questions, please feel free to contact us at haochengcao2003@gmail.com or millermlyang@gmail.com.
+
+<!-- PROJECT LINKS -->
+[contributors-shield]: https://img.shields.io/github/contributors/mlyann/music-store.svg?style=for-the-badge
+[contributors-url]: https://github.com/mlyann/music-store/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/mlyann/music-store.svg?style=for-the-badge
+[forks-url]: https://github.com/mlyann/music-store/network/members
+[stars-shield]: https://img.shields.io/github/stars/mlyann/music-store.svg?style=for-the-badge
+[stars-url]: https://github.com/mlyann/music-store/stargazers
+[issues-shield]: https://img.shields.io/github/issues/mlyann/music-store.svg?style=for-the-badge
+[issues-url]: https://github.com/mlyann/music-store/issues
+[license-shield]: https://img.shields.io/github/license/mlyann/music-store.svg?style=for-the-badge
+[license-url]: https://github.com/mlyann/music-store/blob/main/LICENSE
