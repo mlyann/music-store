@@ -731,4 +731,19 @@ public class LibraryModelTest {
         library.allAlbumSelection(2);
         assertEquals(2, library.getAlbumListSize());
     }
+
+    @Test
+    void testPlayListsCurrent() {
+        library.searchAlbum("adele",true);
+        library.allAlbumSelection(2);
+        library.userSongSerch();
+        library.setCurrentSong(0, "Someone Like You");
+        library.createPlaylist("tests");
+        library.selectCurrentPlaylist(0);
+        library.addSongToPlayLists();
+        library.playListsCurrent();
+        assertEquals(1, library.getSearchSongListSize());
+    }
+
+
 }

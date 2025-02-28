@@ -391,8 +391,8 @@ public class MainUI {
             } else {
                 System.out.println("3) ❤️ Add to favorite");
             }
-            System.out.println("4) Add to a playlist");
-            System.out.println("5) remove from a playlist");
+            System.out.println("4) ➕ Add to a playlist");
+            System.out.println("5) ❌ Remove from a playlist");
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -939,8 +939,13 @@ public class MainUI {
 
     private static void createNewPlaylist() {
         while (true) {
-            System.out.print("🎵 Enter the playlist name: ");
+            System.out.println("🎵 Enter the playlist name: ");
+            System.out.println("0) 🔙 Go back");
+            System.out.print("👉 Enter choice: ");
             String playlistName = SCANNER.nextLine().trim();
+            if (playlistName.equals("0")) {
+                return;
+            }
             if (playlistName.isEmpty()) {
                 System.out.println("❗ Playlist name cannot be empty.");
             }
@@ -955,7 +960,9 @@ public class MainUI {
 
     private static boolean openPlayList() {
         libraryModel.printAllPlayLists();
-        System.out.print("🎵 Enter the playlist number to open: ");
+        System.out.println("🎵 Enter the playlist number to open: ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
         while (true) {
             String input = SCANNER.nextLine().trim();
             if (input.equals("0")) {
@@ -978,20 +985,24 @@ public class MainUI {
 
     private static void deletePlaylist() {
         libraryModel.printAllPlayLists();
-        System.out.print("🎵 Enter the playlist number to delete: ");
-        String input = SCANNER.nextLine().trim();
-        if (input.equals("0")) {
-            return;
-        }
-        try {
-            int playlistNumber = Integer.parseInt(input);
-            if (playlistNumber < 1 || playlistNumber > libraryModel.getPlayListsSize()) {
-                System.out.println("Invalid selection. Please enter a valid number.");
+        System.out.println("🎵 Enter the playlist number to delete: ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
+        while (true) {
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
                 return;
             }
-            libraryModel.removePlayList(playlistNumber - 1);
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number.");
+            try {
+                int playlistNumber = Integer.parseInt(input);
+                if (playlistNumber < 1 || playlistNumber > libraryModel.getPlayListsSize()) {
+                    System.out.println("Invalid selection. Please enter a valid number.");
+                } else {
+                    libraryModel.removePlayList(playlistNumber - 1);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
         }
     }
 
@@ -1001,8 +1012,10 @@ public class MainUI {
         libraryModel.userSongSerch();   // set the search list to user songs
         libraryModel.printUserSongsTable();
         int size = libraryModel.getSearchSongListSize();
+        System.out.println("🎶 Enter the song number to add: ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
         while (true) {
-            System.out.print("🎶 Enter the song number to add: ");
             String input = SCANNER.nextLine().trim();
             if (input.equals("0")) {
                 return;
@@ -1013,9 +1026,10 @@ public class MainUI {
                 if (songNumber < 1 || songNumber > size) {
                     System.out.println("Invalid selection. Please enter a valid number.");
                     return;
+                } else {
+                    libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
+                    libraryModel.addSongToPlayLists();
                 }
-                libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
-                libraryModel.addSongToPlayLists();
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
@@ -1024,25 +1038,25 @@ public class MainUI {
 
     private static void searchSongFromPlaylists() {
         // Print the current playlist with numbers
-        libraryModel.playListSearch();  // set the search list to playlist
+        libraryModel.playListsCurrent();  // set the search list to playlist
         libraryModel.printCurrentPlaylist();
         int size = libraryModel.currentPlistSize();
+        System.out.println("🎶 Enter the song number to remove: ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
         while (true) {
-            System.out.print("🎶 Enter the song number to remove: ");
             String input = SCANNER.nextLine().trim();
             if (input.equals("0")) {
                 return;
             }
             try {
                 int songNumber = Integer.parseInt(input);
-                // Get the current playlist songs for lookup
-                ArrayList<Song> playlistSongs = libraryModel.getPlaylist();
                 if (songNumber < 1 || songNumber > size) {
                     System.out.println("Invalid selection. Please enter a valid number.");
-                    return;
+                } else {
+                    libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
+                    libraryModel.removeSongFromPlayLists();
                 }
-                libraryModel.setCurrentSongWithoutCheck(songNumber - 1);
-                libraryModel.removeSongFromPlayLists();
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
             }
@@ -1061,7 +1075,7 @@ public class MainUI {
             System.out.println("1) 📝 Show favourite list");
             System.out.println("2) 🗑️ Clear favourite list");
             System.out.println("3) ➕ Add songs to a favourite list");
-            System.out.println("4) ❌ Remove songs from a favourite list");
+            System.out.println("4) \uD83D\uDC94 Remove songs from a favourite list");
             System.out.println("5) ▶️ Play songs in a favourite list");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
