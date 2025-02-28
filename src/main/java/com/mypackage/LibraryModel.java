@@ -112,6 +112,8 @@ public class LibraryModel {
         searchSongList = new ArrayList<>(favoriteList.getSongs());
     }
 
+    public void playListsCurrent() { searchSongList = new ArrayList<>(currentPlaylist.getSongs());}
+
     public int getSearchSongListSize() {
         return searchSongList.size();
     }
