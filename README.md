@@ -261,6 +261,7 @@ Project Link: [https://github.com/mlyann/music-store](https://github.com/mlyann/
 
 ## Acknowledgments
 We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊 
+
 **Mentors**:
  - Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
  - Teaching Assistant: Jenny Yu
