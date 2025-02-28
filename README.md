@@ -70,7 +70,12 @@ la1/
 ├── Song.java           // Represents a single Song entity
 ├── Album.java          // Represents an Album entity containing multiple songs
 ├── TablePrinter.java   // Utility class for printing tables in the console
-└── 
+├── Genre.java		// ENUM for different genre
+├── Rating.java		// ENUM for rating: 1-5 only
+├── Playlist.java	// Represents a Playlist entity having a name and a list of Songs
+├── PlayingList.java	// Extend from Playlist, for only a list of queueing songs
+├── Playlists.java	// A Hashmap with key and matching playlist
+└── FavoriteList.java	// Represents a Playlist for saving user's favorite songs
 ```
 - **MainUI**  
   Contains all the user interface logic and menu navigation in a console environment.
