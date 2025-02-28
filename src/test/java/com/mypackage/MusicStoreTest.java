@@ -16,18 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.io.BufferedReader;
 
-/**
- * Test suite to achieve branch coverage for classes in the la1 package.
- */
-public class MusicStoreTest {
 
+public class MusicStoreTest {
     private MusicStore musicStore;
     private Song testSong;
     private Album testAlbum;
     private Playlist testPlaylist;
     private FavoriteList favoriteList;
-
-    // Helper method to create a temporary file with content
     private File createTempFile(String fileName, String content) throws IOException {
         File temp = File.createTempFile(fileName, null);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(temp))) {
@@ -52,7 +47,6 @@ public class MusicStoreTest {
     //=====================================
 
     @Test
-    @DisplayName("Test parseAlbumFile: empty album file")
     void testParseAlbumFileEmpty() throws IOException {
         File tempAlbumFile = createTempFile("TestAlbum_TestArtist", "");
         Album album = musicStore.parseAlbumFile(tempAlbumFile.getAbsolutePath());
@@ -60,25 +54,20 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test parseAlbumFile: invalid header format")
     void testParseAlbumFileInvalidHeader() throws IOException {
-        // Less than 4 parts in header.
         File tempAlbumFile = createTempFile("TestAlbum_TestArtist", "TestAlbum,TestArtist,Pop\n");
         Album album = musicStore.parseAlbumFile(tempAlbumFile.getAbsolutePath());
         assertNull(album, "Invalid header format should return null.");
     }
 
     @Test
-    @DisplayName("Test parseAlbumFile: invalid year format")
     void testParseAlbumFileInvalidYear() throws IOException {
-        // 4 parts but year is invalid.
         File tempAlbumFile = createTempFile("TestAlbum_TestArtist", "TestAlbum,TestArtist,Pop,NotAYear\n");
         Album album = musicStore.parseAlbumFile(tempAlbumFile.getAbsolutePath());
-        assertNull(album, "Invalid year should return null.");
+        assertNull(album);
     }
 
     @Test
-    @DisplayName("Test parseAlbumFile: valid album with empty song lines")
     void testParseAlbumFileWithEmptySongLines() throws IOException {
         // Provide header, plus a few empty lines.
         String content = "TestAlbum,TestArtist,Pop,2023\n\n\n";
@@ -86,30 +75,22 @@ public class MusicStoreTest {
         Album album = musicStore.parseAlbumFile(tempAlbumFile.getAbsolutePath());
         assertNotNull(album);
         assertEquals("TestAlbum", album.getTitle());
-        assertEquals(0, album.getSongsDirect().size(), "No songs should have been added.");
+        assertEquals(0, album.getSongsDirect().size());
     }
 
     @Test
-    @DisplayName("Test getAlbum null check")
     void testGetAlbumDoesNotExist() {
         Album album = musicStore.getAlbum("NotExist", "NotExist");
         assertNull(album);
     }
 
     @Test
-    @DisplayName("Test loadSong: invalid format => exception")
     void testLoadSongInvalidFormat() {
         assertThrows(IllegalArgumentException.class, () -> {
             musicStore.loadSong("Invalid Format");
         });
     }
-
-    //=====================================
-    // Playlist Tests
-    //=====================================
-
     @Test
-    @DisplayName("Test addSong to Playlist")
     void testPlaylistAddSong() {
         testPlaylist.addSong(testSong);
         assertEquals(1, testPlaylist.getSize());
@@ -117,17 +98,13 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test addSong already in Playlist")
     void testPlaylistAddSongDuplicate() {
         testPlaylist.addSong(testSong);
-        // Add again
         testPlaylist.addSong(testSong);
-        // Confirm no duplicates
         assertEquals(1, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test removeSong in Playlist")
     void testPlaylistRemoveSong() {
         testPlaylist.addSong(testSong);
         testPlaylist.removeSong(testSong);
@@ -135,80 +112,57 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test removeSong not in Playlist")
     void testPlaylistRemoveSongNotInList() {
         testPlaylist.removeSong(testSong);
-        // Should simply print not found, no exception
         assertEquals(0, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test getPlaying when empty")
     void testPlaylistGetPlayingEmpty() {
-        // Just check output won't throw, cannot easily assert System.out
         testPlaylist.getPlaying();
         assertEquals(0, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test getPlaying when not empty")
     void testPlaylistGetPlayingNonEmpty() {
         testPlaylist.addSong(testSong);
-        // Just check no exception.
         testPlaylist.getPlaying();
         assertEquals(1, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test playNext when empty")
     void testPlaylistPlayNextEmpty() {
         testPlaylist.playNext();
         assertEquals(0, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test playNext when size=1")
     void testPlaylistPlayNextOneSong() {
         testPlaylist.addSong(testSong);
         testPlaylist.playNext();
-        // After removing the first, there's no next to play => prints "No song to play next."?
-        // The method removes the 0th, then tries to get the new 0th.
-        // Implementation removes 0th then prints the new 0th if exists. If the size was 1, it prints "No song to play next.".
-        // The code says if empty or size ==1 => no song to play next. Actually let's just ensure no exception thrown.
         assertTrue(testPlaylist.getSongs().isEmpty() || testPlaylist.getSongs().size() == 1);
     }
 
     @Test
-    @DisplayName("Test playNext when multiple songs")
     void testPlaylistPlayNextMultipleSongs() {
         Song s1 = new Song("Song1", "Artist1");
         Song s2 = new Song("Song2", "Artist2");
         testPlaylist.addSong(s1);
         testPlaylist.addSong(s2);
-        // Now the top is s2 because we addSong at the end.
-        // Actually we addSong: it checks if exist => if not exist => add at the end.
-        // Implementation is: if (!songs.contains(song)) songs.add(song).
-        // Then for playing, we do playNext => if size>1 => remove 0, so the next becomes index 0.
         testPlaylist.playNext();
-        // Now the top is s2 if it was s1 at index 0. Actually the order is s1 -> s2 in array?
-        // Actually it might be s2 after removing. Not super important, we just want coverage.
         assertEquals(1, testPlaylist.getSize());
     }
 
     @Test
-    @DisplayName("Test insertSong at front")
     void testPlaylistInsertSongFront() {
         Song s1 = new Song("Song1", "Artist1");
         testPlaylist.insertSong(s1);
-        // Insert another
         Song s2 = new Song("Song2", "Artist2");
         testPlaylist.insertSong(s2);
-        // s2 should be at index 0.
         assertEquals(s2, testPlaylist.getSongs().get(0));
     }
 
     @Test
-    @DisplayName("Test clear playlist")
     void testPlaylistClear() {
         testPlaylist.addSong(testSong);
         testPlaylist.clear();
@@ -216,14 +170,12 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test printAsTable empty playlist")
     void testPlaylistPrintAsTableEmpty() {
         testPlaylist.printAsTable();
         assertTrue(testPlaylist.getSongs().isEmpty());
     }
 
     @Test
-    @DisplayName("Test shuffle empty playlist")
     void testPlaylistShuffleEmpty() {
         testPlaylist.shuffle();
         // No exception, no changes
@@ -231,7 +183,6 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test shuffle non-empty playlist")
     void testPlaylistShuffle() {
         Song s1 = new Song("Song1", "Artist1");
         Song s2 = new Song("Song2", "Artist2");
@@ -243,14 +194,12 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test toString empty playlist")
     void testPlaylistToStringEmpty() {
         String result = testPlaylist.toString();
         assertEquals("The playlist is empty.", result);
     }
 
     @Test
-    @DisplayName("Test toString non-empty playlist")
     void testPlaylistToStringNonEmpty() {
         testPlaylist.addSong(testSong);
         String result = testPlaylist.toString();
@@ -262,14 +211,12 @@ public class MusicStoreTest {
     //=====================================
 
     @Test
-    @DisplayName("Test addSong to FavoriteList")
     void testFavoriteListAddSong() {
         favoriteList.addSong(testSong);
         assertEquals(1, favoriteList.getSize());
     }
 
     @Test
-    @DisplayName("Test removeSong from FavoriteList")
     void testFavoriteListRemoveSong() {
         favoriteList.addSong(testSong);
         favoriteList.removeSong(testSong);
@@ -277,30 +224,25 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Test printAsTable empty FavoriteList")
     void testFavoriteListPrintAsTableEmpty() {
         favoriteList.printAsTable();
         assertEquals(0, favoriteList.getSize());
     }
 
     @Test
-    @DisplayName("Test printAsTable non-empty FavoriteList")
     void testFavoriteListPrintAsTableNonEmpty() {
         favoriteList.addSong(testSong);
         favoriteList.printAsTable();
-        // Ensure it still has that one song
         assertEquals(1, favoriteList.getSize());
     }
 
     @Test
-    @DisplayName("Test toString empty FavoriteList")
     void testFavoriteListToStringEmpty() {
         String result = favoriteList.toString();
         assertEquals("The favorite list is empty.", result);
     }
 
     @Test
-    @DisplayName("Test toString non-empty FavoriteList")
     void testFavoriteListToStringNonEmpty() {
         favoriteList.addSong(testSong);
         String result = favoriteList.toString();
@@ -308,7 +250,6 @@ public class MusicStoreTest {
     }
 
     @Test
-    @DisplayName("Load songs from 122.txt example")
     void testLoadSongsFromFile() throws IOException {
         String[] lines = {
                 "Sons,The Heavy,Rock,2019",
@@ -350,11 +291,11 @@ public class MusicStoreTest {
         assertEquals(164, musicStore.getSongCount());
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Hello", "Adele"));
-        assertNotNull(s, "Song should exist in the map.");
+        assertNotNull(s);
         assertEquals("Hello", s.getTitle());
         assertEquals("Adele", s.getArtist());
         assertEquals(s.getGenre(), "Unknown");
-        assertEquals(0, s.getYear(), "Year should be 0 for 2-part input.");
+        assertEquals(0, s.getYear());
     }
 
     @Test
@@ -363,34 +304,32 @@ public class MusicStoreTest {
         assertEquals(164, musicStore.getSongCount());
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Shape of You", "Ed Sheeran"));
-        assertNotNull(s, "Song should exist in the map.");
+        assertNotNull(s);
         assertEquals("Shape of You", s.getTitle());
         assertEquals("Ed Sheeran", s.getArtist());
         assertEquals(s.getGenre(), "Unknown");
-        assertEquals(2017, s.getYear(), "Year should match the parsed integer.");
+        assertEquals(2017, s.getYear());
     }
 
     @Test
-    @DisplayName("Load song with 3 parts (third is a genre)")
     void testLoadSongThreePartsGenre() {
         musicStore.loadSong("Photograph, Ed Sheeran, Pop");
         assertEquals(164, musicStore.getSongCount());
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Photograph", "Ed Sheeran"));
-        assertNotNull(s, "Song should exist in the map.");
+        assertNotNull(s);
         assertEquals("Photograph", s.getTitle());
         assertEquals("Ed Sheeran", s.getArtist());
-        assertEquals("Pop", s.getGenre(), "Genre should match the third param if not digits.");
-        assertEquals(0, s.getYear(), "Year should be 0 if the third param is genre.");
+        assertEquals("Pop", s.getGenre());
+        assertEquals(0, s.getYear());
     }
 
     @Test
-    @DisplayName("Test getAllAlbums returns the correct collection")
     void testGetAllAlbums() {
         Collection<Album> allAlbums = musicStore.getAllAlbums();
         Album a = new Album("TestAlbum", "TestArtist", "TestGenre", 2020, new ArrayList<>());
         musicStore.getAlbumMap().put(musicStore.generateKey("TestAlbum", "TestArtist"), a);
         allAlbums = musicStore.getAllAlbums();
-        assertEquals(15, allAlbums.size(), "Should have exactly 1 album in the collection.");
+        assertEquals(15, allAlbums.size());
     }
 }
