@@ -12,7 +12,6 @@ Welcome to the **Music Library App**! This console-based Java application allows
 5. [How to Use](#how-to-use)
 6. [Sample Flow](#sample-flow)
 7. [Author & Acknowledgments](#author--acknowledgments)
-8. [License](#license)
 
 ---
 
@@ -115,10 +114,11 @@ la1/
 
 Running the Application
 •	After compilation, run the main application class:
-
+```bash
 java la1.MainUI
+```
 
-How to Use
+## How to Use
 
 Once you run the program:
 1.	Main Menu
@@ -145,7 +145,7 @@ Use the numeric options presented to you in the console to navigate between subm
 •	Choose songs or playlists to “play.”
 •	Although this is a simulation, the interface will respond as if the song is being played.
 
-Sample Flow
+## Sample Flow
 
 Below is a brief example of how a typical session might proceed in the console:
 1.	Main Menu
@@ -177,17 +177,9 @@ Below is a brief example of how a typical session might proceed in the console:
 •	From the Main Menu, choose “0” to quit.
 
 
-Author & Acknowledgments
+## Author & Acknowledgments
 •	Authors:
 •	[Haocheng Cao](https://github.com/Boldthinkingcat)
 •	[Minglai Yang](https://ymingl.com/)
 •	Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
 •	Teaching Assistant: Jenny Yu
-
-We would like to thank all contributors to this project for their assistance and feedback.
-
-License
-
-This project is part of a CSC 335 course assignment and is intended for educational purposes only. You may use and modify the code for learning. If you plan to distribute or use this project for other purposes, please consult your institution’s guidelines or reach out to the authors.
-
-Happy Coding and Enjoy Exploring the Music Library App!
