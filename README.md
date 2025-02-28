@@ -1,7 +1,12 @@
 # Music Library App (CSC 335 LA1)
 
-![](https://api.visitorbadge.io/api/VisitorHit?user=mlyann&repo=music-store&countColor=%237B1E7A)
-![License](https://img.shields.io/badge/license-MIT-blue)
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 
 Welcome to the **Music Library App**! This console-based Java application allows you to manage a music library, search for songs/albums, create playlists, rate songs, and maintain a list of favorites. It is a project for **CSC 335 LA1**, taught by **Instructor Malenie Lotz** with the assistance of **TA Jenny Yu**. The authors of this project are **[Haocheng Cao](https://github.com/Boldthinkingcat)** and **[Minglai Yang](https://ymingl.com)**. This project will be open-source after the grades released.
 
