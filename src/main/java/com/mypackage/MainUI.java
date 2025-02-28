@@ -6,22 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MainUI {
-
-    // Reference to your backend
-    private static MusicStore musicStore;       // your MusicStore class
-    private static LibraryModel libraryModel;   // your LibraryModel class
-
+    private static MusicStore musicStore;
+    private static LibraryModel libraryModel;
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Initialize your backend objects (as needed)
         musicStore = new MusicStore();
         libraryModel = new LibraryModel("Chcking2", musicStore);
-
-        // Example: load your music store data
-        // musicStore.loadAlbums("path/to/albums.txt", "path/to/album_files");
-
-        // A fancy intro banner
         System.out.println("======================================================");
         System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
         System.out.println("         📅 Date: Feb 21, 2025");
@@ -82,6 +73,8 @@ public class MainUI {
                 case "5":
                     libraryListsMenu();
                     break;
+                case "6":
+                    inputSongs();
                 case "0":
                     return;
                 default:
@@ -136,7 +129,6 @@ public class MainUI {
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
             String choice = SCANNER.nextLine().trim();
-
             switch (choice) {
                 case "1":
                     searchSongsPipeline(location);
@@ -145,7 +137,6 @@ public class MainUI {
                     searchAlbumsPipeline(location);
                     break;
                 case "0":
-                    // 使用 continue 让循环继续，而不是直接退出 runSearchMenu
                     continue;
                 case "h":
                     System.out.println("🚪 Back to Main Menu");
@@ -209,17 +200,10 @@ public class MainUI {
                 runMainMenu();
                 return;
             }
-
-            // MODEL CALL:
-            // If location = STORE, we might do: musicStore.searchSong(keyword)
-            // If location = LIBRARY, we might do: libraryModel.searchSongInLibrary(keyword)
-            // In either case, we expect a List<List<String>> of up to 7 fields
             ArrayList<ArrayList<String>> songResults;
             if (location.equals("STORE")) {
-                // Example method name - adapt to your actual code:
                 songResults = libraryModel.searchSong(keyword, true);
             } else {
-                // Example method name - adapt to your actual code:
                 songResults = libraryModel.searchSong(keyword, false);
             }
 
@@ -227,9 +211,7 @@ public class MainUI {
                 System.out.println("❗ No songs found for '" + keyword + "'.");
             } else {
                 System.out.println("\nFound " + songResults.size() + " matching song(s):\n");
-                // Print them in a table
                 printSongSearchResults("Search Results (Songs)", songResults, location);
-                // Let user pick a song to "play" or "rate"
                 songSelectionMenu(songResults, location);
             }
         }
@@ -244,7 +226,6 @@ public class MainUI {
             System.out.println("❗ No Songs in Library.");
             return;
         }
-        // Build the header row with a serial number column.
         List<String> header = new ArrayList<>();
         header.add("No.");
         header.add("Title");
@@ -254,12 +235,9 @@ public class MainUI {
 
         boolean isStore = location.equals("STORE");
         if (!isStore) {
-            // For user library, also show favorite and rating.
             header.add("Favorite");
             header.add("Rating  ");
         }
-
-        // Check if we should include the "Album" column.
         boolean anyAlbum = false;
         for (List<String> row : songResults) {
             if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
@@ -270,24 +248,20 @@ public class MainUI {
         if (anyAlbum) {
             header.add("Album");
         }
-
-        // Combine into a 2D structure for TablePrinter.
         List<List<String>> tableRows = new ArrayList<>();
         tableRows.add(header);
-
         int index = 1;
         for (List<String> row : songResults) {
-            // row: [title, artist, genre, year, favorite, rating, album]
             List<String> newRow = new ArrayList<>();
-            newRow.add(String.valueOf(index++));  // Serial number
-            newRow.add(row.get(0)); // Title
-            newRow.add(row.get(1)); // Artist
-            newRow.add(row.get(2)); // Genre
-            newRow.add(row.get(3)); // Year
+            newRow.add(String.valueOf(index++));
+            newRow.add(row.get(0));
+            newRow.add(row.get(1));
+            newRow.add(row.get(2));
+            newRow.add(row.get(3));
 
             if (!isStore) {
-                newRow.add(row.get(4)); // Favorite
-                newRow.add(row.get(5)); // Rating
+                newRow.add(row.get(4));
+                newRow.add(row.get(5));
             }
 
             if (anyAlbum) {
@@ -488,11 +462,6 @@ public class MainUI {
                 runMainMenu();
                 return;
             }
-
-
-            // MODEL CALL:
-            // If location = STORE, use musicStore.searchAlbums(keyword)
-            // If location = LIBRARY, use libraryModel.searchAlbumsInLibrary(keyword)
             ArrayList<ArrayList<String>> albumResults;
             if (location.equals("STORE")) {
                 albumResults = libraryModel.searchAlbum(keyword, true);
@@ -515,57 +484,40 @@ public class MainUI {
             System.out.println("❗ No Albums in Library.");
             return;
         }
-
-        // 构建表格行，第一行为表头
         List<List<String>> tableRows = new ArrayList<>();
         tableRows.add(Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Album"));
 
         int albumNo = 1;
         for (ArrayList<String> albumStrList : albumList) {
-            // 数据格式必须至少包含4个元素
             if (albumStrList.size() < 4) {
                 continue;
             }
-
-            // 分别取出 title、artist、year、genre
             String title = albumStrList.get(0);
             String artist = albumStrList.get(1);
             String year = albumStrList.get(2);
             String genre = albumStrList.get(3);
-            // 剩下的为歌曲列表
             List<String> tracks = albumStrList.subList(4, albumStrList.size());
-
-            // 第一行：显示专辑信息及第一首歌曲（如果存在）
             List<String> firstRow = new ArrayList<>();
             firstRow.add(String.valueOf(albumNo));
             firstRow.add(title);
             firstRow.add(artist);
-            // 表头要求 Genre 在 Year 前面
             firstRow.add(genre);
             firstRow.add(year);
             firstRow.add(tracks.isEmpty() ? "" : tracks.get(0));
             tableRows.add(firstRow);
-
-            // 如果有多首歌曲，后续行仅在 Album 列显示其它歌曲
             for (int i = 1; i < tracks.size(); i++) {
                 tableRows.add(Arrays.asList("", "", "", "", "", tracks.get(i)));
             }
-
-            // 插入 marker 行，用于在当前专辑与下一个专辑间分隔
             tableRows.add(Arrays.asList("###SEPARATOR###"));
 
             albumNo++;
         }
-
-        // 移除最后一个 marker 行，避免在最后打印额外的分隔线
         if (!tableRows.isEmpty()) {
             List<String> lastRow = tableRows.get(tableRows.size() - 1);
             if (lastRow.size() == 1 && "###SEPARATOR###".equals(lastRow.get(0))) {
                 tableRows.remove(tableRows.size() - 1);
             }
         }
-
-        // 调用 TablePrinter 打印整张表格
         TablePrinter.printDynamicTable("Album Search Results", tableRows);
     }
 
@@ -1164,15 +1116,13 @@ public class MainUI {
     }
 
     private static void removeSongFromFavourite() {
-        // Print the current playlist with numbers
-        libraryModel.favoriteListSearch();  // set the search list to favorite list
+        libraryModel.favoriteListSearch();
         libraryModel.getFavoriteListSize();
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to remove: ");
         String input = SCANNER.nextLine().trim();
         try {
             int songNumber = Integer.parseInt(input);
-            // Get the library songs list to show which title is being added.
             if (songNumber < 1 || songNumber > size) {
                 System.out.println("Invalid selection. Please enter a valid number.");
                 return;
@@ -1185,7 +1135,6 @@ public class MainUI {
     }
 
     private static void playSongInFavourite() {
-        // Example: your libraryModel might have a method that returns a List<List<String>>:
         if (libraryModel.getFavoriteListSize() == 0 ) {
             System.out.println("❗ No songs in favourite list.");
         }else{

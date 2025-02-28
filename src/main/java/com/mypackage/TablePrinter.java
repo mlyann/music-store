@@ -4,22 +4,15 @@ import java.util.List;
 import java.util.*;
 
 public class TablePrinter {
-
     public static void printDynamicTable(String tableTitle, List<List<String>> rows) {
         if (rows == null || rows.isEmpty()) {
             System.out.println("No data to display.");
             return;
         }
-
-        // Print a fancy title
         System.out.println("===================================================");
         System.out.println("           🎉 " + tableTitle + " 🎉              ");
         System.out.println("===================================================");
-
-        // Number of columns (以表头行为准)
         int colCount = rows.get(0).size();
-
-        // Compute max width of each column (跳过 marker 行)
         int[] colWidths = new int[colCount];
         for (List<String> row : rows) {
             if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
@@ -30,16 +23,10 @@ public class TablePrinter {
                 colWidths[c] = Math.max(colWidths[c], cell.length());
             }
         }
-
-        // Build separator line
         String separator = buildSeparatorLine(colWidths);
-
-        // Print header row (第一行)及分隔线
         System.out.println(separator);
         printRow(rows.get(0), colWidths);
         System.out.println(separator);
-
-        // 打印数据行：如果遇到 marker 行则打印分隔线
         for (int r = 1; r < rows.size(); r++) {
             List<String> row = rows.get(r);
             if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
@@ -48,8 +35,6 @@ public class TablePrinter {
                 printRow(row, colWidths);
             }
         }
-
-        // Bottom line
         System.out.println(separator);
     }
 
