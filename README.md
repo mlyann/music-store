@@ -233,7 +233,6 @@ h) 🚪 Back to Main Menu
 👉 Enter choice:
 .....
 ```
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=YourUsername&layout=compact)
 
 ## Author & Acknowledgments
 1. **Authors**:
