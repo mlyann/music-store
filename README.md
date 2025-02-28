@@ -148,33 +148,43 @@ Use the numeric options presented to you in the console to navigate between subm
 ## Sample Flow
 
 Below is a brief example of how a typical session might proceed in the console:
-1.	Main Menu
-```
----------- 🎵 MAIN MENU 🎵 ----------
-1) 🔍 Search
-2) 🎧 PlayingList
-3) 📝 View all PlayLists
-4) ❤️ Favorite List
-5) 🏠 Library Lists
-6) ➕ Load Songs single
-0) 🚪 Quit the application
-   👉 Enter your choice:
-```
 
-2.	Choose “6” to Load a Song
-•	Enter title, artist, genre, year in one line (e.g., Shape of You, Ed Sheeran, Pop, 2017).
-3.	Go to Search -> Store
-•	Enter a keyword to find an album or a song in the Store.
-•	Load it into your library.
-4.	Check the Library
-•	View your newly added songs in “Library Lists.”
-5.	Create a Playlist
-•	Go to “View all PlayLists” -> add a new playlist -> open it -> add a song.
-•	Play or shuffle the playlist.
-6.	Rate a Song
-•	Select the song from your library or playlist menu to give it a star rating (1–5).
-7.	Exit
-•	From the Main Menu, choose “0” to quit.
+1. **Main Menu**  
+   ```
+   ---------- 🎵 MAIN MENU 🎵 ----------
+   1) 🔍 Search
+   2) 🎧 PlayingList
+   3) 📝 View all PlayLists
+   4) ❤️ Favorite List
+   5) 🏠 Library Lists
+   6) ➕ Load Songs single
+   0) 🚪 Quit the application
+      👉 Enter your choice:
+   ```
+
+2. **Choose "6" to Load a Song**  
+   - Enter the song details in the format: `title, artist, genre, year`  
+     Example: `Shape of You, Ed Sheeran, Pop, 2017`
+
+3. **Search in the Store**  
+   - Navigate to `Search -> Store`.  
+   - Enter a keyword to find an album or a song in the Store.  
+   - Load it into your library.
+
+4. **View Your Library**  
+   - Check the newly added songs in the `Library Lists` section.
+
+5. **Create a Playlist**  
+   - Go to `View all PlayLists` -> `Add a new playlist` -> `Open it` -> `Add a song`.  
+   - You can play or shuffle the playlist.
+
+6. **Rate a Song**  
+   - Select the song from your library or playlist menu.  
+   - Provide a star rating between `1` to `5`.
+
+7. **Exit the Application**  
+   - From the **Main Menu**, choose `"0"` to quit.
+
 
 
 ## Author & Acknowledgments
