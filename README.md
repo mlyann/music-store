@@ -1,6 +1,9 @@
 # Music Library App (CSC 335 LA1)
+[![Java][Java]][Java-url] [![IntelliJ IDEA][IntelliJ]][IntelliJ-url]
 
-Welcome to the **Music Library App**! This console-based Java application allows you to manage a music library, search for songs/albums, create playlists, rate songs, and maintain a list of favorites. It is a project for **CSC 335 LA1**, taught by **Instructor Malenie Lotz** with the assistance of **TA Jenny Yu**. The authors of this project are **[Haocheng Cao](https://github.com/Boldthinkingcat)** and **[Minglai Yang](ymingl.com)**. This project will be open-source after the grades released.
+Welcome to the **Music Library App**! This console-based Java application allows you to manage a music library, search for songs/albums, create playlists, rate songs, and maintain a list of favorites. It is a project for **CSC 335 LA1**, taught by **Instructor Malenie Lotz** with the assistance of **TA Jenny Yu**. The authors of this project are **[Haocheng Cao](https://github.com/Boldthinkingcat)** and **[Minglai Yang](https://ymingl.com)**. This project will be open-source after the grades released.
+
+![Music Library App](REV10-ML+Logo.png)
 
 ---
 
@@ -12,6 +15,7 @@ Welcome to the **Music Library App**! This console-based Java application allows
 5. [How to Use](#how-to-use)
 6. [Sample Flow](#sample-flow)
 7. [Author & Acknowledgments](#author--acknowledgments)
+8. [License](#license)
 
 ---
 
@@ -97,8 +101,8 @@ la1/
 ## Getting Started
 
 ### Prerequisites
-- **Java 8** or higher installed on your system.
-- A Java-compatible IDE (e.g., IntelliJ, Eclipse, VS Code) or the ability to compile via the command line.
+- **Java 8** or higher.
+- A Java-compatible IDE (e.g., IntelliJ, Eclipse, VS Code) or the ability to compile via the command line. We use IntelliJ for this project!!
 
 ### Installation & Compilation
 1. Clone or download this repository:
@@ -232,12 +236,56 @@ h) 🚪 Back to Main Menu
 ```
 
 
-## Author & Acknowledgments
-1. **Authors**:
- - [Haocheng Cao](https://github.com/Boldthinkingcat)
- - [Minglai Yang](https://ymingl.com/)
-2. **Mentors**:
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+
+## Contact
+
+Haocheng Cao - [@](https://twitter.com/your_username) - haochengcao2003@gmail.com
+
+Minglai Yang - [@Ming](https://x.com/iammilleryang) - millermlyang@gmail.com
+
+Project Link: [https://github.com/mlyann/music-store](https://github.com/mlyann/music-store)
+
+## Acknowledgments
+We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊 
+
+**Mentors**:
  - Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
  - Teaching Assistant: Jenny Yu
 
-We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊
+
+## License
+This project is licensed under the MIT License. We warmly welcome collaboration on our project! 
+
+<!-- PROJECT LINKS -->
+[contributors-shield]: https://img.shields.io/github/contributors/mlyann/music-store.svg?style=for-the-badge
+[contributors-url]: https://github.com/mlyann/music-store/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/mlyann/music-store.svg?style=for-the-badge
+[forks-url]: https://github.com/mlyann/music-store/network/members
+[stars-shield]: https://img.shields.io/github/stars/mlyann/music-store.svg?style=for-the-badge
+[stars-url]: https://github.com/mlyann/music-store/stargazers
+[issues-shield]: https://img.shields.io/github/issues/mlyann/music-store.svg?style=for-the-badge
+[issues-url]: https://github.com/mlyann/music-store/issues
+[license-shield]: https://img.shields.io/github/license/mlyann/music-store.svg?style=for-the-badge
+[license-url]: https://github.com/mlyann/music-store/blob/main/LICENSE
+
+
+
+<!-- BADGE LINKS -->
+[Java]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white
+[Java-url]: https://www.java.com/
+[IntelliJ]: https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=intellij-idea&logoColor=white
+[IntelliJ-url]: https://www.jetbrains.com/idea/
