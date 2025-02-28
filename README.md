@@ -236,8 +236,9 @@ h) 🚪 Back to Main Menu
 
 
 ## Author & Acknowledgments
-•	Authors:
-•	[Haocheng Cao](https://github.com/Boldthinkingcat)
-•	[Minglai Yang](https://ymingl.com/)
-•	Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
-•	Teaching Assistant: Jenny Yu
+1. **Authors**:
+ - [Haocheng Cao](https://github.com/Boldthinkingcat)
+ - [Minglai Yang](https://ymingl.com/)
+2. **Mentors**:
+ - Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
+ - Teaching Assistant: Jenny Yu
