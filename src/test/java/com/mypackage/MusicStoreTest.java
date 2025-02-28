@@ -219,7 +219,6 @@ public class MusicStoreTest {
     @DisplayName("Test printAsTable empty playlist")
     void testPlaylistPrintAsTableEmpty() {
         testPlaylist.printAsTable();
-        // No songs => just prints "The playlist is empty." no exception.
         assertTrue(testPlaylist.getSongs().isEmpty());
     }
 
@@ -333,14 +332,14 @@ public class MusicStoreTest {
                 musicStore.loadSong(songLine);
             }
         }
-        assertEquals(166, musicStore.getSongCount(), "期望加载7首歌曲");
+        assertEquals(166, musicStore.getSongCount());
 
         Song loadedSons = musicStore.getSongMap().get(musicStore.generateKey("Sons", "The Heavy"));
-        assertNotNull(loadedSons, "找不到歌曲 Sons - The Heavy");
-        assertEquals("Rock", loadedSons.getGenre(), "Genre 不正确");
-        assertEquals(2019, loadedSons.getYear(), "年份不正确");
+        assertNotNull(loadedSons);
+        assertEquals("Rock", loadedSons.getGenre());
+        assertEquals(2019, loadedSons.getYear());
         Song loadedTapestry = musicStore.getSongMap().get(musicStore.generateKey("Tapestry", "Carol King"));
-        assertNotNull(loadedTapestry, "找不到歌曲 Tapestry - Carol King");
+        assertNotNull(loadedTapestry);
         assertEquals("Rock", loadedTapestry.getGenre());
         assertEquals(1971, loadedTapestry.getYear());
     }
@@ -348,13 +347,10 @@ public class MusicStoreTest {
     @Test
     void testLoadSongTwoParts() {
         musicStore.loadSong("Hello, Adele");
-        // Check if we have 1 song
         assertEquals(164, musicStore.getSongCount());
-        // Retrieve the song
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Hello", "Adele"));
         assertNotNull(s, "Song should exist in the map.");
-        // Verify the fields
         assertEquals("Hello", s.getTitle());
         assertEquals("Adele", s.getArtist());
         assertEquals(s.getGenre(), "Unknown");
@@ -364,13 +360,10 @@ public class MusicStoreTest {
     @Test
     void testLoadSongThreePartsYear() {
         musicStore.loadSong("Shape of You, Ed Sheeran, 2017");
-        // Check if we have 1 song
         assertEquals(164, musicStore.getSongCount());
-        // Retrieve the song
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Shape of You", "Ed Sheeran"));
         assertNotNull(s, "Song should exist in the map.");
-        // Verify the fields
         assertEquals("Shape of You", s.getTitle());
         assertEquals("Ed Sheeran", s.getArtist());
         assertEquals(s.getGenre(), "Unknown");
@@ -381,13 +374,10 @@ public class MusicStoreTest {
     @DisplayName("Load song with 3 parts (third is a genre)")
     void testLoadSongThreePartsGenre() {
         musicStore.loadSong("Photograph, Ed Sheeran, Pop");
-        // Check if we have 1 song
         assertEquals(164, musicStore.getSongCount());
-        // Retrieve the song
         Song s = musicStore.getSongMap()
                 .get(musicStore.generateKey("Photograph", "Ed Sheeran"));
         assertNotNull(s, "Song should exist in the map.");
-        // Verify the fields
         assertEquals("Photograph", s.getTitle());
         assertEquals("Ed Sheeran", s.getArtist());
         assertEquals("Pop", s.getGenre(), "Genre should match the third param if not digits.");
@@ -397,16 +387,10 @@ public class MusicStoreTest {
     @Test
     @DisplayName("Test getAllAlbums returns the correct collection")
     void testGetAllAlbums() {
-        // Initially empty
         Collection<Album> allAlbums = musicStore.getAllAlbums();
-
-        // Add one Album to the store's albumMap manually or via loadAlbums() logic
         Album a = new Album("TestAlbum", "TestArtist", "TestGenre", 2020, new ArrayList<>());
         musicStore.getAlbumMap().put(musicStore.generateKey("TestAlbum", "TestArtist"), a);
-
-        // Now getAllAlbums should have exactly 1 album
         allAlbums = musicStore.getAllAlbums();
         assertEquals(15, allAlbums.size(), "Should have exactly 1 album in the collection.");
-        // Make sure it's the same Album we inserted
     }
 }

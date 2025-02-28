@@ -156,8 +156,6 @@ public class FavoriteListTest {
         Song song1 = new Song("Title1", "Artist1", "Pop", 2020);
         Song song2 = new Song("Title2", "Artist2", "Rock", 2019);
         Song song3 = new Song("Title3", "Artist3", "Jazz", 2021);
-
-        // Set album for song1 and song3.
         song1.setAlbum(new DummyAlbum("Album1"));
         song3.setAlbum(new DummyAlbum("Album3"));
 
@@ -165,13 +163,10 @@ public class FavoriteListTest {
         favList.addSong(song2);
         favList.addSong(song3);
         assertEquals(3, favList.getSize());
-
-        // Remove the second song.
         favList.removeSong(song2);
         assertEquals(2, favList.getSize());
 
         String output = favList.toString();
-        // Verify that output contains song1 and song3, but not song2.
         assertTrue(output.contains("Title1"));
         assertTrue(output.contains("Title3"));
         assertFalse(output.contains("Title2"));
@@ -184,7 +179,6 @@ public class FavoriteListTest {
     @Test
     public void testAlbumColumnExtraction() {
         FavoriteList favList = new FavoriteList();
-        // Create a dummy song whose toStringList returns only 6 elements (no album info)
         DummySongShort songShort = new DummySongShort("ShortSong", "ArtistX");
         DummySongLong songLong = new DummySongLong("LongSong", "ArtistY", "DummyAlbum");
         favList.addSong(songShort);

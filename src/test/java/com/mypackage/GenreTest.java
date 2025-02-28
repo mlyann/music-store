@@ -80,12 +80,10 @@ public class GenreTest {
 
     @Test
     public void testInvalidGenresReturnOther() {
-        // Inputs that do not match any valid genre should return OTHER
-        assertEquals(Genre.OTHER, Genre.fromString("Hip Hop")); // note: "HipHop" is valid but "Hip Hop" is not
+        assertEquals(Genre.OTHER, Genre.fromString("Hip Hop"));
         assertEquals(Genre.OTHER, Genre.fromString("Classics"));
         assertEquals(Genre.OTHER, Genre.fromString("Rock'n'Roll"));
         assertEquals(Genre.OTHER, Genre.fromString("Electronica"));
-        // Even with extra whitespace, if the string is not recognized, return OTHER
         assertEquals(Genre.OTHER, Genre.fromString("  unknown genre "));
     }
 }

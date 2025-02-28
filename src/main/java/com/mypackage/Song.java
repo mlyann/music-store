@@ -2,7 +2,7 @@ package la1;
 
 import java.util.ArrayList;
 
-public class Song {
+public class Song extends TablePrinter {
     private final String title;
     private final String artist;
     private final Genre genre;

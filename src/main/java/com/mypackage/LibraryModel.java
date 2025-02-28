@@ -11,7 +11,7 @@ public class LibraryModel {
     private final PlayLists PlayLists;
     private Playlist playingList;
     private final Scanner scanner;
-    private ArrayList<Song> searchSongList;
+    ArrayList<Song> searchSongList;
     protected ArrayList<Album> searchAlbumList;
     private Playlist currentPlaylist;
     private Song currentSong;
@@ -123,7 +123,7 @@ public class LibraryModel {
 
     public void printAllArtists() {
         if (UserSongs.isEmpty()) {
-            System.out.println("The library is empty.");
+            System.out.println("The library is empty [WARNING]");
             return;
         }
         Set<String> artists = new HashSet<>();
@@ -300,6 +300,7 @@ public class LibraryModel {
         for (Album album : albums) {
             result.add(album.toStringList());
         }
+        System.out.println(result);
         return result;
     }
 
@@ -312,7 +313,6 @@ public class LibraryModel {
         }
         ArrayList<Album> result = new ArrayList<>();
         String lowerKeyword = keyword.trim().toLowerCase();
-        // 同样遍历 key 的每个部分，要求完全匹
         for (List<String> key : albumMap.keySet()) {
             for (String part : key) {
                 if (part.equals(lowerKeyword)) {
@@ -337,6 +337,9 @@ public class LibraryModel {
 
     public boolean handleAlbumSelection(int index, int checkSize) {
         if (checkSize != searchAlbumList.size()) {
+            return false;
+        }
+        if (searchAlbumList.size() == 0){
             return false;
         }
         addAlbum(searchAlbumList.get(index));
@@ -393,11 +396,11 @@ public class LibraryModel {
     }
 
     public boolean playAlbum(String albumTitle) {
-        if (! albumTitle.equalsIgnoreCase(currentAlbum.getTitle())) {
-            return false;
-        }
         if (currentAlbum == null) {
             System.out.println("No album selected.");
+            return false;
+        }
+        if (! albumTitle.equalsIgnoreCase(currentAlbum.getTitle())) {
             return false;
         } else {
             ArrayList<Song> songs = currentAlbum.getSongs();
@@ -538,6 +541,9 @@ public class LibraryModel {
 
     public String getCurrentPlaylistName() {
         return currentPlaylist.getName();
+    }
+    public ArrayList<Song> getCurrentPlaylist() {
+        return new ArrayList<>(currentPlaylist.getSongs());
     }
 
     //-------------------------------------------------------------------------
