@@ -90,15 +90,9 @@ public class FavoriteList extends Playlist {
             }
             tableRows.add(row);
         }
-
-        // TablePrinter prints information in a table
         TablePrinter.printDynamicTable("Favourite List", tableRows);
     }
 
-    /**
-     * Overrides the toString method to return a string representation of the favorite list.
-     * Lists each song with its index, or returns a message indicating that the favorite list is empty if there are no songs.
-     */
     @Override
     public String toString() {
         if (getSongs().isEmpty()) {
