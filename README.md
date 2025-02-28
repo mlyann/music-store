@@ -247,4 +247,5 @@ h) 🚪 Back to Main Menu
 We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊 
 
 ## License
+![License](https://img.shields.io/badge/license-MIT-blue)
 This project is licensed under the MIT License. We warmly welcome collaboration on our project! If you have any questions, please feel free to contact us at haochengcao2003@gmail.com or millermlyang@gmail.com.
