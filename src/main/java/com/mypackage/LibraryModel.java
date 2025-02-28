@@ -84,7 +84,6 @@ public class LibraryModel {
     }
 
     public boolean setCurrentAlbum(int index, String albumTitle) {
-
         Album album = searchAlbumList.get(index);
         if (!album.getTitle().equalsIgnoreCase(albumTitle)) {
             return false;
@@ -311,11 +310,10 @@ public class LibraryModel {
         } else {
             albumMap = UserAlbums;
         }
-        ArrayList<Album> result = new ArrayList<>();
-        String lowerKeyword = keyword.trim().toLowerCase();
+        ArrayList<Album> result = new ArrayList<>();;
         for (List<String> key : albumMap.keySet()) {
             for (String part : key) {
-                if (part.equals(lowerKeyword)) {
+                if (part.equalsIgnoreCase(keyword.trim())) {
                     result.add(albumMap.get(key));
                     break;
                 }
