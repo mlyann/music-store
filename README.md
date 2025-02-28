@@ -105,16 +105,16 @@ la1/
    ```bash
    git clone https://github.com/mlyann/music-store.git
    ```
-	2.	Open the project in your preferred IDE or navigate into the project folder via terminal:
-    ```bash
-    cd music-store
-    ```
-	3.	Ensure that the package structure (la1) is respected if you are using an IDE.
-	4.	Compile the code (if using command line):
-    ```bash
-    javac la1/*.java
-    ```
-	5.	Running the Application
+2.	Open the project in your preferred IDE or navigate into the project folder via terminal:
+```bash
+cd music-store
+```
+3.	Ensure that the package structure (la1) is respected if you are using an IDE.
+4.	Compile the code (if using command line):
+```bash
+javac la1/*.java
+```
+5.	Running the Application
 After compilation, run the main application class:
 ```bash
 java la1.MainUI
