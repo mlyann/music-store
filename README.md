@@ -117,74 +117,117 @@ Running the Application
 ```bash
 java la1.MainUI
 ```
+---
 
-## How to Use
+## Features
 
-Once you run the program:
-1.	Main Menu
-•	Search (Songs/Albums in Store or Library)
-•	PlayingList (a quick, single “now-playing” playlist)
-•	View all PlayLists (manages multiple playlists)
-•	Favorite List (view/edit your favorite songs)
-•	Library Lists (shows all songs/albums/artists in your library)
-•	Load Songs (manually input song data)
-•	Quit the application
-2.	Navigating the Menus
-Use the numeric options presented to you in the console to navigate between submenus. Press 0 (zero) to go back or exit, and follow the on-screen prompts.
-3.	Adding/Removing Songs
-•	Enter songs manually via the Load Songs option.
-•	Search the Store for songs or albums by a keyword, then add them to your library.
-4.	Creating & Managing Playlists
-•	Create new playlists, open existing ones, and add/remove songs.
-•	Shuffle or play an entire playlist.
-5.	Favorites & Rating
-•	Rate a song from 1 to 5.
-•	Songs rated 5 will automatically become favorites.
-•	Access favorites from the Favorite List submenu.
-6.	Playing Music
-•	Choose songs or playlists to “play.”
-•	Although this is a simulation, the interface will respond as if the song is being played.
+1. **Song Management**  
+   - Input/load song details manually into the library.  
+   - Search for songs by title or artist (in both Store and User Library).  
+   - View song details (title, artist, genre, year, rating, and whether it is a favorite).
+
+2. **Album Management**  
+   - Search for albums by album title or artist.  
+   - Load entire albums from the Store into the user library.  
+   - View album info and associated tracks.
+
+3. **Library Management**  
+   - View all songs, albums, and artists in the user library.  
+   - Organize songs into multiple playlists.  
+   - Mark/unmark songs as favorites.
+
+4. **Playlists**  
+   - Create new playlists, open existing ones, and add/remove songs.  
+   - Shuffle or play an entire playlist.
+
+5. **Favorites**  
+   - Maintain a dedicated “Favorite List.”  
+   - Easily add/remove songs to/from the favorites.  
+   - Play songs directly from the favorites list.
+
+6. **Song Rating System**  
+   - Rate songs on a scale of 1–5.  
+   - Automatically add songs rated 5 stars to Favorites.
+
+---
 
 ## Sample Flow
 
 Below is a brief example of how a typical session might proceed in the console:
 
 1. **Main Menu**  
-   ```
-   ---------- 🎵 MAIN MENU 🎵 ----------
-   1) 🔍 Search
-   2) 🎧 PlayingList
-   3) 📝 View all PlayLists
-   4) ❤️ Favorite List
-   5) 🏠 Library Lists
-   6) ➕ Load Songs single
-   0) 🚪 Quit the application
-      👉 Enter your choice:
-   ```
+   - Simply type the corresponding number (e.g., `1`, `2`, `3`, `4`, `5`, `6`, or `0`) to navigate through the menu.
 
-2. **Choose "6" to Load a Song**  
-   - Enter the song details in the format: `title, artist, genre, year`  
-     Example: `Shape of You, Ed Sheeran, Pop, 2017`
+2. **Search for Coldplay Songs Example**  
+```
+======================================================
+    🎶 Welcome to the Music Library App (CSC 335) 🎶   
+         📅 Date: Feb 21, 2025
+    👥 Authors: Haocheng Cao & Minglai Yang
+======================================================
 
-3. **Search in the Store**  
-   - Navigate to `Search -> Store`.  
-   - Enter a keyword to find an album or a song in the Store.  
-   - Load it into your library.
+---------- 🎵 MAIN MENU 🎵 ----------
+1) 🔍 Search
+2) 🎧 PlayingList
+3) 📝 View all PlayLists
+4) ❤️ Favorite List
+5) 🏠 Library Lists
+6) ➕ Load Songs single
+0) 🚪 Quit the application
+👉 Enter your choice: 1
 
-4. **View Your Library**  
-   - Check the newly added songs in the `Library Lists` section.
+---------- 🔍 Search MENU 🔍 ----------
 
-5. **Create a Playlist**  
-   - Go to `View all PlayLists` -> `Add a new playlist` -> `Open it` -> `Add a song`.  
-   - You can play or shuffle the playlist.
+Where would you like to search?
+1) 🏪 Music Store
+2) 🏠 User Library
+0) 🔙 Back to Main Menu
+👉 Enter choice: 1
 
-6. **Rate a Song**  
-   - Select the song from your library or playlist menu.  
-   - Provide a star rating between `1` to `5`.
+What would you like to search?
+1) 🎤 Search for songs
+2) 🎼 Search for albums
+0) 🔙 Back to Search Menu
+h) 🚪 Back to Main Menu
+👉 Enter choice: 1
 
-7. **Exit the Application**  
-   - From the **Main Menu**, choose `"0"` to quit.
+--- 🎤 Searching for Songs ---
+🔎 Enter song title or artist keyword  
+0) 🔙 Back to search menu: 
+h) 🚪 Back to Main Menu
+👉 Enter choice: coldplay
 
+Found 11 matching song(s):
+```
+Here we also print the song as a table, so the users can add/rate these songs simply by enter the number.
+```
+===================================================
+           🎉 Search Results (Songs) 🎉              
+===================================================
++-----+--------------------------------+----------+-------+------+-----------------------------+
+| No. | Title                          | Artist   | Genre | Year | Album                       |
++-----+--------------------------------+----------+-------+------+-----------------------------+
+| 1   | A Rush of Blood to the Head    | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 2   | Daylight                       | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 3   | Warning Sign                   | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 4   | Politik                        | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 5   | A Whisper                      | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 6   | Amsterdam                      | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 7   | God Put a Smile Upon Your Face | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 8   | Green Eyes                     | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 9   | In My Place                    | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 10  | Clocks                         | Coldplay | Other | 2002 | A Rush of Blood to the Head |
+| 11  | The Scientist                  | Coldplay | Other | 2002 | A Rush of Blood to the Head |
++-----+--------------------------------+----------+-------+------+-----------------------------+
+
+Which song would you like add to library?
+1) All songs
+2) Select single song
+0) 🔙 Back to song search
+h) 🚪 Back to Main Menu
+👉 Enter choice:
+.....
+```
 
 
 ## Author & Acknowledgments
