@@ -1096,4 +1096,59 @@ public class LibraryModelTest {
         assertEquals(0, library.getAlbumListSize());
     }
 
+    // -------------------------------------------------------------------------
+    // Others
+    // -------------------------------------------------------------------------
+
+    @Test
+    void testGetID() {
+        assertEquals("TestUser", library.getUserID());
+    }
+
+    @Test
+    void testCheckCurrentAlbum() {
+        library.searchAlbum("adele", true);
+        library.allAlbumSelection(2);
+        assertEquals(2, library.searchAlbumList.size());
+        library.setCurrentAlbum(0, "19");
+        assertTrue(library.checkCurrentAlbum("19"));
+        assertFalse(library.checkCurrentAlbum("21"));
+    }
+
+    @Test
+    void testSetCurrentAlbumEmpty() {
+        library.searchAlbum("adele", true);
+        assertEquals(2, library.searchAlbumList.size());
+        assertFalse(library.setCurrentAlbum(0, "21"));
+    }
+
+    @Test
+    void testHandleAlbumSelection() {
+        library.searchAlbum("1", true);
+        assertFalse(library.handleAlbumSelection(1, 0));
+        assertFalse(library.handleAlbumSelection(1, 1));
+        library.searchAlbum("adele", true);
+        library.allAlbumSelection(2);
+        assertEquals(2, library.searchAlbumList.size());
+        assertTrue(library.handleAlbumSelection(0, 2));
+        assertEquals(2, library.getAlbumListSize());
+    }
+
+    @Test
+    void testOpenAlbum() {
+        library.searchAlbum("adele", true);
+        library.allAlbumSelection(2);
+        library.setCurrentAlbum(0, "19");
+        assertFalse(library.openAlbum("21"));
+        library.openAlbum("19");
+        assertEquals(12, library.getSearchSongListSize());
+    }
+
+    @Test
+    void testGetAlbumList () {
+        library.searchAlbum("adele", true);
+        library.allAlbumSelection(2);
+        assertEquals(2, library.getAlbumListSize());
+    }
+
 }

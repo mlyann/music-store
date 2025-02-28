@@ -129,6 +129,20 @@ public class AlbumTest {
         assertEquals(expected, album.getAlbumInfo(), "getAlbumInfo() should return album info in a list: title, artist, year, genre.");
     }
 
+    @Test
+    public void getGenre() {
+        List<Song> songList = new ArrayList<>();
+        Album album = new Album("InfoListAlbum", "ListArtist", "HipHop", 2010, songList);
+        assertEquals("HipHop", album.getGenre());
+    }
+
+    @Test
+    public void getYear() {
+        List<Song> songList = new ArrayList<>();
+        Album album = new Album("InfoListAlbum", "ListArtist", "HipHop", 2010, songList);
+        assertEquals(2010, album.getYear());
+    }
+
     /**
      * Test toStringList() returns album info followed by song titles.
      */
