@@ -240,20 +240,16 @@ h) 🚪 Back to Main Menu
 
 Haocheng Cao - [@](https://twitter.com/your_username) - haochengcao2003@gmail.com
 
-Minglai Yang - [@](https://x.com/iammilleryang) - millermlyang@gmail.com
+Minglai Yang - [@Ming](https://x.com/iammilleryang) - millermlyang@gmail.com
 
 Project Link: [https://github.com/mlyann/music-store](https://github.com/mlyann/music-store)
 
-
-## Author & Acknowledgments
-1. **Authors**:
- - [Haocheng Cao](https://github.com/Boldthinkingcat)
- - [Minglai Yang](https://ymingl.com/)
-2. **Mentors**:
+## Acknowledgments
+We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊 
+**Mentors**:
  - Instructor: [Malenie Lotz](https://www.cs.arizona.edu/person/melanie-lotz) (CSC 335)
  - Teaching Assistant: Jenny Yu
 
-We deeply appreciate the guidance and support of our instructor Malenie Lotz and TA Jenny Yu throughout this journey. 😊 
 
 ## License
 This project is licensed under the MIT License. We warmly welcome collaboration on our project! If you have any questions, please feel free to contact us at haochengcao2003@gmail.com or millermlyang@gmail.com.
