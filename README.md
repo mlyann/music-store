@@ -253,9 +253,9 @@ Don't forget to give the project a star! Thanks again!
 
 ## Contact
 
-Haocheng Cao - [@cao](https://x.com/@boldthinkingcat) - haochengcao2003@gmail.com
+Haocheng Cao - [@Haocheng](https://x.com/@boldthinkingcat) - cao8@arizona.edu
 
-Minglai Yang - [@Ming](https://x.com/iammilleryang) - millermlyang@gmail.com
+Minglai Yang - [@Ming](https://x.com/iammilleryang) - mingly@arizona.edu
 
 Project Link: [https://github.com/mlyann/music-store](https://github.com/mlyann/music-store)
 
