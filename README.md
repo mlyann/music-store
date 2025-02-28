@@ -253,7 +253,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## Contact
 
-Haocheng Cao - [@boldthinkingcat](https://twitter.com/your_username) - haochengcao2003@gmail.com
+Haocheng Cao - [@Haocheng](https://x.com/@boldthinkingcat) - haochengcao2003@gmail.com
 
 Minglai Yang - [@Ming](https://x.com/iammilleryang) - millermlyang@gmail.com
 
