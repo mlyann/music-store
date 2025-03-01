@@ -91,8 +91,15 @@ public class MusicStore {
         songMap.put(generateKey(song.getTitle(), song.getArtist()), song);
     }
 
-
-
+    /**
+     * This function loads all songs from the input file
+     * fileName is the input file name
+     * The input file should be in the format of "title, artist, genre, year"
+     * Title and artist are required, genre and year are optional
+     * If the title and artist are not provided, an exception will be thrown
+     * If the year is not a number, an exception will be thrown
+     * @param fileName
+     */
     public Album parseAlbumFile(String albumFileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(albumFileName))) {
             String headerLine = br.readLine();
