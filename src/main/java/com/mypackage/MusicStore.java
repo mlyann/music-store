@@ -18,16 +18,27 @@ public class MusicStore {
         loadAlbums("albums.txt");
     }
 
+    /**
+     * Generates a key for identifying an album or song based on the title and artist.
+     * @param title  the title of the album or song
+     * @param artist the artist of the album or song
+     * @return a List containing the normalized title and artist
+     */
     public List<String> generateKey(String title, String artist) {
         return List.of(title.trim().toLowerCase(), artist.trim().toLowerCase());
     }
 
-    // This function loads all albums from the albumsListFile
+
+    /**
+     * Loads album information from the specified albums list file.
+     *
+     * @param albumsListFile the name of the file that contains the list of albums (e.g., "albums.txt")
+     */
     public void loadAlbums(String albumsListFile) {
         // Update the path to point to the correct location
         String correctedPath = "src/main/resources/albums/" + albumsListFile;
         File file = new File(correctedPath);
-        System.out.println("Loading albums from: " + file.getAbsolutePath());
+        System.out.println("Loading albums from: "+file.getAbsolutePath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -51,11 +62,9 @@ public class MusicStore {
         }
     }
     /**
-     * This function loads all songs from the input file
-     * line is the input line
-     * The input line should be in the format of "title, artist, genre, year"
-     * Title and artist are required, genre and year are optional
-     * If the title and artist are not provided, an exception will be thrown
+     * Loads a song from a given input line and adds it to the song map.
+     * @param line the input line containing the song details, separated by commas
+     * @throws IllegalArgumentException if the input format is invalid
      * @author Haocheng
      */
     public void loadSong(String line) {
@@ -73,7 +82,7 @@ public class MusicStore {
             String title = parts[0];
             String artist = parts[1];
             String genre = parts[2];
-            int year = Integer.parseInt(parts[3]); // if year not number, throw NumberFormatException
+            int year = Integer.parseInt(parts[3]);
             song = new Song(title, artist, genre, year);
         } else if (parts.length == 2) {
             song = new Song(parts[0], parts[1]);

@@ -457,6 +457,7 @@ public class MainUI {
                     }
                     break;
                 case "0":
+                    searchSongsPipeline(songTitle);
                     return;
                 case "h":
                     runMainMenu();

@@ -3,6 +3,7 @@ package la1;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Album {
     private final String title;
     private final String artist;
@@ -52,7 +53,11 @@ public class Album {
     public ArrayList<Song> getSongs() {
         return new ArrayList<Song>(songs); // DEEPCOPY HERE
     }
-
+    /**
+     * Get the some titles of the album
+     *
+     * @return a list of song names
+     */
     public List<String> getSongsTitles() {
         List<String> titles = new ArrayList<>();
         for (Song s : songs) {
@@ -60,7 +65,13 @@ public class Album {
         }
         return titles;
     }
-
+    /**
+     * Returns a string representation of the album.
+     * The format is: "title, by artist (year, genre)" followed by a list of song titles,
+     * each indented by two spaces.
+     *
+     * @return the formatted album information with songs
+     */
     @Override
     public String toString() {
         StringBuilder result =
@@ -74,7 +85,12 @@ public class Album {
     public String getAlbumInfoString() {
         return String.format("%s, by %s (%d, %s)\n", title, artist, year, genre.getGenre());
     }
-
+    /**
+     * Returns the album's basic information as an ArrayList of strings.
+     * The list contains the title, artist, year (as a string), and genre.
+     *
+     * @return an ArrayList containing the album information
+     */
     public ArrayList<String> getAlbumInfo() {
         ArrayList<String> result = new ArrayList<>();
         result.add(title);
@@ -83,7 +99,13 @@ public class Album {
         result.add(genre.getGenre());
         return result;
     }
-
+    /**
+     * Returns a list representation of the album information including its songs.
+     * The list starts with the album's title, artist, year, and genre,
+     * followed by the title of each song in the album.
+     *
+     * @return an ArrayList of strings with album and song titles
+     */
     public ArrayList<String> toStringList() {
         ArrayList<String> result = new ArrayList<>();
         result.add(title);

@@ -49,6 +49,11 @@ public enum Genre {
         return genre;
     }
 
+    /**
+     * Converts a string representation of a genre into the corresponding {@code Genre} enum value.
+     * @param genreStr the string representation of the genre
+     * @return the matching {@code Genre} if found; {@code UNKNOWN}.
+     */
     public static Genre fromString(String genreStr) {
         if (genreStr == null || genreStr.trim().isEmpty()) {
             return UNKNOWN;
