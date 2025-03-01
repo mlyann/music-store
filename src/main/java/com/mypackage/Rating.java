@@ -25,7 +25,7 @@ public enum Rating {
     @Override
     public String toString() {
         if (value == 0) {
-            return "☆☆☆☆☆";
+            return "DEFAULT";
         }
         int empty = 5 - value;
         return "★".repeat(value) + "☆".repeat(empty);
