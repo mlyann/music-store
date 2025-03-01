@@ -19,7 +19,7 @@ public class SongTest {
     @Test
     public void testSongWithAlbum() {
         Song song = new Song("Test Song", "Test Artist", "Rock", 1999);
-        assertNull(song.getAlbum(), "Album should initially be null.");
+        assertNull(song.getAlbum());
         DummyAlbum album = new DummyAlbum("Test Album");
         song.setAlbum(album);
         assertEquals("Test Album", song.getAlbum());
@@ -76,11 +76,11 @@ public class SongTest {
         assertEquals("2000", listWithoutAlbum.get(3));
         assertEquals("♡", listWithoutAlbum.get(4));
         assertEquals(Rating.UNRATED.toString(), listWithoutAlbum.get(5));
-        assertNull(listWithoutAlbum.get(6), "Album entry should be null when no album is set.");
+        assertNull(listWithoutAlbum.get(6));
         DummyAlbum album = new DummyAlbum("List Album");
         song.setAlbum(album);
         ArrayList<String> listWithAlbum = song.toStringList();
-        assertEquals("List Album", listWithAlbum.get(6), "Album entry should show the DummyAlbum title.");
+        assertEquals("List Album", listWithAlbum.get(6));
     }
     @Test
     public void testToStringWithoutAndWithAlbum() {

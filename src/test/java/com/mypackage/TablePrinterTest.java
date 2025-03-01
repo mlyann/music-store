@@ -43,8 +43,8 @@ public class TablePrinterTest {
         TablePrinter.printDynamicTable("ValidDataTest", rows);
         String output = outContent.toString();
 
-        assertTrue(output.contains("🎉 ValidDataTest 🎉"), "Should display the table title");
-        assertTrue(output.contains("| 1   | Song A | Artist A |"), "Should display the full row correctly");
+        assertTrue(output.contains("🎉 ValidDataTest 🎉"));
+        assertTrue(output.contains("| 1   | Song A | Artist A |"));
     }
 
     /**
@@ -62,9 +62,9 @@ public class TablePrinterTest {
 
         TablePrinter.printDynamicTable("MarkerTest", rows);
         String output = outContent.toString();
-        assertTrue(output.contains("🎉 MarkerTest 🎉"), "Should display the table title");
-        assertTrue(output.contains("+-----+--------+----------+"), "Should display separator lines correctly");
-        assertTrue(output.contains("| 2   | Song B | Artist B |"), "Should handle full rows with padding");
+        assertTrue(output.contains("🎉 MarkerTest 🎉"));
+        assertTrue(output.contains("+-----+--------+----------+"));
+        assertTrue(output.contains("| 2   | Song B | Artist B |"));
     }
 
     /**
@@ -72,17 +72,13 @@ public class TablePrinterTest {
      */
     @Test
     public void testEmptyOrNullInput() {
-        // Null input scenario
         TablePrinter.printDynamicTable("NullInputTest", null);
         String output = outContent.toString().trim();
-        assertEquals("No data to display.", output, "Should handle null input gracefully");
-
+        assertEquals("No data to display.", output);
         outContent.reset();
-
-        // Empty list input scenario
         TablePrinter.printDynamicTable("EmptyInputTest", Collections.emptyList());
         output = outContent.toString().trim();
-        assertEquals("No data to display.", output, "Should handle empty input gracefully");
+        assertEquals("No data to display.", output);
     }
 
     @Test
@@ -94,9 +90,9 @@ public class TablePrinterTest {
 
         TablePrinter.printDynamicTable("NullCellTest", rows);
         String output = outContent.toString();
-        assertTrue(output.contains("| "), "The printed row should contain the left boundary for the null cell.");
-        assertTrue(output.contains("NonNull"), "The non-null cell should be printed correctly.");
-        assertFalse(output.contains("null"), "The null cell should be printed as an empty string, not 'null'.");
+        assertTrue(output.contains("| "));
+        assertTrue(output.contains("NonNull"));
+        assertFalse(output.contains("null"));
     }
 
 }
