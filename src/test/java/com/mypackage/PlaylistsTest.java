@@ -101,4 +101,18 @@ public class PlaylistsTest {
         playLists.removeSongFromPlayList("9", testA);
         assertTrue(outContent.toString().contains("Playlist [9] does not exist."));
     }
+
+    @Test
+    public void testprintPlayList() {
+        playLists.printPlayList("9");
+        assertTrue(outContent.toString().contains("Playlist [9] does not exist."));
+    }
+
+    @Test
+    public void testprintPlayListExist() {
+        playLists.addPlayList("9");
+        playLists.printPlayList("9");
+        assertTrue(outContent.toString().contains("FOUND"));
+
+    }
 }

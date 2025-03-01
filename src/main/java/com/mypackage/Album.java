@@ -19,6 +19,16 @@ public class Album {
         this.songs = new ArrayList<Song>(songs); // DEEPCOPY HERE
     }
 
+    public Album(Album other) {
+        this.title = other.title;
+        this.artist = other.artist;
+        this.genre = other.genre;
+        this.year = other.year;
+        this.songs = new ArrayList<>(other.songs.size());
+        for (Song song : other.songs) {
+            this.songs.add(new Song(song)); // DEEP COPY HERE
+        }
+    }
     // Getter
     public String getTitle() {
         return title;

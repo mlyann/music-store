@@ -11,8 +11,8 @@ public class LibraryModel {
     private final PlayLists PlayLists;
     private Playlist playingList;
     private final Scanner scanner;
-    ArrayList<Song> searchSongList;
-    protected ArrayList<Album> searchAlbumList;
+    private ArrayList<Song> searchSongList;
+    private ArrayList<Album> searchAlbumList;
     private Playlist currentPlaylist;
     private Song currentSong;
     private Album currentAlbum;
@@ -96,6 +96,14 @@ public class LibraryModel {
         return currentAlbum.getAlbumInfoString();
     }
 
+
+    public ArrayList<Album> getSearchAlbumList() {
+        ArrayList<Album> copy = new ArrayList<>(searchAlbumList.size());
+        for (Album album : searchAlbumList) {
+            copy.add(new Album(album)); // Assuming Album has a copy constructor
+        }
+        return copy;
+    }
     // -------------------------------------------------------------------------
     //                  CURRENT SONG LIST
     // -------------------------------------------------------------------------
@@ -117,6 +125,12 @@ public class LibraryModel {
     public int getSearchSongListSize() {
         return searchSongList.size();
     }
+
+    public void printCurrentPlayList() {
+        playingList.printAsTable();
+    }
+
+
 
     // -------------------------------------------------------------------------
     //                  ALL FUNCTIONS
@@ -175,12 +189,11 @@ public class LibraryModel {
         }
         ArrayList<Song> result = new ArrayList<>();
         String lowerKeyword = keyword.trim().toLowerCase();
-        // 遍历每个 List<String> key，分别比较其中的每个元素
         for (List<String> key : songMap.keySet()) {
             for (String part : key) {
-                if (part.equals(lowerKeyword)) {  // 完全匹配（忽略大小写）
+                if (part.equals(lowerKeyword)) {
                     result.add(songMap.get(key));
-                    break;  // 一旦匹配，避免重复添加
+                    break;
                 }
             }
         }
@@ -219,17 +232,6 @@ public class LibraryModel {
         return result;
     }
 
-    /**
-     * Returns a deep copy of the user's songs as an ArrayList.
-     * Each Song in the returned list is a new object created using the copy constructor.
-     */
-    public ArrayList<Song> getUserSongs() {
-        ArrayList<Song> deepCopyList = new ArrayList<>();
-        for (Song song : UserSongs.values()) {
-            deepCopyList.add(new Song(song));
-        }
-        return deepCopyList;
-    }
 
 
     /**
@@ -281,7 +283,7 @@ public class LibraryModel {
      * Title|artist as key, class Album as value
      * also add all songs in the album to the library
      */
-    private void addAlbum(Album album) {
+    public void addAlbum(Album album) {
         UserAlbums.put(generateKey(album.getTitle(), album.getArtist()), album);
         for (Song song : album.getSongs()) {
             UserSongs.put(generateKey(song.getTitle(), song.getArtist()), song);
@@ -466,6 +468,11 @@ public class LibraryModel {
     // -------------------------------------------------------------------------
     //                  PLAYLISTS FUNCTIONS
     // -------------------------------------------------------------------------
+
+    public void getPlayLists(String name) {
+        PlayLists.printPlayList(name);
+    }
+
     public ArrayList<String> getPlayListNames() {
         return PlayLists.getPlayListNames();
     }
