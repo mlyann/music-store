@@ -323,7 +323,12 @@ public class MainUI {
     }
 
 
-
+    /**
+     * Prompt the user to select a song from the search results.
+     * The user can choose to add all songs, select a single song, or skip.
+     * If the user selects a single song, prompt the user to select a song by index.
+     * @return the user's choice
+     */
     private static String songSelectionStore() {
         while (true) {
             System.out.println("\nWhich song would you like add to library?");
@@ -349,6 +354,14 @@ public class MainUI {
             }
         }
     }
+
+    /**
+     * Prompt the user to select a song from the search results.
+     * The user can choose to add all songs, select a single song, or skip.
+     * If the user selects a single song, prompt the user to select a song by index.
+     * @param songResults the list of songs to choose from
+     * @param location the location of the search (STORE or LIBRARY)
+     */
 
     private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location, String title) {
         while (true) {
@@ -389,7 +402,12 @@ public class MainUI {
         }
     }
 
-    private static void handleSongActions(String songTitle) {
+    /**
+     * Handle the user's actions for a selected song.
+     * @param songTitle the title of the selected song
+     */
+
+     private static void handleSongActions(String songTitle) {
         while (true) {
             if (!libraryModel.checkCurrentSong(songTitle)) {
                 System.out.println("❗ System wrong. ");
@@ -494,6 +512,10 @@ public class MainUI {
         }
     }
 
+    /**
+     * Print the search results for albums in a table format.
+     * @param albumList the list of albums to print
+     */
     public static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumList) {
         if (albumList == null || albumList.isEmpty()) {
             System.out.println("❗ No Albums in Library.");
@@ -536,6 +558,13 @@ public class MainUI {
         TablePrinter.printDynamicTable("Album Search Results", tableRows);
     }
 
+    /**
+     * Prompt the user to select an album from the search results.
+     * The user can choose to add all albums, select a single album, or skip.
+     * If the user selects a single album, prompt the user to select an album by index.
+     * @param albumResults the list of albums to choose from
+     * @param location the location of the search (STORE or LIBRARY)
+     */
     public static void albumSelectionMenu(ArrayList<ArrayList<String>> albumResults, String location) {
         if (location.equals("STORE")) {
             String choice = albumSelectionStore();
@@ -566,7 +595,12 @@ public class MainUI {
         handleAlbumSelection(albumResults, location);
     }
 
-
+    /**
+     * Prompt the user to select an album from the search results.
+     * The user can choose to add all albums, select a single album, or skip.
+     * If the user selects a single album, prompt the user to select an album by index.
+     * @return the user's choice
+     */
     private static String albumSelectionStore() {
         while (true) {
             System.out.println("\nWhich album would you like to add to library?");
@@ -638,7 +672,10 @@ public class MainUI {
     }
 
 
-
+    /**
+     * Handle the user's actions for a selected album.
+     * @param albumTitle the title of the selected album
+     */
     private static void handleAlbumActions(String albumTitle) {
         while (true) {
             if (!libraryModel.checkCurrentAlbum(albumTitle)) {
@@ -673,6 +710,10 @@ public class MainUI {
 
     }
 
+    /**
+     * Open an album to view its songs.
+     * @param albumTitle the title of the album to open
+     */
     public static void openAlbum(String albumTitle) {
         if (!libraryModel.openAlbum(albumTitle)) {
             System.out.println("❗ System wrong. ");
@@ -700,6 +741,9 @@ public class MainUI {
     // -------------------------------------------------------------------------
     //                  PLAYLIST MENU (EXAMPLE)
     // -------------------------------------------------------------------------
+    /**
+     * Run the playlist menu.
+     */
     private static void runPlaylistMenu() {
         while (true) {
             System.out.println("\n---------- ▶️ PLAYLIST MENU ▶️ ----------");
@@ -758,11 +802,17 @@ public class MainUI {
         }
     }
 
+    /**
+     * Clear the playlist
+     */
     private static void clearPlaylist() {
         libraryModel.clearPlaylist();
         System.out.println("🗑️ Cleared all songs in the playlist.");
     }
 
+    /**
+     * Add a song to the playlist
+     */
     private static void addSongToPlaylist() {
         // Print the user songs with numbers
         libraryModel.userSongSerch();   // set the search list to user songs
@@ -784,6 +834,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * remove a song from the playlist
+     */
     private static void removeSongFromPlaylist() {
         // Print the current playlist with numbers
         libraryModel.playListSearch();  // set the search list to playlist
@@ -806,6 +859,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Play the song in the playlist
+     */
     private static void playSongInPlaylist() {
         // Example: your libraryModel might have a method that returns a List<List<String>>:
         if (libraryModel.getPlayerSize() == 0 ) {
@@ -815,6 +871,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Rate a song in the playlist
+     */
     private static void rateSongInPlaylist() {
         // Print the current playlist with numbers
         libraryModel.playListSearch();  // set the search list to playlist
@@ -837,6 +896,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Rate a song
+     */
     private static void favoriteSongInPlaylist() {
         libraryModel.playListSearch();  // set the search list to playlist
         libraryModel.printPlaylist();
@@ -881,7 +943,9 @@ public class MainUI {
     // -------------------------------------------------------------------------
     //                  PLAYLISTS FUNCTIONS
     // -------------------------------------------------------------------------
-
+    /**
+     * Search for playlists in the User Library.
+     */
     private static void searchPlaylistsPipeline() {
         while (true) {
             System.out.println("\n--- 📝 Searching for Playlists ---");
@@ -902,7 +966,9 @@ public class MainUI {
         }
     }
 
-
+    /**
+     * Search for songs in the User Library.
+     */
     private static void runPlayListsMenu() {
         while (true) {
             System.out.println("\n---------- 🎵 PLAYLISTS MENU 🎵 ----------");
@@ -939,7 +1005,9 @@ public class MainUI {
         }
     }
 
-
+    /**
+     * Run the playlist submenu
+     */
     private static void playListSubMenu() {
         System.out.println("Selected Playlist: " + libraryModel.getCurrentPlaylistName());
         while (true) {
@@ -973,6 +1041,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Create a new playlist
+     */
     private static void createNewPlaylist() {
         while (true) {
             System.out.println("🎵 Enter the playlist name: ");
@@ -994,6 +1065,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Open a playlist
+     */
     private static boolean openPlayList() {
         libraryModel.printAllPlayLists();
         System.out.println("🎵 Enter the playlist number to open: ");
@@ -1019,6 +1093,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Delete a playlist
+     */
     private static void deletePlaylist() {
         libraryModel.printAllPlayLists();
         System.out.println("🎵 Enter the playlist number to delete: ");
@@ -1044,7 +1121,9 @@ public class MainUI {
         }
     }
 
-
+    /**
+     * Search for songs to add to playlists
+     */
     private static void searchSongToPlaylists() {
         // Print the user songs with numbers
         libraryModel.userSongSerch();   // set the search list to user songs
@@ -1074,6 +1153,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Search for songs to remove from playlists
+     */
     private static void searchSongFromPlaylists() {
         // Print the current playlist with numbers
         libraryModel.playListsCurrent();  // set the search list to playlist
@@ -1106,7 +1188,9 @@ public class MainUI {
     // -------------------------------------------------------------------------
     //                  FAVORITE LIST MENU
     // -------------------------------------------------------------------------
-
+    /**
+     * Run the favorite list menu.
+     */
     private static void runFavoriteMenu() {
         while (true) {
             System.out.println("\n---------- ❤️ FAVORITE LIST ❤️ ----------");
@@ -1146,6 +1230,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Add a song to the favorite list
+     */
     private static void addSongToFavourite() {
         // Print the user songs with numbers
         libraryModel.userSongSerch();   // set the search list to user songs
@@ -1167,6 +1254,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Remove a song from the favorite list
+     */
     private static void removeSongFromFavourite() {
         libraryModel.favoriteListSearch();
         libraryModel.getFavoriteListSize();
@@ -1186,6 +1276,9 @@ public class MainUI {
         }
     }
 
+    /**
+     * Play the song in the favorite list
+     */
     private static void playSongInFavourite() {
         if (libraryModel.getFavoriteListSize() == 0 ) {
             System.out.println("❗ No songs in favourite list.");
@@ -1198,6 +1291,9 @@ public class MainUI {
     // -------------------------------------------------------------------------
     //                  RATE SONG FUNCTION
     // -------------------------------------------------------------------------
+    /**
+     * Rate a song
+     */
     private static void rateSong() {
         while (true) {
             libraryModel.printRating();

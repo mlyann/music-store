@@ -101,9 +101,13 @@ public class MusicStore {
     }
 
     /**
-     * Parses an album file to create an {@code Album} object.
-     * @param albumFileName the full path to the album file
-     * @return the {@code Album} object if the file is valid; {@code null} otherwise
+     * This function loads all songs from the input file
+     * fileName is the input file name
+     * The input file should be in the format of "title, artist, genre, year"
+     * Title and artist are required, genre and year are optional
+     * If the title and artist are not provided, an exception will be thrown
+     * If the year is not a number, an exception will be thrown
+     * @param fileName
      */
     public Album parseAlbumFile(String albumFileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(albumFileName))) {
