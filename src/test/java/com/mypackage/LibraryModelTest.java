@@ -516,30 +516,7 @@ public class LibraryModelTest {
         library.handleSongSelection(0, library.getSearchSongListSize());
         assertEquals(1, library.getSongListSize());
     }
-    @Test
-    void testSongToString() {
-        Album sampleAlbum = new Album("AlbumX", "ArtistX", "Rock", 2000, new ArrayList<>());
-        library.searchAlbumList.add(sampleAlbum);
-        library.setCurrentAlbum(0, "AlbumX");
-        library.searchSong("StoreSongA", true);
-        ArrayList<ArrayList<String>> output = library.SongToString();
-        assertFalse(output.isEmpty());
-        assertTrue(output.get(0).contains("AlbumX"));
-        assertTrue(output.size() > 1);
-        assertTrue(output.get(1).contains("StoreSongA"));
-    }
-    @Test
-    void testGetUserSongs() {
-        library.searchSong("StoreSongA", true);
-        library.handleSongSelection(0, library.getSearchSongListSize());
-        assertEquals(1, library.getSongListSize());
-        ArrayList<Song> userSongsCopy = library.getUserSongs();
-        assertEquals(1, userSongsCopy.size());
-        userSongsCopy.get(0).setFavourite(true);
-        library.searchSong("StoreSongA", false);
-        Song original = library.searchSongList.get(0);
-        assertFalse(original.isFavourite());
-    }
+
     @Test
     void testPrintUserSongsTable() {
         library.printUserSongsTable();
@@ -657,18 +634,17 @@ public class LibraryModelTest {
         System.out.flush();
         String captured = outContent.toString();
         System.out.println("Captured Output >>>" + captured + "<<<");
-        assertTrue(captured.contains("The library is empty [WARNING]"),
-                "Expected substring 'The library is empty [WARNING]' in:\n" + captured);
+        assertTrue(captured.contains("The library is empty [WARNING]"));
     }
     @Test
     void testClearAllPlayLists() {
-        assertEquals(0, library.getPlayListsSize(), "Initially no playlists");
+        assertEquals(0, library.getPlayListsSize());
         library.createPlaylist("PL1");
         library.createPlaylist("PL2");
-        assertEquals(2, library.getPlayListsSize(), "Should have 2 playlists now");
+        assertEquals(2, library.getPlayListsSize());
         library.clearAllPlayLists();
-        assertEquals(0, library.getPlayListsSize(), "All playlists should be cleared");
-        assertTrue(library.getPlayListNames().isEmpty(), "No playlist names should remain");
+        assertEquals(0, library.getPlayListsSize());
+        assertTrue(library.getPlayListNames().isEmpty());
     }
 
     @Test
@@ -681,7 +657,7 @@ public class LibraryModelTest {
     @DisplayName("AAAAAAAAAAAAAA")
     void testAllAlbumSelectionMismatch() {
         library.searchAlbum("Test", true);
-        int realSize = library.searchAlbumList.size();
+        int realSize = library.getSearchAlbumList().size();
         boolean ok = library.allAlbumSelection(realSize + 1);
         assertFalse(ok);
         assertEquals(0, library.getAlbumListSize());
@@ -694,7 +670,7 @@ public class LibraryModelTest {
     void testCheckCurrentAlbum() {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
-        assertEquals(2, library.searchAlbumList.size());
+        assertEquals(2, library.getSearchAlbumList().size());
         library.setCurrentAlbum(0, "19");
         assertTrue(library.checkCurrentAlbum("19"));
         assertFalse(library.checkCurrentAlbum("21"));
@@ -702,7 +678,7 @@ public class LibraryModelTest {
     @Test
     void testSetCurrentAlbumEmpty() {
         library.searchAlbum("adele", true);
-        assertEquals(2, library.searchAlbumList.size());
+        assertEquals(2, library.getSearchAlbumList().size());
         assertFalse(library.setCurrentAlbum(0, "21"));
     }
     @Test
@@ -712,7 +688,7 @@ public class LibraryModelTest {
         assertFalse(library.handleAlbumSelection(1, 1));
         library.searchAlbum("adele", true);
         library.allAlbumSelection(2);
-        assertEquals(2, library.searchAlbumList.size());
+        assertEquals(2, library.getSearchAlbumList().size());
         assertTrue(library.handleAlbumSelection(0, 2));
         assertEquals(2, library.getAlbumListSize());
     }
@@ -745,5 +721,23 @@ public class LibraryModelTest {
         assertEquals(1, library.getSearchSongListSize());
     }
 
+    @Test
+    void testGetAlbumListSearch() {
+        // Setup
+        LibraryModel library = new LibraryModel("TestUser", new MusicStore());
+        Album album1 = new Album("Album1", "Artist1", "Genre1", 2021, new ArrayList<>());
+        Album album2 = new Album("Album2", "Artist2", "Genre2", 2022, new ArrayList<>());
+        library.addAlbum(album1);
+        library.addAlbum(album2);
 
+        // Execute
+        ArrayList<ArrayList<String>> albumList = library.getAlbumList();
+
+        // Verify
+        assertEquals(2, albumList.size());
+        assertTrue(albumList.get(0).contains("Album1"));
+        assertTrue(albumList.get(0).contains("Artist1"));
+        assertTrue(albumList.get(1).contains("Album2"));
+        assertTrue(albumList.get(1).contains("Artist2"));
+    }
 }

@@ -10,6 +10,7 @@ public class MainUI {
     private static LibraryModel libraryModel;
     private static final Scanner SCANNER = new Scanner(System.in);
 
+
     public static void main(String[] args) {
         musicStore = new MusicStore();
         libraryModel = new LibraryModel("Chcking2", musicStore);
@@ -89,6 +90,7 @@ public class MainUI {
             System.out.println("1) 🎤 Show all songs");
             System.out.println("2) 🎼 Show all albums");
             System.out.println("3) 🎸 Show all artists");
+            System.out.println("4) 📝 Show all playlists");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
             String choice = SCANNER.nextLine().trim();
@@ -103,6 +105,8 @@ public class MainUI {
                 case "3":
                     libraryModel.printAllArtists();
                     break;
+                case "4":
+                    libraryModel.printAllPlayLists();
                 case "0":
                     return;
                 default:
@@ -125,6 +129,9 @@ public class MainUI {
             System.out.println("\nWhat would you like to search?");
             System.out.println("1) 🎤 Search for songs");
             System.out.println("2) 🎼 Search for albums");
+            if (location.equals("LIBRARY")) {
+                System.out.println("3) 📝 Search for playlists");
+            }
             System.out.println("0) 🔙 Back to Search Menu");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -135,6 +142,13 @@ public class MainUI {
                     break;
                 case "2":
                     searchAlbumsPipeline(location);
+                    break;
+                case "3":
+                    if (location.equals("LIBRARY")) {
+                        searchPlaylistsPipeline();
+                    } else {
+                        System.out.println("❗ Invalid choice. Please try again.");
+                    }
                     break;
                 case "0":
                     continue;
@@ -867,6 +881,27 @@ public class MainUI {
     //                  PLAYLISTS FUNCTIONS
     // -------------------------------------------------------------------------
 
+    private static void searchPlaylistsPipeline() {
+        while (true) {
+            System.out.println("\n--- 📝 Searching for Playlists ---");
+            System.out.println("🔎 Enter Playlist Name");
+            System.out.println("0) 🔙 Back to Search Menu: ");
+            System.out.println("h) 🚪 Back to Main Menu");
+            System.out.print("👉 Enter choice: ");
+            String keyword = SCANNER.nextLine().trim();
+            if (keyword.equals("0")) {
+                System.out.println("🔙 Back to Search Menu");
+                break;
+            } else if (keyword.equals("h")) {
+                System.out.println("🚪 Back to Main Menu");
+                runMainMenu();
+                return;
+            }
+            libraryModel.getPlayLists(keyword);
+        }
+    }
+
+
     private static void runPlayListsMenu() {
         while (true) {
             System.out.println("\n---------- 🎵 PLAYLISTS MENU 🎵 ----------");
@@ -999,6 +1034,8 @@ public class MainUI {
                     System.out.println("Invalid selection. Please enter a valid number.");
                 } else {
                     libraryModel.removePlayList(playlistNumber - 1);
+                    System.out.println("🎵 Playlist deleted.");
+                    libraryModel.printAllPlayLists();
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");

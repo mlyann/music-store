@@ -19,6 +19,15 @@ public class PlayLists {
         }
     }
 
+    public void printPlayList(String name) {
+        if (playLists.containsKey(name)) {
+            playLists.get(name).printAsTable();
+            System.out.println("Playlist [" + name + "] FOUND.");
+        } else {
+            System.out.println("Playlist [" + name + "] does not exist.");
+        }
+    }
+
     public Boolean removePlayList(int index) {
         String name = new ArrayList<>(playLists.keySet()).get(index);
         playLists.remove(name);
