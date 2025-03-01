@@ -3,7 +3,18 @@ package la1;
 import java.util.List;
 import java.util.*;
 
+
+/**
+ * A class for printing data in a table format.
+ */
 public class TablePrinter {
+
+    /**
+     * Prints a dynamic table with a title and a list of rows.
+     *
+     * @param tableTitle the title of the table
+     * @param rows       a list of rows, where each row is a list of strings representing cell values
+     */
     public static void printDynamicTable(String tableTitle, List<List<String>> rows) {
         if (rows == null || rows.isEmpty()) {
             System.out.println("No data to display.");
@@ -13,34 +24,40 @@ public class TablePrinter {
         System.out.println("           🎉 " + tableTitle + " 🎉              ");
         System.out.println("===================================================");
         int colCount = rows.get(0).size();
-        int[] colWidths = new int[colCount];
+        int[] cw = new int[colCount];
         for (List<String> row : rows) {
             if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
                 continue;
             }
             for (int c = 0; c < colCount; c++) {
-                String cell = (row.get(c) == null) ? "" : row.get(c);
-                colWidths[c] = Math.max(colWidths[c], cell.length());
+                String cell;
+                if (row.get(c) == null) {
+                    cell = "";
+                } else {
+                    cell = row.get(c);
+                }
+                cw[c] = Math.max(cw[c], cell.length());
             }
         }
-        String separator = buildSeparatorLine(colWidths);
+        String separator = buildSeparatorLine(cw);
         System.out.println(separator);
-        printRow(rows.get(0), colWidths);
+        printRow(rows.get(0), cw);
         System.out.println(separator);
         for (int r = 1; r < rows.size(); r++) {
             List<String> row = rows.get(r);
+//            add a SEPARATOR for each column and set the row
             if (row.size() == 1 && "###SEPARATOR###".equals(row.get(0))) {
                 System.out.println(separator);
             } else {
-                printRow(row, colWidths);
+                printRow(row, cw);
             }
         }
         System.out.println(separator);
     }
 
-    private static String buildSeparatorLine(int[] colWidths) {
+    private static String buildSeparatorLine(int[] cw) {
         StringBuilder sb = new StringBuilder();
-        for (int width : colWidths) {
+        for (int width : cw) {
             sb.append("+-");
             for (int i = 0; i < width; i++) {
                 sb.append("-");
@@ -51,22 +68,33 @@ public class TablePrinter {
         return sb.toString();
     }
 
-    private static void printRow(List<String> row, int[] colWidths) {
+    /**
+     * Prints a formatted row where each cell is padded to match its corresponding column width.
+     *
+     * @param row the list of cell values for the row
+     * @param cw an array containing the width of each column
+     */
+    private static void printRow(List<String> row, int[] cw) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < colWidths.length; i++) {
-            String cell = (row.get(i) == null) ? "" : row.get(i);
-            sb.append("| ").append(padRight(cell, colWidths[i])).append(" ");
+        for (int i = 0; i<cw.length; i++) {
+            String cell = row.get(i);
+            if (cell == null) {
+                cell = "";
+            }
+            // a separator, a space, and the cell value padded to the required width.
+            sb.append("| ").append(padRight(cell, cw[i])).append(" ");
         }
         sb.append("|");
         System.out.println(sb.toString());
     }
 
-    private static String padRight(String text, int width) {
-        if (text.length() >= width) {
+//. helper method, put the text on the right
+    private static String padRight(String text,int width) {
+        if (text.length()>=width) {
             return text;
         }
         StringBuilder sb = new StringBuilder(text);
-        while (sb.length() < width) {
+        while (sb.length()<width) {
             sb.append(" ");
         }
         return sb.toString();

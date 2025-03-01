@@ -2,6 +2,10 @@ package la1;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a song with properties such as title, artist, genre, year, album, rating, and favorite status.
+ * This class extends {@code TablePrinter} for table display functionality.
+ */
 public class Song extends TablePrinter {
     private final String title;
     private final String artist;
@@ -12,6 +16,13 @@ public class Song extends TablePrinter {
     private Rating rating = Rating.UNRATED;
     private boolean Favourite = false;
 
+
+    /**
+     * Constructs a {@code Song} with the specified title and artist.
+     * @param title  the title of the song
+     * @param artist the artist of the song
+     * @throws IllegalArgumentException if title or artist is null or empty
+     */
     public Song(String title, String artist) {
         this(title, artist, null, 0);
     }
@@ -30,7 +41,12 @@ public class Song extends TablePrinter {
         this.year = year;
         this.album = null;
     }
-//ming: it's a copy constructor
+
+    /**
+     * Constructs a {@code Song} with the specified title, artist, genre, and year.
+     * @param other  the title of the song
+     * @throws IllegalArgumentException if title or artist is null or empty
+     */
     public Song(Song other) {
         this.title = other.title;
         this.artist = other.artist;
@@ -109,6 +125,11 @@ public class Song extends TablePrinter {
         this.rating = rating;
     }
 
+    /**
+     * Returns a string representation of the song, including its title, artist, genre, year,
+     * favorite status, rating, and album title
+     * @return a formatted string with song details
+     */
     public String toString() {
         String result = String.format("[%s, by %s (%s, %d) [%s, %s]", title, artist,
                 genre.getGenre(), year, getFavourite(), rating.toString());
@@ -118,6 +139,11 @@ public class Song extends TablePrinter {
         return result;
     }
 
+
+    /**
+     * Returns the song information as a list of strings.*
+     * @return an {@code ArrayList<String>} representing the song's details
+     */
     public ArrayList<String> toStringList() {
         ArrayList<String> result = new ArrayList<>();
         result.add(title);

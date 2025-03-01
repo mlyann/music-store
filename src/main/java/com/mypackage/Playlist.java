@@ -127,12 +127,12 @@ public class Playlist {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(index++));
             ArrayList<String> info = s.toStringList();
-            row.add(info.get(0)); // Title
-            row.add(info.get(1)); // Artist
-            row.add(info.get(2)); // Genre
-            row.add(info.get(3)); // Year
-            row.add(info.get(4)); // Favorite
-            row.add(info.get(5)); // Rating
+            row.add(info.get(0));
+            row.add(info.get(1));
+            row.add(info.get(2));
+            row.add(info.get(3));
+            row.add(info.get(4));
+            row.add(info.get(5));
             if (anyAlbum) {
                 String album = (info.size() > 6) ? info.get(6) : "NO ALBUM";
                 row.add(album == null ? "NO ALBUM" : album);
