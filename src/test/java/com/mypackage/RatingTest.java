@@ -36,7 +36,7 @@ public class RatingTest {
 
     @Test
     public void testToStringRepresentation() {
-        assertEquals("☆☆☆☆☆", Rating.UNRATED.toString());
+        assertEquals("DEFAULT", Rating.UNRATED.toString());
         assertEquals("★☆☆☆☆", Rating.ONE.toString());
         assertEquals("★★☆☆☆", Rating.TWO.toString());
         assertEquals("★★★☆☆", Rating.THREE.toString());

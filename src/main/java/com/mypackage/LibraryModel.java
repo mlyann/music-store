@@ -1,5 +1,6 @@
 package la1;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LibraryModel {
     private final String UserID;
@@ -16,6 +17,8 @@ public class LibraryModel {
     private Playlist currentPlaylist;
     private Song currentSong;
     private Album currentAlbum;
+    private Map<Song, Integer> playCounts = new HashMap<>();
+    private List<Song> recentPlays = new ArrayList<>();
 
     private final MusicStore musicStore;
     private static FavoriteList favoriteList;
@@ -31,6 +34,7 @@ public class LibraryModel {
         this.searchSongList = new ArrayList<>();
         this.searchAlbumList = new ArrayList<>();
         this.musicStore = musicStore;
+
     }
 
     public String getUserID() {
@@ -469,11 +473,16 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
+            playCounts.put(currentSong, playCounts.getOrDefault(currentSong, 0) + 1);
+            recentPlays.remove(currentSong);
+            recentPlays.add(0, currentSong);
+            if (recentPlays.size() > 10) {
+                recentPlays.remove(recentPlays.size() - 1);
+            }
             playingList.insertSong(currentSong);
             playingList.getPlaying();
         }
     }
-
     /**
      * Play a Album in the user's library with play all songs in the album
      * @param albumTitle the title of the album to play
@@ -484,12 +493,22 @@ public class LibraryModel {
             System.out.println("No album selected.");
             return false;
         }
-        if (! albumTitle.equalsIgnoreCase(currentAlbum.getTitle())) {
+        if (!albumTitle.equalsIgnoreCase(currentAlbum.getTitle())) {
             return false;
         } else {
             ArrayList<Song> songs = currentAlbum.getSongs();
+            // reverse the list to play songs from last to first
             Collections.reverse(songs);
+
             for (Song song : songs) {
+                // Update stats as well [TODO] Haocheng
+                playCounts.put(song, playCounts.getOrDefault(song, 0) + 1);
+                // Update recent plays
+                recentPlays.remove(song);
+                recentPlays.add(0, song);
+                if (recentPlays.size() > 10) {
+                    recentPlays.remove(recentPlays.size() - 1);
+                }
                 playingList.insertSong(song);
             }
             playingList.getPlaying();
@@ -627,8 +646,17 @@ public class LibraryModel {
      */
     public void playCurrentPlayList() {
         ArrayList<Song> songs = currentPlaylist.getSongs();
+        // Reverse the list to play most recent songs first.
         Collections.reverse(songs);
+
         for (Song song : songs) {
+            // Update stats first
+            playCounts.put(song, playCounts.getOrDefault(song, 0) + 1);
+            recentPlays.remove(song);
+            recentPlays.add(0, song);
+            if (recentPlays.size() > 10) {
+                recentPlays.remove(recentPlays.size() - 1);
+            }
             if (playingList.getSongs().contains(song)) {
                 playingList.removeSong(song);
             }
@@ -721,8 +749,16 @@ public class LibraryModel {
      */
     public void playFavoriteList() {
         ArrayList<Song> songs = favoriteList.getSongs();
+        // Reverse to play most recent favorite first.
         Collections.reverse(songs);
+
         for (Song song : songs) {
+            playCounts.put(song, playCounts.getOrDefault(song,0) + 1);
+            recentPlays.remove(song);
+            recentPlays.add(0, song);
+            if (recentPlays.size() > 10) {
+                recentPlays.remove(recentPlays.size() - 1);
+            }
             if (playingList.getSongs().contains(song)) {
                 playingList.removeSong(song);
             }
@@ -751,4 +787,71 @@ public class LibraryModel {
         return currentSong.getRatingInt();
     }
 
+    // -------------------------------------------------------------------------
+    //                  STATS FUNCTIONS
+    // -------------------------------------------------------------------------
+
+    public List<Song> getTopFrequentSongs() {
+        return playCounts.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    public void printFrequentSongs() {
+        List<Song> frequentSongs = getTopFrequentSongs();
+
+        // if there are any songs to display
+        if (frequentSongs.isEmpty()) {
+            System.out.println("❗No frequent songs to display.");
+            return;
+        }
+        List<List<String>> tableData = new ArrayList<>();
+        List<String> header = Arrays.asList("Rank", "Title", "Artist", "Play Count");
+        tableData.add(header);
+        tableData.add(Arrays.asList("###SEPARATOR###"));
+
+        int rank = 1;
+        for (Song song : frequentSongs) {
+            int count = playCounts.get(song);
+            List<String> row = Arrays.asList(
+                    String.valueOf(rank),
+                    song.getTitle(),
+                    song.getArtist(),
+                    String.valueOf(count)
+            );
+            tableData.add(row);
+            rank++;
+        }
+
+        TablePrinter.printDynamicTable("10 Most Frequently Played Songs", tableData);
+    }
+
+    public List<Song> getRecentSongs() {
+        return new ArrayList<>(recentPlays);
+    }
+    public void printRecentSongs() {
+        List<Song> recentSongs = getRecentSongs();
+        if (recentSongs.isEmpty()) {
+            System.out.println("❗No recent songs to display.");
+            return;
+        }
+        List<List<String>> tableData = new ArrayList<>();
+        List<String> header = Arrays.asList("Rank", "Title", "Artist");
+        tableData.add(header);
+        tableData.add(Arrays.asList("###SEPARATOR###"));
+
+        int rank = 1;
+        for (Song song : recentSongs) {
+            List<String> row = Arrays.asList(
+                    String.valueOf(rank),
+                    song.getTitle(),
+                    song.getArtist()
+            );
+            tableData.add(row);
+            rank++;
+        }
+        TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
+    }
 }

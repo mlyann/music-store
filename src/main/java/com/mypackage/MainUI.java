@@ -16,7 +16,7 @@ public class MainUI {
         libraryModel = new LibraryModel("Chcking2", musicStore);
         System.out.println("======================================================");
         System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
-        System.out.println("         📅 Date: Feb 21, 2025");
+        System.out.println("         📅 Date: March 08, 2025");
         System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
         System.out.println("======================================================");
 
@@ -53,6 +53,7 @@ public class MainUI {
             System.out.println("4) ❤️ Favorite List");
             System.out.println("5) 🏠 Library Lists");
             System.out.println("6) ➕ Load Songs single");
+            System.out.println("7) 📊 Stats");
             System.out.println("0) 🚪 Quit the application");
             System.out.print("👉 Enter your choice: ");
 
@@ -76,6 +77,8 @@ public class MainUI {
                     break;
                 case "6":
                     inputSongs();
+                case "7":
+                    runStatsMenu();
                 case "0":
                     return;
                 default:
@@ -1314,6 +1317,25 @@ public class MainUI {
             } catch (NumberFormatException e) {
                 System.out.println("❗ Invalid rating input.");
             }
+        }
+    }
+
+    private static void runStatsMenu() {
+        System.out.println("\n---------- 📊 STATS ----------");
+
+        // Print the 10 Most Frequently Played Songs.
+        System.out.println("\n10 Most Frequently Played Songs:");
+        libraryModel.printFrequentSongs();
+        System.out.println("\n10 Most Recently Played Songs:");
+        libraryModel.printRecentSongs();
+        System.out.print("\nReturn to Main Menu? (Y/N): ");
+        String response = SCANNER.nextLine().trim().toLowerCase();
+        if (response.equals("y") || response.equals("yes")) {
+            System.out.println("🚪 Back to Main Menu");
+            runMainMenu();
+        } else {
+            System.out.println("🚪 Exiting application. Goodbye!");
+            System.exit(0);
         }
     }
 
