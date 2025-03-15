@@ -1,11 +1,5 @@
 package la1; // Or wherever your package is
 
-
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,41 +11,29 @@ public class MainUI {
     private static final Scanner SCANNER = new Scanner(System.in);
 
 
-    public static void main(String[] args) {
-        musicStore = new MusicStore();
-        libraryModel = new LibraryModel("Chcking2", musicStore);
-        System.out.println("======================================================");
-        System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
-        System.out.println("         📅 Date: March 08, 2025");
-        System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
-        System.out.println("======================================================");
-
-        runMainMenu();
-        System.out.println("🚪 Exiting application. Goodbye!");
-    }
-
-    public static void inputSongs() {
-        while (true) {
-            System.out.print("Enter song details (format: title, artist[, genre, year]) or 0 to exit: ");
-            String input = SCANNER.nextLine().trim();
-            if (input.equals("0")) {
-                return;
-            }
-            try {
-                musicStore.loadSong(input);
-                System.out.println("Song loaded successfully.");
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error loading song: " + e.getMessage());
-            }
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        }
+    public static void init(LibraryModel model) {
+        MainUI.libraryModel = model;
+        musicStore = model.getMusicStore();
     }
 
     // -------------------------------------------------------------------------
     //                  MAIN MENU FUNCTIONS
     // -------------------------------------------------------------------------
-    private static void runMainMenu() {
-        while (true) {
+    static void runMainMenu() {
+        if (libraryModel == null || musicStore == null) {
+            System.out.println("⚠️ MainUI未初始化，请先调用init()方法！");
+            return;
+        }
+
+        System.out.println("======================================================");
+        System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
+        System.out.println("         📅 Date: March 08, 2025");
+        System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
+        System.out.println("    👤 Current User: " + libraryModel.getUserID());
+        System.out.println("======================================================");
+
+        boolean running = true;
+        while (running) {
             System.out.println("\n---------- 🎵 MAIN MENU 🎵 ----------");
             System.out.println("1) 🔍 Search");
             System.out.println("2) 🎧 PlayingList");
@@ -86,10 +68,31 @@ public class MainUI {
                 case "7":
                     runStatsMenu();
                 case "0":
-                    return;
+                    running = false;
+                    break;
                 default:
                     System.out.println("❗ Invalid choice. Please try again.");
             }
+        }
+        System.out.println("🚪 Logging out. Goodbye, " + libraryModel.getUserID() + "!");
+        libraryModel = null;
+        musicStore = null;
+    }
+
+    public static void inputSongs() {
+        while (true) {
+            System.out.print("Enter song details (format: title, artist[, genre, year]) or 0 to exit: ");
+            String input = SCANNER.nextLine().trim();
+            if (input.equals("0")) {
+                return;
+            }
+            try {
+                musicStore.loadSong(input);
+                System.out.println("Song loaded successfully.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error loading song: " + e.getMessage());
+            }
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         }
     }
 

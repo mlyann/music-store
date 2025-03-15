@@ -11,7 +11,7 @@ public class Song extends TablePrinter {
     private final String artist;
     private final Genre genre;
     private final int year;
-    private Album album;
+    private String albumTitle;
 
     private Rating rating = Rating.UNRATED;
     private boolean Favourite = false;
@@ -28,6 +28,7 @@ public class Song extends TablePrinter {
     }
 
     public Song(String title, String artist, String genre, int year) {
+        this.albumTitle = null;
         if (title == null || title.trim().isEmpty() || artist == null || artist.trim().isEmpty()) {
             throw new IllegalArgumentException("Title and artist are required.");
         }
@@ -39,7 +40,6 @@ public class Song extends TablePrinter {
             this.genre = Genre.fromString(genre);
         }
         this.year = year;
-        this.album = null;
     }
 
     /**
@@ -52,7 +52,7 @@ public class Song extends TablePrinter {
         this.artist = other.artist;
         this.genre = other.genre;
         this.year = other.year;
-        this.album = other.album;
+        this.albumTitle = other.albumTitle;
         this.rating = other.rating;
         this.Favourite = other.Favourite;
     }
@@ -105,14 +105,14 @@ public class Song extends TablePrinter {
     }
 
     public String getAlbum() {
-        if (album == null) {
+        if (albumTitle == null) {
             return null;
         }
-        return album.getTitle();
+        return albumTitle;
     }
 
-    public void setAlbum(Album album) {
-        this.album = album;
+    public void setAlbum(String albumTitle) {
+        this.albumTitle = albumTitle;
     }
 
     /**
@@ -133,8 +133,8 @@ public class Song extends TablePrinter {
     public String toString() {
         String result = String.format("[%s, by %s (%s, %d) [%s, %s]", title, artist,
                 genre.getGenre(), year, getFavourite(), rating.toString());
-        if (album != null) {
-            result += " [" + album.getTitle() + "]";
+        if (albumTitle != null) {
+            result += " [" + albumTitle + "]";
         }
         return result;
     }
@@ -152,8 +152,8 @@ public class Song extends TablePrinter {
         result.add(String.valueOf(year));
         result.add(getFavourite());
         result.add(rating.toString());
-        if (album != null) {
-            result.add(album.getTitle());
+        if (albumTitle != null) {
+            result.add(albumTitle);
         } else {
             result.add(null);
         }

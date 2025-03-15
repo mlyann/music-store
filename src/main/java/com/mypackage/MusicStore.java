@@ -9,8 +9,8 @@ import java.net.URL;
 import java.net.URISyntaxException;
 
 public class MusicStore {
-    private final Map<List<String>, Album> albumMap;
-    private final Map<List<String>, Song> songMap;
+    private final Map<String, Album> albumMap;
+    private final Map<String, Song> songMap;
 
     public MusicStore() {
         albumMap = new HashMap<>();
@@ -24,8 +24,8 @@ public class MusicStore {
      * @param artist the artist of the album or song
      * @return a List containing the normalized title and artist
      */
-    public List<String> generateKey(String title, String artist) {
-        return List.of(title.trim().toLowerCase(), artist.trim().toLowerCase());
+    public String generateKey(String title, String artist) {
+        return (title + "|" + artist).toLowerCase();
     }
 
 
@@ -148,7 +148,7 @@ public class MusicStore {
             }
             Album album = new Album(title, artist, genre, year, songs);
             for (Song song : album.getSongsDirect()) {
-                song.setAlbum(album);
+                song.setAlbum(title);
             }
             return album;
         } catch (IOException e) {
@@ -169,11 +169,11 @@ public class MusicStore {
         return songMap.size();
     }
 
-    public Map<List<String>, Song> getSongMap() {
+    public Map<String, Song> getSongMap() {
         return new HashMap<>(songMap);
     }
 
-    public Map<List<String>, Album> getAlbumMap() {
+    public Map<String, Album> getAlbumMap() {
         return new HashMap<>(albumMap);
     }
 }

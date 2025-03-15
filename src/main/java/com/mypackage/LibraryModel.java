@@ -4,14 +4,15 @@ import java.util.stream.Collectors;
 
 public class LibraryModel {
     private final String UserID;
+    private String encryptedPassword;
     // Function is a class that contains all the functions that can be used in the library
     // UserSongs stores all songs in the user's library, each item is a class Song
-    private final HashMap<List<String>, Song> UserSongs;
+    private final HashMap<String, Song> UserSongs;
     // UserAlbums stores all albums in the user's library, each item is a class Album
-    private final HashMap<List<String>, Album> UserAlbums;
+    private final HashMap<String, Album> UserAlbums;
     private final PlayLists PlayLists;
     private Playlist playingList;
-    private final Scanner scanner;
+    private final transient Scanner scanner;
     private ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
     private Playlist currentPlaylist;
@@ -20,11 +21,12 @@ public class LibraryModel {
     private Map<Song, Integer> playCounts = new HashMap<>();
     private List<Song> recentPlays = new ArrayList<>();
 
-    private final MusicStore musicStore;
+    private transient MusicStore musicStore;
     private static FavoriteList favoriteList;
 
     public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;
+        this.encryptedPassword = "";
         this.favoriteList = new FavoriteList();
         this.UserSongs = new HashMap<>();
         this.UserAlbums = new HashMap<>();
@@ -41,8 +43,24 @@ public class LibraryModel {
         return UserID;
     }
 
-    public List<String> generateKey(String title, String artist) {
-        return List.of(title.trim().toLowerCase(), artist.trim().toLowerCase());
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public MusicStore getMusicStore() {
+        return musicStore;
+    }
+
+    public void setMusicStore(MusicStore musicStore) {
+        this.musicStore = musicStore;
+    }
+
+    public String generateKey(String title, String artist) {
+        return (title + "|" + artist).toLowerCase();
     }
 
     // -------------------------------------------------------------------------
@@ -195,18 +213,22 @@ public class LibraryModel {
      * @return a list of songs that match the search keyword
      */
     public ArrayList<Song> searchSongSub(String keyword, boolean isMusicStore) {
-        Map<List<String>, Song> songMap;
+        Map<String, Song> songMap;
         if (isMusicStore) {
             songMap = musicStore.getSongMap();
         } else {
             songMap = UserSongs;
         }
         ArrayList<Song> result = new ArrayList<>();
-        String lowerKeyword = keyword.trim().toLowerCase();
-        for (List<String> key : songMap.keySet()) {
-            for (String part : key) {
-                if (part.equals(lowerKeyword)) {
-                    result.add(songMap.get(key));
+        String lowerKeyword = keyword.toLowerCase().trim();
+
+        for (Map.Entry<String, Song> entry : songMap.entrySet()) {
+            String key = entry.getKey();
+            String[] parts = key.split("\\|");
+
+            for (String part : parts) {
+                if (part.toLowerCase().trim().equals(lowerKeyword)) {
+                    result.add(entry.getValue());
                     break;
                 }
             }
@@ -355,23 +377,32 @@ public class LibraryModel {
      * @return a list of albums that match the search keyword
      */
     public ArrayList<Album> searchAlbumSub(String keyword, boolean isMusicStore) {
-        Map<List<String>, Album> albumMap;
+        Map<String, Album> albumMap;
         if (isMusicStore) {
             albumMap = musicStore.getAlbumMap();
         } else {
             albumMap = UserAlbums;
         }
-        ArrayList<Album> result = new ArrayList<>();;
-        for (List<String> key : albumMap.keySet()) {
-            for (String part : key) {
-                if (part.equalsIgnoreCase(keyword.trim())) {
-                    result.add(albumMap.get(key));
+
+        ArrayList<Album> result = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase().trim();
+
+        for (Map.Entry<String, Album> entry : albumMap.entrySet()) {
+            String key = entry.getKey();
+            String[] parts = key.split("\\|");
+
+            for (String part : parts) {
+                if (part.toLowerCase().trim().equals(lowerKeyword)) {
+                    result.add(entry.getValue());
                     break;
                 }
             }
         }
+
         return result;
     }
+
+
 
 
     /**
@@ -854,4 +885,5 @@ public class LibraryModel {
         }
         TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
     }
+
 }
