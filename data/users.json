@@ -924,5 +924,222 @@
     },
     "playCounts": {},
     "recentPlays": []
+  },
+  "ming": {
+    "UserID": "ming",
+    "encryptedPassword": "null12345nullnullnullnullnull",
+    "UserSongs": {
+      "the scientist|coldplay": {
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a rush of blood to the head|coldplay": {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "green eyes|coldplay": {
+        "title": "Green Eyes",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "god put a smile upon your face|coldplay": {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "daylight|coldplay": {
+        "title": "Daylight",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "amsterdam|coldplay": {
+        "title": "Amsterdam",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "in my place|coldplay": {
+        "title": "In My Place",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "politik|coldplay": {
+        "title": "Politik",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "warning sign|coldplay": {
+        "title": "Warning Sign",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a whisper|coldplay": {
+        "title": "A Whisper",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "clocks|coldplay": {
+        "title": "Clocks",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    },
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchSongList": [
+      {
+        "title": "Green Eyes",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Politik",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Amsterdam",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Warning Sign",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Daylight",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Clocks",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "In My Place",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "A Whisper",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    ],
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": []
   }
 }

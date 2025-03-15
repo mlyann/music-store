@@ -85,5 +85,8 @@ public class PlayLists {
         return new ArrayList<>(playLists.keySet());
     }
 
+    public Playlist getPlayListByName(String name) {
+        return playLists.get(name);
+    }
 
 }

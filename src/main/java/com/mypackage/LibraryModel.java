@@ -914,4 +914,64 @@ public class LibraryModel {
         TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
     }
 
+    public void generateAutomaticPlaylists() {
+        //i. Favorite Songs (all the songs the user has marked as favorite or rated as
+        //5)
+        String favPlaylistName = "Favorite Songs";
+        if (!PlayLists.getPlayListNames().contains(favPlaylistName)) {
+            PlayLists.addPlayList(favPlaylistName);
+        }
+        Playlist autoFavorite = PlayLists.getPlayListByName(favPlaylistName);
+        if (autoFavorite != null) {
+            autoFavorite.clear();
+            for (Song song : favoriteList.getSongs()) {
+                autoFavorite.addSong(song);
+            }
+        }
+
+        //ii. Any genre for which there are at least 10 songs in the library. For
+        //example, if the user’s library has 15 ROCK songs, 8 COUNTRY songs,
+        //and 20 CLASSICAL songs, there should be playlists for ROCK and
+        //CLASSICAL, but not COUNTRY.
+        String topRatedName = "Top Rated";
+        if (!PlayLists.getPlayListNames().contains(topRatedName)) {
+            PlayLists.addPlayList(topRatedName);
+        }
+        Playlist topRatedPlaylist = PlayLists.getPlayListByName(topRatedName);
+        if (topRatedPlaylist != null) {
+            topRatedPlaylist.clear();
+            for (Song song : UserSongs.values()) {
+                if (song.getRatingInt() >= 4) {
+                    topRatedPlaylist.addSong(song);
+                }
+            }
+        }
+
+        //iii. Top Rated (all the songs rated as 4 or 5)
+        //*The user should be able to specify how they want the list sorted when they do the query.
+        HashMap<String, ArrayList<Song>> genreMap = new HashMap<>();
+        for (Song song : UserSongs.values()) {
+            String genre = song.getGenre();
+            if (!genreMap.containsKey(genre)) {
+                genreMap.put(genre, new ArrayList<>());
+            }
+            genreMap.get(genre).add(song);
+        }
+        for (Map.Entry<String, ArrayList<Song>> entry : genreMap.entrySet()) {
+            String genreName = entry.getKey();
+            ArrayList<Song> songsOfGenre = entry.getValue();
+            if (songsOfGenre.size() >= 10) {
+                if (!PlayLists.getPlayListNames().contains(genreName)) {
+                    PlayLists.addPlayList(genreName);
+                }
+                Playlist genrePlaylist = PlayLists.getPlayListByName(genreName);
+                if (genrePlaylist != null) {
+                    genrePlaylist.clear();
+                    for (Song song : songsOfGenre) {
+                        genrePlaylist.addSong(song);
+                    }
+                }
+            }
+        }
+    }
 }

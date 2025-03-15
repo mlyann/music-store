@@ -959,6 +959,7 @@ public class MainUI {
      * Search for playlists in the User Library.
      */
     private static void searchPlaylistsPipeline() {
+        libraryModel.generateAutomaticPlaylists();
         while (true) {
             System.out.println("\n--- 📝 Searching for Playlists ---");
             System.out.println("🔎 Enter Playlist Name");
@@ -982,6 +983,7 @@ public class MainUI {
      * Search for songs in the User Library.
      */
     private static void runPlayListsMenu() {
+        libraryModel.generateAutomaticPlaylists();
         while (true) {
             System.out.println("\n---------- 🎵 PLAYLISTS MENU 🎵 ----------");
             System.out.println("1) 📝 Open a playlists");
@@ -1021,6 +1023,7 @@ public class MainUI {
      * Run the playlist submenu
      */
     private static void playListSubMenu() {
+        libraryModel.generateAutomaticPlaylists();
         System.out.println("Selected Playlist: " + libraryModel.getCurrentPlaylistName());
         while (true) {
             System.out.println("\n---------- 🎵 PLAYLISTS SUBMENU 🎵 ----------");
@@ -1081,6 +1084,7 @@ public class MainUI {
      * Open a playlist
      */
     private static boolean openPlayList() {
+        libraryModel.generateAutomaticPlaylists();
         libraryModel.printAllPlayLists();
         System.out.println("🎵 Enter the playlist number to open: ");
         System.out.println("0) 🔙 Go back");
@@ -1109,6 +1113,7 @@ public class MainUI {
      * Delete a playlist
      */
     private static void deletePlaylist() {
+        libraryModel.generateAutomaticPlaylists();
         libraryModel.printAllPlayLists();
         System.out.println("🎵 Enter the playlist number to delete: ");
         System.out.println("0) 🔙 Go back");
@@ -1137,6 +1142,7 @@ public class MainUI {
      * Search for songs to add to playlists
      */
     private static void searchSongToPlaylists() {
+        libraryModel.generateAutomaticPlaylists();
         // Print the user songs with numbers
         libraryModel.userSongSearch();   // set the search list to user songs
         libraryModel.printUserSongsTable();
@@ -1169,6 +1175,7 @@ public class MainUI {
      * Search for songs to remove from playlists
      */
     private static void searchSongFromPlaylists() {
+        libraryModel.generateAutomaticPlaylists();
         // Print the current playlist with numbers
         libraryModel.playListsCurrent();  // set the search list to playlist
         libraryModel.printCurrentPlaylist();
