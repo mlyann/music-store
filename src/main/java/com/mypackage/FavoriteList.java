@@ -38,6 +38,7 @@ public class FavoriteList extends Playlist {
      */
     @Override
     public void printAsTable() {
+        sortSongs();
         if (getSongs().isEmpty()) {
             System.out.println("The playlist is empty.");
             return;

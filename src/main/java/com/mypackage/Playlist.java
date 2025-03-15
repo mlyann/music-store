@@ -87,6 +87,7 @@ public class Playlist {
      * use table to print
      */
     public void printAsTable() {
+        sortSongs();
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -170,4 +171,22 @@ public class Playlist {
         }
         return sb.toString();
     }
+
+//    Tutorials for how to customize sorting algorithm. @Author: Ming
+//    https://stackoverflow.com/questions/16425127/how-to-use-collections-sort-in-java
+    public void sortSongs() {
+        Collections.sort(songs,
+                (s1, s2) -> {
+            int cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return Integer.compare(s1.getRatingInt(), s2.getRatingInt());
+        });
+    }
+
 }

@@ -130,7 +130,7 @@ public class LibraryModel {
     //                  CURRENT SONG LIST
     // -------------------------------------------------------------------------
 
-    public void userSongSerch() {
+    public void userSongSearch() {
         searchSongList = new ArrayList<>(UserSongs.values());
     }
 
@@ -236,6 +236,23 @@ public class LibraryModel {
         return result;
     }
 
+//    copied from Playlist
+    private List<Song> getSortedUserSongs() {
+        List<Song> sortedSongs = new ArrayList<>(UserSongs.values());
+        Collections.sort(sortedSongs, (s1, s2) -> {
+            int cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return Integer.compare(s1.getRatingInt(), s2.getRatingInt());
+        });
+        return sortedSongs;
+    }
+
     /**
      * Add all songs in the search result to the user's library
      * @param checkSize the size of the search result
@@ -278,33 +295,43 @@ public class LibraryModel {
      * Print the user's song library in a table format
      * @return a list of songs in the user's library in String format
      */
-    public ArrayList<ArrayList<String>> SongToString () {
+    public ArrayList<ArrayList<String>> SongToString() {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
-        result.add(currentAlbum.getAlbumInfo());
-        for (Song song : searchSongList) {
+        if (currentAlbum != null) {
+            result.add(currentAlbum.getAlbumInfo());
+        }
+        // similar sorting method as Playlist.sort()
+        ArrayList<Song> sortedSongs = new ArrayList<>(searchSongList);
+        Collections.sort(sortedSongs, (s1, s2) -> {
+            int cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return Integer.compare(s1.getRatingInt(), s2.getRatingInt());
+        });
+        for (Song song : sortedSongs) {
             result.add(song.toStringList());
         }
         return result;
     }
-
-
 
     /**
      * Print the user's song library in a table format
      * The table includes the song's title, artist, genre, year, favorite status, rating, and album
      */
     public void printUserSongsTable() {
-        // Prepare the header row. Adjust the column names as needed.
+        List<Song> sortedSongs = getSortedUserSongs();
         List<List<String>> tableData = new ArrayList<>();
         List<String> header = Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Favorite", "Rating", "Album");
         tableData.add(header);
-
-        // Add a separator marker to visually separate the header from the data rows.
         tableData.add(Arrays.asList("###SEPARATOR###"));
 
-        // Iterate over the user's songs and add each one as a row.
         int index = 1;
-        for (Song song : UserSongs.values()) {
+        for (Song song : sortedSongs) {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(index++));
             row.add(song.getTitle());
@@ -317,13 +344,14 @@ public class LibraryModel {
             tableData.add(row);
         }
 
-        // Print the table with a title
+        // call Table Printer to print as a table
         TablePrinter.printDynamicTable("User Songs Library", tableData);
     }
 
     public ArrayList<ArrayList<String>> getSongList() {
+        List<Song> sortedSongs = getSortedUserSongs();
         ArrayList<ArrayList<String>> result = new ArrayList<>();
-        for (Song song : UserSongs.values()) {
+        for (Song song : sortedSongs) {
             result.add(song.toStringList());
         }
         return result;

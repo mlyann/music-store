@@ -827,7 +827,7 @@ public class MainUI {
      */
     private static void addSongToPlaylist() {
         // Print the user songs with numbers
-        libraryModel.userSongSerch();   // set the search list to user songs
+        libraryModel.userSongSearch();   // set the search list to user songs
         libraryModel.printUserSongsTable();
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to add: ");
@@ -1138,7 +1138,7 @@ public class MainUI {
      */
     private static void searchSongToPlaylists() {
         // Print the user songs with numbers
-        libraryModel.userSongSerch();   // set the search list to user songs
+        libraryModel.userSongSearch();   // set the search list to user songs
         libraryModel.printUserSongsTable();
         int size = libraryModel.getSearchSongListSize();
         System.out.println("🎶 Enter the song number to add: ");
@@ -1247,7 +1247,7 @@ public class MainUI {
      */
     private static void addSongToFavourite() {
         // Print the user songs with numbers
-        libraryModel.userSongSerch();   // set the search list to user songs
+        libraryModel.userSongSearch();   // set the search list to user songs
         libraryModel.printUserSongsTable();
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to add: ");
