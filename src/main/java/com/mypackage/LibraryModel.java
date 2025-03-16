@@ -59,8 +59,8 @@ public class LibraryModel {
         this.musicStore = musicStore;
     }
 
-    public String generateKey(String title, String artist) {
-        return (title + "|" + artist).toLowerCase();
+    public String generateKey(String title, String artist, String genre) {
+        return (title + "|" + artist + "|" + genre).toLowerCase();
     }
 
     // -------------------------------------------------------------------------
@@ -148,8 +148,8 @@ public class LibraryModel {
         return searchSongList.size();
     }
 
-    public void printCurrentPlayList() {
-        playingList.printAsTable();
+    public void printCurrentPlayList(String key) {
+        playingList.printAsTable(key);
     }
 
 
@@ -185,9 +185,11 @@ public class LibraryModel {
      * Title|artist as key, class Song as value
      */
     private void addSong(Song song) {
-        UserSongs.put(generateKey(song.getTitle(), song.getArtist()), song);
+        UserSongs.put(generateKey(song.getTitle(), song.getArtist(), song.getGenre()), song);
     }
 
+    /* [TODO] Ming: search for genre
+    */
     public ArrayList<ArrayList<String>> searchSong (String keyword, boolean isMusicStore) {
         searchSongList = new ArrayList<>();
         ArrayList<Song> songs;
@@ -196,6 +198,7 @@ public class LibraryModel {
         } else {
             songs = searchSongSub(keyword, false);
         }
+//        [TODO] Sort the songs - 三个选项
         searchSongList = songs;
 
         ArrayList<ArrayList<String>> result = new ArrayList<>();
@@ -207,6 +210,7 @@ public class LibraryModel {
 
 
     /**
+
      * Search for a song in the user's library or the music store
      * @param keyword the search keyword
      * @param isMusicStore true if searching in the music store, false if searching in the user's library
@@ -221,16 +225,31 @@ public class LibraryModel {
         }
         ArrayList<Song> result = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase().trim();
+        Genre searchedGenre = null;
+        if (isMusicStore) {
+            searchedGenre = Genre.fromString(keyword);
+        }
 
         for (Map.Entry<String, Song> entry : songMap.entrySet()) {
+            Song song = entry.getValue();
+            boolean isMatch = false;
             String key = entry.getKey();
             String[] parts = key.split("\\|");
 
             for (String part : parts) {
                 if (part.toLowerCase().trim().equals(lowerKeyword)) {
-                    result.add(entry.getValue());
+                    isMatch = true;
                     break;
                 }
+            }
+            if (!isMatch && isMusicStore && searchedGenre != null
+                    && searchedGenre != Genre.UNKNOWN && searchedGenre != Genre.OTHER) {
+                if (song.getGenre().equalsIgnoreCase(searchedGenre.getGenre())) {
+                    isMatch = true;
+                }
+            }
+            if (isMatch) {
+                result.add(song);
             }
         }
         return result;
@@ -319,19 +338,50 @@ public class LibraryModel {
         return result;
     }
 
+
     /**
-     * Print the user's song library in a table format
-     * The table includes the song's title, artist, genre, year, favorite status, rating, and album
+     * Print the user's song library in a table format with custom sorting.
+     * Sorting options:
+     *   "title"  - sort by song title (alphabetically)
+     *   "artist" - sort by artist (alphabetically)
+     *   "rating" - sort by rating (descending order)
      */
-    public void printUserSongsTable() {
-        List<Song> sortedSongs = getSortedUserSongs();
+    /**
+     * Print the user's song library in a table format with custom sorting.
+     * Sorting options:
+     *   "title"  - sort by song title (alphabetically)
+     *   "artist" - sort by artist (alphabetically)
+     *   "rating" - sort by rating (descending order)
+     */
+    public void printUserSongsTable(String sortMethod) {
+        // copy songs list
+        List<Song> songs = new ArrayList<>(UserSongs.values());
+
+        // sorting by default
+        if (sortMethod != null) {
+            switch (sortMethod.toLowerCase()) {
+                case "title":
+                    Collections.sort(songs, (s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
+                    break;
+                case "artist":
+                    Collections.sort(songs, (s1, s2) -> s1.getArtist().compareToIgnoreCase(s2.getArtist()));
+                    break;
+                case "rating":
+                    Collections.sort(songs, (s1, s2) -> Integer.compare(s2.getRatingInt(), s1.getRatingInt()));
+                    break;
+                default:
+                    Collections.sort(songs, (s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
+                    break;
+            }
+        }
+        searchSongList = new ArrayList<>(songs);
         List<List<String>> tableData = new ArrayList<>();
         List<String> header = Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Favorite", "Rating", "Album");
         tableData.add(header);
         tableData.add(Arrays.asList("###SEPARATOR###"));
 
         int index = 1;
-        for (Song song : sortedSongs) {
+        for (Song song : songs) {
             List<String> row = new ArrayList<>();
             row.add(String.valueOf(index++));
             row.add(song.getTitle());
@@ -343,8 +393,6 @@ public class LibraryModel {
             row.add(song.getAlbum() != null ? song.getAlbum() : "");
             tableData.add(row);
         }
-
-        // call Table Printer to print as a table
         TablePrinter.printDynamicTable("User Songs Library", tableData);
     }
 
@@ -368,9 +416,9 @@ public class LibraryModel {
      * also add all songs in the album to the library
      */
     public void addAlbum(Album album) {
-        UserAlbums.put(generateKey(album.getTitle(), album.getArtist()), album);
+        UserAlbums.put(generateKey(album.getTitle(), album.getArtist(), album.getGenre()), album);
         for (Song song : album.getSongs()) {
-            UserSongs.put(generateKey(song.getTitle(), song.getArtist()), song);
+            UserSongs.put(generateKey(song.getTitle(), song.getArtist(),  album.getGenre()), song);
         }
     }
 
@@ -521,8 +569,8 @@ public class LibraryModel {
     /**
      * Print the current playing list in a table format
      */
-    public void printPlaylist() {
-        playingList.printAsTable();
+    public void printPlaylist(String key) {
+        playingList.printAsTable(key);
     }
 
     /**
@@ -637,16 +685,16 @@ public class LibraryModel {
     //                  PLAYLISTS FUNCTIONS
     // -------------------------------------------------------------------------
 
-    public void getPlayLists(String name) {
-        PlayLists.printPlayList(name);
+    public void getPlayLists(String name, String key) {
+        PlayLists.printPlayList(name,key);
     }
 
     public ArrayList<String> getPlayListNames() {
         return PlayLists.getPlayListNames();
     }
 
-    public void printAllPlayLists() {
-        PlayLists.printAllPlayLists();
+    public void printAllPlayLists(String key) {
+        PlayLists.printAllPlayLists(key);
     }
 
     public Boolean createPlaylist (String name) {
@@ -728,8 +776,8 @@ public class LibraryModel {
         return currentPlaylist.getSize();
     }
 
-    public void printCurrentPlaylist() {
-        currentPlaylist.printAsTable();
+    public void printCurrentPlaylist(String key) {
+        currentPlaylist.printAsTable(key);
     }
 
     public String getCurrentPlaylistName() {
@@ -763,8 +811,8 @@ public class LibraryModel {
         return result;
     }
 
-    public void printFavoriteList() {
-        favoriteList.printAsTable();
+    public void printFavoriteList(String key) {
+        favoriteList.printAsTable(key);
     }
 
     /**
@@ -914,6 +962,7 @@ public class LibraryModel {
         TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
     }
 
+//    C: F generate automatic playlists.
     public void generateAutomaticPlaylists() {
         //i. Favorite Songs (all the songs the user has marked as favorite or rated as
         //5)
@@ -928,11 +977,9 @@ public class LibraryModel {
                 autoFavorite.addSong(song);
             }
         }
+        //iii. Top Rated (all the songs rated as 4 or 5)
+        //*The user should be able to specify how they want the list sorted when they do the query.
 
-        //ii. Any genre for which there are at least 10 songs in the library. For
-        //example, if the user’s library has 15 ROCK songs, 8 COUNTRY songs,
-        //and 20 CLASSICAL songs, there should be playlists for ROCK and
-        //CLASSICAL, but not COUNTRY.
         String topRatedName = "Top Rated";
         if (!PlayLists.getPlayListNames().contains(topRatedName)) {
             PlayLists.addPlayList(topRatedName);
@@ -947,8 +994,10 @@ public class LibraryModel {
             }
         }
 
-        //iii. Top Rated (all the songs rated as 4 or 5)
-        //*The user should be able to specify how they want the list sorted when they do the query.
+        //ii. Any genre for which there are at least 10 songs in the library. For
+        //example, if the user’s library has 15 ROCK songs, 8 COUNTRY songs,
+        //and 20 CLASSICAL songs, there should be playlists for ROCK and
+        //CLASSICAL, but not COUNTRY.
         HashMap<String, ArrayList<Song>> genreMap = new HashMap<>();
         for (Song song : UserSongs.values()) {
             String genre = song.getGenre();
@@ -974,4 +1023,105 @@ public class LibraryModel {
             }
         }
     }
+
+    static void printSongSearchResults(String tableTitle, ArrayList<ArrayList<String>> songResults, String location, String sortOption) {
+        if (songResults == null || songResults.isEmpty()) {
+            System.out.println("❗ No Songs in Library.");
+            return;
+        }
+        boolean isStore = location.equals("STORE");
+
+        // songResults based on sortOption
+        if (!sortOption.equals("none")) {
+            switch (sortOption) {
+                case "title":
+                    Collections.sort(songResults, (row1, row2) -> {
+                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0)); // 标题比较
+                        if (cmp != 0) return cmp;
+                        cmp = row1.get(1).compareToIgnoreCase(row2.get(1)); // 歌手比较
+                        if (cmp != 0) return cmp;
+                        if (!isStore && row1.size() > 5 && row2.size() > 5) {
+                            try {
+                                int rating1 = Integer.parseInt(row1.get(5));
+                                int rating2 = Integer.parseInt(row2.get(5));
+                                return Integer.compare(rating1, rating2);
+                            } catch (NumberFormatException e) {
+                                return 0;
+                            }
+                        }
+                        return 0;
+                    });
+                    break;
+                case "artist":
+                    Collections.sort(songResults, (row1, row2) ->
+                            row1.get(1).compareToIgnoreCase(row2.get(1))
+                    );
+                    break;
+                case "rating":
+                    Collections.sort(songResults, (row1, row2) -> {
+                        if (isStore) {
+                            return row1.get(0).compareToIgnoreCase(row2.get(0));
+                        }
+                        try {
+                            int rating1 = Integer.parseInt(row1.get(5));
+                            int rating2 = Integer.parseInt(row2.get(5));
+                            int cmp = Integer.compare(rating2, rating1); // 降序排序
+                            if (cmp != 0) return cmp;
+                        } catch (NumberFormatException e) {
+                            int cmp = row1.get(5).compareToIgnoreCase(row2.get(5));
+                            if (cmp != 0) return cmp;
+                        }
+                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
+                        if (cmp != 0) return cmp;
+                        return row1.get(1).compareToIgnoreCase(row2.get(1));
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        List<String> header = new ArrayList<>();
+        header.add("No.");
+        header.add("Title");
+        header.add("Artist");
+        header.add("Genre");
+        header.add("Year");
+        if (!isStore) {
+            header.add("Favorite");
+            header.add("Rating  ");
+        }
+        boolean anyAlbum = false;
+        for (List<String> row : songResults) {
+            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
+                anyAlbum = true;
+                break;
+            }
+        }
+        if (anyAlbum) {
+            header.add("Album");
+        }
+        List<List<String>> tableRows = new ArrayList<>();
+        tableRows.add(header);
+        int index = 1;
+        for (List<String> row : songResults) {
+            List<String> newRow = new ArrayList<>();
+            newRow.add(String.valueOf(index++));
+            newRow.add(row.get(0));
+            newRow.add(row.get(1));
+            newRow.add(row.get(2));
+            newRow.add(row.get(3));
+            if (!isStore) {
+                newRow.add(row.get(4));
+                newRow.add(row.get(5));
+            }
+            if (anyAlbum) {
+                String album = (row.size() > 6) ? row.get(6) : "";
+                newRow.add(album == null ? "" : album);
+            }
+            tableRows.add(newRow);
+        }
+        TablePrinter.printDynamicTable(tableTitle, tableRows);
+    }
 }
+

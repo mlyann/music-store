@@ -37,8 +37,10 @@ public class FavoriteList extends Playlist {
      *  and then prints the table using the TablePrinter.
      */
     @Override
-    public void printAsTable() {
-        sortSongs();
+    public void printAsTable(String key) {
+        if (key.toLowerCase().equals("title")){sortSongsByTitle();}
+        else if (key.toLowerCase().equals("rating")){sortSongsByRating();}
+        else if (key.toLowerCase().equals("year")){sortSongsByYear();}
         if (getSongs().isEmpty()) {
             System.out.println("The playlist is empty.");
             return;

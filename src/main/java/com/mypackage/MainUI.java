@@ -109,7 +109,8 @@ public class MainUI {
 
             switch (choice) {
                 case "1":
-                    printSongSearchResults("Library Songs", libraryModel.getSongList(), "LIBRARY");
+                    String sort = chooseSortingMethod();
+                    libraryModel.printSongSearchResults("Library Songs", libraryModel.getSongList(), "LIBRARY", sort);
                     break;
                 case "2":
                     printAlbumSearchResults(libraryModel.getAlbumList());
@@ -118,7 +119,34 @@ public class MainUI {
                     libraryModel.printAllArtists();
                     break;
                 case "4":
-                    libraryModel.printAllPlayLists();
+                    System.out.println("\n---------- How do you want to sort playlists? ----------");
+                    System.out.println("1) 🎸 By Title");
+                    System.out.println("2) \uD83E\uDDD1\u200D\uD83C\uDFA8 By Artist");
+                    System.out.println("3) ⭐ By Rating");
+                    System.out.println("4) 🔢 No Sorting");
+                    System.out.println("0) 🔙 Back to Library Lists");
+                    System.out.print("👉 Enter your choice: ");
+                    String sortChoice = SCANNER.nextLine().trim();
+                    switch (sortChoice) {
+                        case "1":
+                            libraryModel.printAllPlayLists("title");
+                            break;
+                        case "2":
+                            libraryModel.printAllPlayLists("artist");
+                            break;
+                        case "3":
+                            libraryModel.printAllPlayLists("rating");
+                            break;
+                        case "4":
+                            libraryModel.printAllPlayLists("none");
+                            break;
+                        case "0":
+                            break;
+                        default:
+                            System.out.println("❗ Invalid sort choice. Returning to Library Lists.");
+                            break;
+                    }
+                    break;
                 case "0":
                     return;
                 default:
@@ -213,7 +241,7 @@ public class MainUI {
     private static void searchSongsPipeline(String location) {
         while (true) {
             System.out.println("\n--- 🎤 Searching for Songs ---");
-            System.out.println("🔎 Enter song title or artist keyword  ");
+            System.out.println("🔎 Enter song title or artist keyword (If you saved the songs before, you can also enter GENRE!!)");
             System.out.println("0) 🔙 Back to search menu: ");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -237,68 +265,11 @@ public class MainUI {
                 System.out.println("❗ No songs found for '" + keyword + "'.");
             } else {
                 System.out.println("\nFound " + songResults.size() + " matching song(s):\n");
-                printSongSearchResults("Search Results (Songs)", songResults, location);
+                String sort = chooseSortingMethod();
+                libraryModel.printSongSearchResults("Search Results (Songs)", songResults, location, sort);
                 songSelectionMenu(songResults, location);
             }
         }
-    }
-
-    /**
-     * Printing Songs in a Table
-     */
-    private static void printSongSearchResults(String tableTitle,ArrayList<ArrayList<String>> songResults,
-                                               String location) {
-        if (songResults == null || songResults.isEmpty()) {
-            System.out.println("❗ No Songs in Library.");
-            return;
-        }
-        List<String> header = new ArrayList<>();
-        header.add("No.");
-        header.add("Title");
-        header.add("Artist");
-        header.add("Genre");
-        header.add("Year");
-
-        boolean isStore = location.equals("STORE");
-        if (!isStore) {
-            header.add("Favorite");
-            header.add("Rating  ");
-        }
-        boolean anyAlbum = false;
-        for (List<String> row : songResults) {
-            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
-                anyAlbum = true;
-                break;
-            }
-        }
-        if (anyAlbum) {
-            header.add("Album");
-        }
-        List<List<String>> tableRows = new ArrayList<>();
-        tableRows.add(header);
-        int index = 1;
-        for (List<String> row : songResults) {
-            List<String> newRow = new ArrayList<>();
-            newRow.add(String.valueOf(index++));
-            newRow.add(row.get(0));
-            newRow.add(row.get(1));
-            newRow.add(row.get(2));
-            newRow.add(row.get(3));
-
-            if (!isStore) {
-                newRow.add(row.get(4));
-                newRow.add(row.get(5));
-            }
-
-            if (anyAlbum) {
-                String album = (row.size() > 6) ? row.get(6) : "";
-                newRow.add(album == null ? "" : album);
-            }
-
-            tableRows.add(newRow);
-        }
-
-        TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
 
     /**
@@ -745,7 +716,8 @@ public class MainUI {
         sb.append(", ");
         sb.append(albumInfo.get(3));
         sb.append(")\n");
-        printSongSearchResults("Album Songs", albumSongs, "LIBRARY");
+        String sort = chooseSortingMethod();
+        libraryModel.printSongSearchResults("Album Songs", albumSongs, "LIBRARY", sort);
         handleSongSelection(albumSongs, "LIBRARY", sb.toString());
 
     }
@@ -757,9 +729,10 @@ public class MainUI {
      * Run the playlist menu.
      */
     private static void runPlaylistMenu() {
+        String sortOrder = "none"; // 初始排序方式为 none
         while (true) {
             System.out.println("\n---------- ▶️ PLAYLIST MENU ▶️ ----------");
-            System.out.println("1) 📝 Show current playlist");
+            System.out.println("1) 📝 Show current playlist (Sorted by: " + sortOrder + ")");
             System.out.println("2) 🗑️ Clear playlist");
             System.out.println("3) ➕ Add songs to a playlist");
             System.out.println("4) ❌ Remove songs from a playlist");
@@ -768,13 +741,14 @@ public class MainUI {
             System.out.println("7) ⭐ Rate a song in playlist");
             System.out.println("8) ❤️ Favorite a song in playlist");
             System.out.println("9) 🔄 Shuffle playlist");
+            System.out.println("10) 🔢 Sorting");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
 
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "2":
                     clearPlaylist();
@@ -784,32 +758,66 @@ public class MainUI {
                     break;
                 case "4":
                     removeSongFromPlaylist();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "5":
                     playSongInPlaylist();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "6":
                     libraryModel.playNextSong();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "7":
                     rateSongInPlaylist();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "8":
                     favoriteSongInPlaylist();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
                     break;
                 case "9":
                     libraryModel.shufflePlaylist();
-                    libraryModel.printPlaylist();
+                    libraryModel.printPlaylist(sortOrder);
+                    break;
+                case "10":
+                    System.out.println("\n---------- How do you want to sort playlists? ----------");
+                    System.out.println("1) 🎸 By Title");
+                    System.out.println("2) \uD83E\uDDD1\u200D\uD83C\uDFA8 By Artist");
+                    System.out.println("3) ⭐ By Rating");
+                    System.out.println("4) 🔢 No Sorting");
+                    System.out.println("0) 🔙 Back to Playlist Menu");
+                    System.out.print("👉 Enter your choice: ");
+                    String sortChoice = SCANNER.nextLine().trim();
+                    switch (sortChoice) {
+                        case "1":
+                            sortOrder = "title";
+                            System.out.println("Sorting by Artist selected.");
+                            break;
+                        case "2":
+                            sortOrder = "artist";
+                            System.out.println("Sorting by Year selected.");
+                            break;
+                        case "3":
+                            sortOrder = "rating";
+                            System.out.println("Sorting by Rating selected.");
+                            break;
+                        case "4":
+                            sortOrder = "none";
+                            System.out.println("No Sorting selected.");
+                            break;
+                        case "0":
+                            break;
+                        default:
+                            System.out.println("❗ Invalid sorting choice.");
+                            break;
+                    }
                     break;
                 case "0":
                     return;
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
+                    break;
             }
         }
     }
@@ -828,7 +836,8 @@ public class MainUI {
     private static void addSongToPlaylist() {
         // Print the user songs with numbers
         libraryModel.userSongSearch();   // set the search list to user songs
-        libraryModel.printUserSongsTable();
+        String sort = chooseSortingMethod();
+        libraryModel.printUserSongsTable(sort);
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to add: ");
         String input = SCANNER.nextLine().trim();
@@ -850,16 +859,15 @@ public class MainUI {
      * remove a song from the playlist
      */
     private static void removeSongFromPlaylist() {
-        // Print the current playlist with numbers
-        libraryModel.playListSearch();  // set the search list to playlist
-        libraryModel.printPlaylist();
+        libraryModel.playListSearch();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printPlaylist(sortKey);
+
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to remove: ");
         String input = SCANNER.nextLine().trim();
         try {
             int songNumber = Integer.parseInt(input);
-            // Get the current playlist songs for lookup
-            ArrayList<Song> playlistSongs = libraryModel.getPlaylist();
             if (songNumber < 1 || songNumber > size) {
                 System.out.println("Invalid selection. Please enter a valid number.");
                 return;
@@ -868,6 +876,34 @@ public class MainUI {
             libraryModel.removeSongFromPlaylist();
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a valid number.");
+        }
+        sortKey = chooseSortingMethod();
+        libraryModel.printPlaylist(sortKey);
+    }
+
+    /**
+     * let the user pick which sorting
+     */
+    private static String chooseSortingMethod() {
+        System.out.println("\n---------- How do you want to sort the playlist? ----------");
+        System.out.println("1) 🎸 By Title");
+        System.out.println("2) \uD83E\uDDD1\u200D\uD83C\uDFA8 By Artist");
+        System.out.println("3) ⭐ By Rating");
+        System.out.println("4) 🔢 No Sorting");
+        System.out.print("👉 Enter your choice: ");
+        String choice = SCANNER.nextLine().trim();
+        switch (choice) {
+            case "1":
+                return "title";
+            case "2":
+                return "artist";
+            case "3":
+                return "rating";
+            case "4":
+                return "none";
+            default:
+                System.out.println("❗No Sorting");
+                return "none";
         }
     }
 
@@ -889,7 +925,8 @@ public class MainUI {
     private static void rateSongInPlaylist() {
         // Print the current playlist with numbers
         libraryModel.playListSearch();  // set the search list to playlist
-        libraryModel.printPlaylist();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printPlaylist(sortKey);
         int size = libraryModel.getSearchSongListSize();
         System.out.print("❤️ Enter the Song Number to Rate: ");
         String input = SCANNER.nextLine().trim();
@@ -913,7 +950,8 @@ public class MainUI {
      */
     private static void favoriteSongInPlaylist() {
         libraryModel.playListSearch();  // set the search list to playlist
-        libraryModel.printPlaylist();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printPlaylist(sortKey);
         int size = libraryModel.getSearchSongListSize();
         System.out.print("⭐ Enter the Song Number to Favourite: ");
         String input = SCANNER.nextLine().trim();
@@ -975,7 +1013,8 @@ public class MainUI {
                 runMainMenu();
                 return;
             }
-            libraryModel.getPlayLists(keyword);
+            String sortKey = chooseSortingMethod();
+            libraryModel.getPlayLists(keyword,sortKey);
         }
     }
 
@@ -1085,7 +1124,8 @@ public class MainUI {
      */
     private static boolean openPlayList() {
         libraryModel.generateAutomaticPlaylists();
-        libraryModel.printAllPlayLists();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printAllPlayLists(sortKey);
         System.out.println("🎵 Enter the playlist number to open: ");
         System.out.println("0) 🔙 Go back");
         System.out.print("👉 Enter choice: ");
@@ -1100,7 +1140,8 @@ public class MainUI {
                     System.out.println("Invalid selection. Please enter a valid number.");
                 } else {
                     libraryModel.selectCurrentPlaylist(playlistNumber - 1);
-                    libraryModel.printCurrentPlaylist();
+                    String sortKey1 = chooseSortingMethod();
+                    libraryModel.printCurrentPlaylist(sortKey1);
                     return true;
                 }
             } catch (NumberFormatException e) {
@@ -1114,7 +1155,8 @@ public class MainUI {
      */
     private static void deletePlaylist() {
         libraryModel.generateAutomaticPlaylists();
-        libraryModel.printAllPlayLists();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printAllPlayLists(sortKey);
         System.out.println("🎵 Enter the playlist number to delete: ");
         System.out.println("0) 🔙 Go back");
         System.out.print("👉 Enter choice: ");
@@ -1130,7 +1172,8 @@ public class MainUI {
                 } else {
                     libraryModel.removePlayList(playlistNumber - 1);
                     System.out.println("🎵 Playlist deleted.");
-                    libraryModel.printAllPlayLists();
+                    String sortKey1 = chooseSortingMethod();
+                    libraryModel.printAllPlayLists(sortKey1);
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
@@ -1145,7 +1188,8 @@ public class MainUI {
         libraryModel.generateAutomaticPlaylists();
         // Print the user songs with numbers
         libraryModel.userSongSearch();   // set the search list to user songs
-        libraryModel.printUserSongsTable();
+        String sort = chooseSortingMethod();
+        libraryModel.printUserSongsTable(sort);
         int size = libraryModel.getSearchSongListSize();
         System.out.println("🎶 Enter the song number to add: ");
         System.out.println("0) 🔙 Go back");
@@ -1178,7 +1222,8 @@ public class MainUI {
         libraryModel.generateAutomaticPlaylists();
         // Print the current playlist with numbers
         libraryModel.playListsCurrent();  // set the search list to playlist
-        libraryModel.printCurrentPlaylist();
+        String sortKey = chooseSortingMethod();
+        libraryModel.printCurrentPlaylist(sortKey);
         int size = libraryModel.currentPlistSize();
         System.out.println("🎶 Enter the song number to remove: ");
         System.out.println("0) 🔙 Go back");
@@ -1224,7 +1269,8 @@ public class MainUI {
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    libraryModel.printFavoriteList();
+                    String sortKey = chooseSortingMethod();
+                    libraryModel.printFavoriteList(sortKey);
                     break;
                 case "2":
                     libraryModel.clearFavoriteList();
@@ -1235,7 +1281,8 @@ public class MainUI {
                     break;
                 case "4":
                     removeSongFromFavourite();
-                    libraryModel.printFavoriteList();
+                    String sortKey1 = chooseSortingMethod();
+                    libraryModel.printFavoriteList(sortKey1);
                     break;
                 case "5":
                     playSongInFavourite();
@@ -1255,7 +1302,8 @@ public class MainUI {
     private static void addSongToFavourite() {
         // Print the user songs with numbers
         libraryModel.userSongSearch();   // set the search list to user songs
-        libraryModel.printUserSongsTable();
+        String sort = chooseSortingMethod();
+        libraryModel.printUserSongsTable(sort);
         int size = libraryModel.getSearchSongListSize();
         System.out.print("🎶 Enter the song number to add: ");
         String input = SCANNER.nextLine().trim();
@@ -1344,16 +1392,8 @@ public class MainUI {
         libraryModel.printFrequentSongs();
         System.out.println("\n10 Most Recently Played Songs:");
         libraryModel.printRecentSongs();
-        System.out.print("\nReturn to Main Menu? (Y/N): ");
-        String response = SCANNER.nextLine().trim().toLowerCase();
-        if (response.equals("y") || response.equals("yes")) {
-            System.out.println("🚪 Back to Main Menu");
-            runMainMenu();
-        } else {
-            System.out.println("🚪 Exiting application. Goodbye!");
-            System.exit(0);
-        }
-    }
+        runMainMenu();
 
+    }
 }
 
