@@ -55,12 +55,12 @@ public class Playlist {
     /**
      * add a song
      */
-    public void addSong(Song song) {
+    public void addSong(Song song, boolean notAuto) {
         if (!songs.contains(song)) {
             songs.add(song);
-            System.out.println("Song [" + song.getTitle() + "] added to the playlist.");
+            if (notAuto) { System.out.println("Song [" + song.getTitle() + "] added to the playlist." );}
         } else {
-            System.out.println("Song [" + song.getTitle() + "] is already in the playlist.");
+            if (notAuto) { System.out.println("Song [" + song.getTitle() + "] is already in the playlist.");}
         }
     }
 
@@ -78,9 +78,9 @@ public class Playlist {
     /**
      * clean up songs
      */
-    public void clear() {
+    public void clear(boolean notAuto) {
         songs.clear();
-        System.out.println("The playlist has been cleared.");
+        if (notAuto) {System.out.println("The playlist has been cleared.");}
     }
 
     /**

@@ -13,9 +13,8 @@ public class FavoriteList extends Playlist {
      * Overrides the addSong method to add a given song to the favorite list.
      */
     @Override
-    public void addSong(Song song) {
+    public void addSong(Song song, boolean notAuto) {
         getSongs().add(song);
-
     }
 
     /**

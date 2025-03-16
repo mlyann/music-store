@@ -289,7 +289,7 @@ public class MainUI {
                 }
                 case "ALL" -> {
                     if (!libraryModel.allSongSelection(songResults.size())) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 1 ");
                         return;
                     }
                     System.out.println("All songs added to library! ");
@@ -367,13 +367,13 @@ public class MainUI {
                 String songTitle = songResults.get(index - 1).get(0);
                 if (location.equals("STORE")) {
                     if (!libraryModel.handleSongSelection(index - 1, songResults.size())) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 2 ");
                         break;
                     }
                     System.out.println(String.format("Song [%s] added to library! ", songTitle));
                 } else {
                     if (!libraryModel.setCurrentSong(index - 1, songTitle)){
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 3");
                         break;
                     }
                     handleSongActions(songTitle);
@@ -392,7 +392,7 @@ public class MainUI {
      private static void handleSongActions(String songTitle) {
         while (true) {
             if (!libraryModel.checkCurrentSong(songTitle)) {
-                System.out.println("❗ System wrong. ");
+                System.out.println("❗ System wrong. 4");
                 return;
             }
             System.out.println("\n🎶 Selected Song: [" + libraryModel.getCurrentSongInfo() + "]");
@@ -562,7 +562,7 @@ public class MainUI {
                 }
                 case "ALL" -> {
                     if (!libraryModel.allAlbumSelection(albumResults.size())) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 5");
                         return;
                     }
                     System.out.println("All albums added to library! ");
@@ -635,13 +635,13 @@ public class MainUI {
                 String albumTitle = albumResults.get(index - 1).get(0);
                 if (location.equals("STORE")) {
                     if (!libraryModel.handleAlbumSelection(index - 1, albumResults.size())) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 6");
                         break;
                     }
                     System.out.println(String.format("Album [%s] added to library! ", albumTitle));
                 } else {
                     if (!libraryModel.setCurrentAlbum(index - 1, albumTitle)) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 7");
                         break;
                     }
                     handleAlbumActions(albumTitle);
@@ -661,7 +661,7 @@ public class MainUI {
     private static void handleAlbumActions(String albumTitle) {
         while (true) {
             if (!libraryModel.checkCurrentAlbum(albumTitle)) {
-                System.out.println("❗ System wrong. ");
+                System.out.println("❗ System wrong. 8");
                 return;
             }
             System.out.println("\n🎼 Selected Album: [" + libraryModel.getCurrentAlbumInfo() + "]");
@@ -676,7 +676,7 @@ public class MainUI {
             switch (choice) {
                 case "1":
                     if (!libraryModel.playAlbum(albumTitle)) {
-                        System.out.println("❗ System wrong. ");
+                        System.out.println("❗ System wrong. 9");
                     }
                     return;
                 case "2":
@@ -698,12 +698,12 @@ public class MainUI {
      */
     public static void openAlbum(String albumTitle) {
         if (!libraryModel.openAlbum(albumTitle)) {
-            System.out.println("❗ System wrong. ");
+            System.out.println("❗ System wrong. 10");
         }
         ArrayList<ArrayList<String>> albumSongs = libraryModel.SongToString();
         ArrayList<String> albumInfo = albumSongs.remove(0);
         if (albumInfo == null || albumInfo.size() < 4) {
-            System.out.println("❗ System wrong. ");
+            System.out.println("❗ System wrong. 11");
             return;
         }
         StringBuilder sb = new StringBuilder();

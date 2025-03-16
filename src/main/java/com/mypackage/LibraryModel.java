@@ -635,7 +635,7 @@ public class LibraryModel {
 
 
     public void clearPlaylist() {
-        playingList.clear();
+        playingList.clear(true);
     }
 
     /**
@@ -646,7 +646,7 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playingList.addSong(currentSong);
+            playingList.addSong(currentSong, true);
         }
     }
 
@@ -820,7 +820,7 @@ public class LibraryModel {
         for (Song song : favoriteList.getSongs()) {
             song.setFavourite(false);
         }
-        favoriteList.clear();
+        favoriteList.clear(true);
     }
 
     /**
@@ -831,7 +831,7 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            favoriteList.addSong(currentSong);
+            favoriteList.addSong(currentSong, true);
             currentSong.setFavourite(true);
         }
     }
@@ -970,9 +970,9 @@ public class LibraryModel {
         }
         Playlist autoFavorite = PlayLists.getPlayListByName(favPlaylistName);
         if (autoFavorite != null) {
-            autoFavorite.clear();
+            autoFavorite.clear(false);
             for (Song song : favoriteList.getSongs()) {
-                autoFavorite.addSong(song);
+                autoFavorite.addSong(song, false);
             }
         }
         //iii. Top Rated (all the songs rated as 4 or 5)
@@ -984,10 +984,10 @@ public class LibraryModel {
         }
         Playlist topRatedPlaylist = PlayLists.getPlayListByName(topRatedName);
         if (topRatedPlaylist != null) {
-            topRatedPlaylist.clear();
+            topRatedPlaylist.clear(false);
             for (Song song : UserSongs.values()) {
                 if (song.getRatingInt() >= 4) {
-                    topRatedPlaylist.addSong(song);
+                    topRatedPlaylist.addSong(song, false);
                 }
             }
         }
@@ -1013,9 +1013,9 @@ public class LibraryModel {
                 }
                 Playlist genrePlaylist = PlayLists.getPlayListByName(genreName);
                 if (genrePlaylist != null) {
-                    genrePlaylist.clear();
+                    genrePlaylist.clear(false);
                     for (Song song : songsOfGenre) {
-                        genrePlaylist.addSong(song);
+                        genrePlaylist.addSong(song, false);
                     }
                 }
             }
@@ -1121,6 +1121,7 @@ public class LibraryModel {
         }
         TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
+
     public void sortSearchSongList(String sortOption) {
         if (searchSongList == null || sortOption == null) return;
         switch (sortOption.toLowerCase()) {

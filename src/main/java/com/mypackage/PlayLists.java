@@ -67,7 +67,7 @@ public class PlayLists {
 
     public void addSongToPlayList(String playListName, Song song) {
         if (playLists.containsKey(playListName)) {
-            playLists.get(playListName).addSong(song);
+            playLists.get(playListName).addSong(song, true);
         } else {
             System.out.println("Playlist [" + playListName + "] does not exist.");
         }
