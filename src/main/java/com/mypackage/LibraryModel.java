@@ -201,7 +201,6 @@ public class LibraryModel {
         } else {
             songs = searchSongSub(keyword, false);
         }
-//        [TODO] Sort the songs - 三个选项
         searchSongList = songs;
 
         ArrayList<ArrayList<String>> result = new ArrayList<>();
@@ -527,11 +526,12 @@ public class LibraryModel {
      * @param albumTitle the title of the album to open
      * @return true if the album is opened successfully, false if the album is not found
      */
-    public boolean openAlbum (String albumTitle) {
+    public boolean openAlbum (String albumTitle, String sort) {
         if (!albumTitle.equals(currentAlbum.getTitle())) {
             return false;
         }
         searchSongList = currentAlbum.getSongs();
+        sortSearchSongList(sort);
         return true;
     }
 
@@ -1139,5 +1139,50 @@ public class LibraryModel {
         }
     }
 
+    /**
+     * Print the search results for albums in a table format.
+     * @param albumList the list of albums to print
+     */
+    public static void printAlbumSearchResults(ArrayList<ArrayList<String>> albumList) {
+        if (albumList == null || albumList.isEmpty()) {
+            System.out.println("❗ No Albums in Library.");
+            return;
+        }
+        List<List<String>> tableRows = new ArrayList<>();
+        tableRows.add(Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Album"));
+
+        int albumNo = 1;
+        for (ArrayList<String> albumStrList : albumList) {
+            if (albumStrList.size() < 4) {
+                continue;
+            }
+            String title = albumStrList.get(0);
+            String artist = albumStrList.get(1);
+            String year = albumStrList.get(2);
+            String genre = albumStrList.get(3);
+            List<String> tracks = albumStrList.subList(4, albumStrList.size());
+            List<String> firstRow = new ArrayList<>();
+            firstRow.add(String.valueOf(albumNo));
+            firstRow.add(title);
+            firstRow.add(artist);
+            firstRow.add(genre);
+            firstRow.add(year);
+            firstRow.add(tracks.isEmpty() ? "" : tracks.get(0));
+            tableRows.add(firstRow);
+            for (int i = 1; i < tracks.size(); i++) {
+                tableRows.add(Arrays.asList("", "", "", "", "", tracks.get(i)));
+            }
+            tableRows.add(Arrays.asList("###SEPARATOR###"));
+
+            albumNo++;
+        }
+        if (!tableRows.isEmpty()) {
+            List<String> lastRow = tableRows.get(tableRows.size() - 1);
+            if (lastRow.size() == 1 && "###SEPARATOR###".equals(lastRow.get(0))) {
+                tableRows.remove(tableRows.size() - 1);
+            }
+        }
+        TablePrinter.printDynamicTable("Album Search Results", tableRows);
+    }
 }
 
