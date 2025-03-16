@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static la1.LibraryModel.printSongSearchResults;
+
 public class MainUI {
     private static MusicStore musicStore;
     private static LibraryModel libraryModel;
@@ -110,7 +112,7 @@ public class MainUI {
             switch (choice) {
                 case "1":
                     String sort = chooseSortingMethod();
-                    libraryModel.printSongSearchResults("Library Songs", libraryModel.getSongList(), "LIBRARY", sort);
+                    printSongSearchResults("Library Songs", libraryModel.getSongList(), "LIBRARY", sort);
                     break;
                 case "2":
                     printAlbumSearchResults(libraryModel.getAlbumList());
@@ -241,7 +243,7 @@ public class MainUI {
     private static void searchSongsPipeline(String location) {
         while (true) {
             System.out.println("\n--- 🎤 Searching for Songs ---");
-            System.out.println("🔎 Enter song title or artist keyword (If you saved the songs before, you can also enter GENRE!!)");
+            System.out.println("🔎 Enter song title or artist keyword (or GENRE): ");
             System.out.println("0) 🔙 Back to search menu: ");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -250,24 +252,21 @@ public class MainUI {
                 System.out.println("🔙 Back to Search Menu");
                 return;
             } else if (keyword.equals("h")) {
-                System.out.println("🚪 Back to Main Menu");
                 runMainMenu();
                 return;
             }
-            ArrayList<ArrayList<String>> songResults;
-            if (location.equals("STORE")) {
-                songResults = libraryModel.searchSong(keyword, true);
-            } else {
-                songResults = libraryModel.searchSong(keyword, false);
-            }
-
+            ArrayList<ArrayList<String>> songResults = libraryModel.searchSong(keyword, location.equals("STORE"));
             if (songResults == null || songResults.isEmpty()) {
                 System.out.println("❗ No songs found for '" + keyword + "'.");
             } else {
-                System.out.println("\nFound " + songResults.size() + " matching song(s):\n");
-                String sort = chooseSortingMethod();
-                libraryModel.printSongSearchResults("Search Results (Songs)", songResults, location, sort);
-                songSelectionMenu(songResults, location);
+                String sortOption = chooseSortingMethod();
+                libraryModel.sortSearchSongList(sortOption);
+                ArrayList<ArrayList<String>> sortedResults = new ArrayList<>();
+                for (Song s : libraryModel.getSearchSongList()) {
+                    sortedResults.add(s.toStringList());
+                }
+                printSongSearchResults("Search Results (Songs)", sortedResults, location, sortOption);
+                songSelectionMenu(sortedResults, location);
             }
         }
     }
@@ -717,7 +716,7 @@ public class MainUI {
         sb.append(albumInfo.get(3));
         sb.append(")\n");
         String sort = chooseSortingMethod();
-        libraryModel.printSongSearchResults("Album Songs", albumSongs, "LIBRARY", sort);
+        printSongSearchResults("Album Songs", albumSongs, "LIBRARY", sort);
         handleSongSelection(albumSongs, "LIBRARY", sb.toString());
 
     }

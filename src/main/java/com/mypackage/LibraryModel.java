@@ -62,6 +62,9 @@ public class LibraryModel {
     public String generateKey(String title, String artist, String genre) {
         return (title + "|" + artist + "|" + genre).toLowerCase();
     }
+    public ArrayList<Song> getSearchSongList() {
+        return new ArrayList<>(searchSongList);
+    }
 
     // -------------------------------------------------------------------------
     //                  ALL CURRENT VARIABLE
@@ -346,18 +349,11 @@ public class LibraryModel {
      *   "artist" - sort by artist (alphabetically)
      *   "rating" - sort by rating (descending order)
      */
-    /**
-     * Print the user's song library in a table format with custom sorting.
-     * Sorting options:
-     *   "title"  - sort by song title (alphabetically)
-     *   "artist" - sort by artist (alphabetically)
-     *   "rating" - sort by rating (descending order)
-     */
     public void printUserSongsTable(String sortMethod) {
-        // copy songs list
+        // make a copy first!
         List<Song> songs = new ArrayList<>(UserSongs.values());
 
-        // sorting by default
+        // sorting by <user selection sorting method>
         if (sortMethod != null) {
             switch (sortMethod.toLowerCase()) {
                 case "title":
@@ -374,6 +370,8 @@ public class LibraryModel {
                     break;
             }
         }
+
+        // keep same sequence
         searchSongList = new ArrayList<>(songs);
         List<List<String>> tableData = new ArrayList<>();
         List<String> header = Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Favorite", "Rating", "Album");
@@ -1123,5 +1121,22 @@ public class LibraryModel {
         }
         TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
+    public void sortSearchSongList(String sortOption) {
+        if (searchSongList == null || sortOption == null) return;
+        switch (sortOption.toLowerCase()) {
+            case "title":
+                Collections.sort(searchSongList, (s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
+                break;
+            case "artist":
+                Collections.sort(searchSongList, (s1, s2) -> s1.getArtist().compareToIgnoreCase(s2.getArtist()));
+                break;
+            case "rating":
+                Collections.sort(searchSongList, (s1, s2) -> Integer.compare(s2.getRatingInt(), s1.getRatingInt()));
+                break;
+            default:
+                break;
+        }
+    }
+
 }
 
