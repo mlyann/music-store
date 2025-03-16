@@ -107,7 +107,7 @@ public class MusicStore {
      * Title and artist are required, genre and year are optional
      * If the title and artist are not provided, an exception will be thrown
      * If the year is not a number, an exception will be thrown
-     * @param fileName
+     * @param albumFileName
      */
     public Album parseAlbumFile(String albumFileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(albumFileName))) {
@@ -148,13 +148,17 @@ public class MusicStore {
             }
             Album album = new Album(title, artist, genre, year, songs);
             for (Song song : album.getSongsDirect()) {
-                song.setAlbum(title);
+                song.setAlbum(album);
             }
             return album;
         } catch (IOException e) {
             System.err.println("Error reading album file: " + albumFileName);
             return null;
         }
+    }
+
+    public Album getAlbumByTitle(String title) {
+        return albumMap.get(title.toLowerCase());
     }
 
     public Album getAlbum(String title, String artist) {

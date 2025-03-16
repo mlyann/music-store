@@ -13,6 +13,7 @@ public class LoginUI {
         // load users from a JSON file
         libraryUsers.loadFromJSON("data/users.json");
 
+
         // 创建一个默认的VICData用于密码加密（实际应用中可以更动态）
         VICData vicData = new VICData("12345", "250314", "HELLOWORLD", "AB CD EFGH", "");
 

@@ -13,6 +13,8 @@ public class Song extends TablePrinter {
     private final int year;
     private String albumTitle;
 
+    private transient Album album;
+
     private Rating rating = Rating.UNRATED;
     private boolean Favourite = false;
 
@@ -55,6 +57,26 @@ public class Song extends TablePrinter {
         this.albumTitle = other.albumTitle;
         this.rating = other.rating;
         this.Favourite = other.Favourite;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+        this.albumTitle = (album != null) ? album.getTitle() : null;
+    }
+
+    public String getAlbumTitle() {
+        if (albumTitle == null) {
+            return null;
+        }
+        return albumTitle;
+    }
+
+
+    public Album getAlbum() {
+        if (album == null) {
+            return null;
+        }
+        return album;
     }
 
     public String getTitle() {
@@ -104,12 +126,6 @@ public class Song extends TablePrinter {
         Favourite = !Favourite;
     }
 
-    public String getAlbum() {
-        if (albumTitle == null) {
-            return null;
-        }
-        return albumTitle;
-    }
 
     public void setAlbum(String albumTitle) {
         this.albumTitle = albumTitle;

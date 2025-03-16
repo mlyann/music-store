@@ -10,6 +10,7 @@ public class Album {
     private final Genre genre;
     private final int year;
     private final ArrayList<Song> songs;
+    private final ArrayList<Song> songInLibrary;
 
     public Album(String title, String artist, String genre, int year, List<Song> songs) {
         this.title = title;
@@ -17,6 +18,7 @@ public class Album {
         this.genre = Genre.fromString(genre);
         this.year = year;
         this.songs = new ArrayList<Song>(songs); // DEEPCOPY HERE
+        this.songInLibrary = new ArrayList<Song>();
     }
 
     public Album(Album other) {
@@ -28,6 +30,7 @@ public class Album {
         for (Song song : other.songs) {
             this.songs.add(new Song(song)); // DEEP COPY HERE
         }
+        this.songInLibrary = new ArrayList<Song>(other.songInLibrary);
     }
     // Getter
     public String getTitle() {
@@ -50,8 +53,9 @@ public class Album {
         return songs;
     }
 
+
     public ArrayList<Song> getSongs() {
-        return new ArrayList<Song>(songs); // DEEPCOPY HERE
+        return new ArrayList<Song>(songInLibrary); // DEEPCOPY HERE
     }
     /**
      * Get the some titles of the album
@@ -82,8 +86,17 @@ public class Album {
         return result.toString();
     }
 
+    public boolean isComplete() {
+        return songInLibrary.size() == songs.size();
+    }
+
     public String getAlbumInfoString() {
-        return String.format("%s, by %s (%d, %s)\n", title, artist, year, genre.getGenre());
+        StringBuilder result =
+                new StringBuilder(String.format("%s, by %s (%d, %s), ", title, artist, year, genre.getGenre()));
+        if (!isComplete()) {
+            result.append(" Not all songs are in the library.");
+        }
+        return result.toString();
     }
     /**
      * Returns the album's basic information as an ArrayList of strings.
@@ -106,15 +119,35 @@ public class Album {
      *
      * @return an ArrayList of strings with album and song titles
      */
-    public ArrayList<String> toStringList() {
+    public ArrayList<String> toStringList(boolean isMusicStore) {
         ArrayList<String> result = new ArrayList<>();
         result.add(title);
         result.add(artist);
         result.add(String.valueOf(year));
         result.add(genre.getGenre());
-        for (Song s : songs) {
-            result.add(s.getTitle());
+        if (isMusicStore) {
+            for (Song s : songs) {
+                result.add(s.getTitle());
+            }
+        } else {
+            for (Song s : songInLibrary) {
+                result.add(s.getTitle());
+            }
         }
         return result;
+    }
+
+    public void addAllSongsToLibrary() {
+        for (Song song : songs) {
+            if (!songInLibrary.contains(song)) {
+                songInLibrary.add(song);
+            }
+        }
+    }
+
+    public void addSongToAlbumLibrary(Song song) {
+        if (!songInLibrary.contains(song)) {
+            songInLibrary.add(song);
+        }
     }
 }

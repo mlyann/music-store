@@ -1,0 +1,1100 @@
+{
+  "1": {
+    "UserID": "1",
+    "encryptedPassword": "null12345",
+    "UserSongs": {
+      "chasing pavements|adele|pop": {
+        "title": "Chasing Pavements",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "melt my heart to stone|adele|pop": {
+        "title": "Melt My Heart to Stone",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "someone like you|adele|pop": {
+        "title": "Someone Like You",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "cold shoulder|adele|pop": {
+        "title": "Cold Shoulder",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a whisper|coldplay|other": {
+        "title": "A Whisper",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "first love|adele|pop": {
+        "title": "First Love",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "lovesong|adele|pop": {
+        "title": "Lovesong",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "clocks|coldplay|other": {
+        "title": "Clocks",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "turning tables|adele|pop": {
+        "title": "Turning Tables",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "right as rain|adele|pop": {
+        "title": "Right as Rain",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "in my place|coldplay|other": {
+        "title": "In My Place",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "take it all|adele|pop": {
+        "title": "Take It All",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "don\u0027t you remember|adele|pop": {
+        "title": "Don\u0027t You Remember",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "rumour has it|adele|pop": {
+        "title": "Rumour Has It",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "hometown glory|adele|pop": {
+        "title": "Hometown Glory",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "politik|coldplay|other": {
+        "title": "Politik",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "crazy for you|adele|pop": {
+        "title": "Crazy for You",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a rush of blood to the head|coldplay|other": {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "he won\u0027t go|adele|pop": {
+        "title": "He Won\u0027t Go",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "warning sign|coldplay|other": {
+        "title": "Warning Sign",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "one and only|adele|pop": {
+        "title": "One and Only",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "set fire to the rain|adele|pop": {
+        "title": "Set Fire to the Rain",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "amsterdam|coldplay|other": {
+        "title": "Amsterdam",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "rolling in the deep|adele|pop": {
+        "title": "Rolling in the Deep",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "daylight|coldplay|other": {
+        "title": "Daylight",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "the scientist|coldplay|other": {
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "god put a smile upon your face|coldplay|other": {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "daydreamer|adele|pop": {
+        "title": "Daydreamer",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "my same|adele|pop": {
+        "title": "My Same",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "make you feel my love|adele|pop": {
+        "title": "Make You Feel My Love",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "best for last|adele|pop": {
+        "title": "Best for Last",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "i found a boy|adele|pop": {
+        "title": "I Found a Boy",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "tired|adele|pop": {
+        "title": "Tired",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "i\u0027ll be waiting|adele|pop": {
+        "title": "I\u0027ll Be Waiting",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "albumTitle": "21",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "green eyes|coldplay|other": {
+        "title": "Green Eyes",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    },
+    "UserAlbums": {
+      "19|adele|pop": {
+        "title": "19",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "songs": [
+          {
+            "title": "Daydreamer",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Best for Last",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Chasing Pavements",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Cold Shoulder",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Crazy for You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Melt My Heart to Stone",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "First Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Right as Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Make You Feel My Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "My Same",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Tired",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Hometown Glory",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "Crazy for You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Cold Shoulder",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "First Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Right as Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Hometown Glory",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "My Same",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Chasing Pavements",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Tired",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daydreamer",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Melt My Heart to Stone",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Best for Last",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Make You Feel My Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      },
+      "a rush of blood to the head|coldplay|other": {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "songs": [
+          {
+            "title": "Politik",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "In My Place",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "God Put a Smile Upon Your Face",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Clocks",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daylight",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Green Eyes",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Warning Sign",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Whisper",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Rush of Blood to the Head",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Amsterdam",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "A Rush of Blood to the Head",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Whisper",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Amsterdam",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Clocks",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daylight",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "God Put a Smile Upon Your Face",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Green Eyes",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "In My Place",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Politik",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Warning Sign",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      },
+      "21|adele|pop": {
+        "title": "21",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "songs": [
+          {
+            "title": "Rolling in the Deep",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rumour Has It",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Turning Tables",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Don\u0027t You Remember",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Set Fire to the Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "He Won\u0027t Go",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Take It All",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I\u0027ll Be Waiting",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "One and Only",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Lovesong",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Someone Like You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I Found a Boy",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "I\u0027ll Be Waiting",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Someone Like You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "He Won\u0027t Go",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I Found a Boy",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Lovesong",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Turning Tables",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Take It All",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Don\u0027t You Remember",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "One and Only",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rumour Has It",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Set Fire to the Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rolling in the Deep",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      }
+    },
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchSongList": [
+      {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "A Whisper",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Amsterdam",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Clocks",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Daylight",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Green Eyes",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "In My Place",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Politik",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Warning Sign",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    ],
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  }
+}

@@ -121,6 +121,13 @@ public class LibraryUsers {
             if (loadedUsers != null) {
                 for (LibraryModel model : loadedUsers.values()) {
                     model.setMusicStore(this.musicStore);  // 恢复MusicStore引用
+
+                    for (Song song : model.getUserSongs().values()) {
+                        Album album = model.getUserAlbums().get(song.getAlbumTitle());
+                        if (album != null) {
+                            song.setAlbum(album);  // 恢复引用
+                        }
+                    }
                 }
                 users.clear();
                 users.putAll(loadedUsers);

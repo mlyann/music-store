@@ -90,6 +90,7 @@ public class Playlist {
         if (key.toLowerCase().equals("title")){sortSongsByTitle();}
         else if (key.toLowerCase().equals("rating")){sortSongsByRating();}
         else if (key.toLowerCase().equals("year")){sortSongsByYear();}
+        else if (key.toLowerCase().equals("shuffle")){shuffle();}
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -190,34 +191,36 @@ public class Playlist {
         });
     }
 
-        // rating sorting
-        public void sortSongsByRating() {
-            Collections.sort(songs, (s1, s2) -> {
-                int cmp = Integer.compare(s2.getRatingInt(), s1.getRatingInt()); // 降序
-                if (cmp != 0) {
-                    return cmp;
-                }
-                cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
-                if (cmp != 0) {
-                    return cmp;
-                }
-                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
-            });
-        }
+    // rating sorting
+    public void sortSongsByRating() {
+        Collections.sort(songs, (s1, s2) -> {
+            int cmp = Integer.compare(s2.getRatingInt(), s1.getRatingInt()); // 降序
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+        });
+    }
 
-        // year sorting
-        public void sortSongsByYear() {
-            Collections.sort(songs, (s1, s2) -> {
-                int cmp = Integer.compare(s1.getYear(), s2.getYear());
-                if (cmp != 0) {
-                    return cmp;
-                }
-                cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
-                if (cmp != 0) {
-                    return cmp;
-                }
-                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
-            });
-        }
+    // year sorting
+    public void sortSongsByYear() {
+        Collections.sort(songs, (s1, s2) -> {
+            int cmp = Integer.compare(s1.getYear(), s2.getYear());
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+        });
+    }
+
+
 
 }

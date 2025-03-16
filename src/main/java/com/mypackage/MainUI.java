@@ -8,6 +8,7 @@ import java.util.Scanner;
 import static la1.LibraryModel.printSongSearchResults;
 
 public class MainUI {
+    private static NavigationState currentState;
     private static MusicStore musicStore;
     private static LibraryModel libraryModel;
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -16,26 +17,29 @@ public class MainUI {
     public static void init(LibraryModel model) {
         MainUI.libraryModel = model;
         musicStore = model.getMusicStore();
+        currentState = NavigationState.MAIN_MENU;
     }
 
     // -------------------------------------------------------------------------
     //                  MAIN MENU FUNCTIONS
     // -------------------------------------------------------------------------
-    static void runMainMenu() {
+    public static void runMainMenu() {
+        currentState = NavigationState.MAIN_MENU;
+
         if (libraryModel == null || musicStore == null) {
             System.out.println("⚠️ MainUI未初始化，请先调用init()方法！");
             return;
         }
 
-        System.out.println("======================================================");
-        System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
-        System.out.println("         📅 Date: March 08, 2025");
-        System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
-        System.out.println("    👤 Current User: " + libraryModel.getUserID());
-        System.out.println("======================================================");
-
         boolean running = true;
-        while (running) {
+        while (running && currentState == NavigationState.MAIN_MENU) {
+            System.out.println("======================================================");
+            System.out.println("    🎶 Welcome to the Music Library App (CSC 335) 🎶   ");
+            System.out.println("         📅 Date: March 08, 2025");
+            System.out.println("    👥 Authors: Haocheng Cao & Minglai Yang");
+            System.out.println("    👤 Current User: " + libraryModel.getUserID());
+            System.out.println("======================================================");
+
             System.out.println("\n---------- 🎵 MAIN MENU 🎵 ----------");
             System.out.println("1) 🔍 Search");
             System.out.println("2) 🎧 PlayingList");
@@ -51,34 +55,53 @@ public class MainUI {
 
             switch (choice) {
                 case "1":
+                    currentState = NavigationState.SEARCH_MENU;
                     runSearchMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "2":
+                    currentState = NavigationState.PLAYLIST_MENU;
                     runPlaylistMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "3":
+                    currentState = NavigationState.PLAYLIST_MENU;
                     runPlayListsMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "4":
+                    currentState = NavigationState.FAVORITE_MENU;
                     runFavoriteMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "5":
+                    currentState = NavigationState.LIBRARY_LISTS_MENU;
                     libraryListsMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "6":
                     inputSongs();
+                    break;
                 case "7":
                     runStatsMenu();
+                    break;
                 case "0":
                     running = false;
+                    currentState = NavigationState.LOGIN_MENU;
                     break;
                 default:
                     System.out.println("❗ Invalid choice. Please try again.");
             }
         }
+
         System.out.println("🚪 Logging out. Goodbye, " + libraryModel.getUserID() + "!");
+        cleanUp();
+    }
+
+    public static void cleanUp() {
         libraryModel = null;
         musicStore = null;
+        currentState = null;
     }
 
     public static void inputSongs() {
@@ -196,7 +219,7 @@ public class MainUI {
                     continue;
                 case "h":
                     System.out.println("🚪 Back to Main Menu");
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
                 default:
                     System.out.println("❗ Invalid choice. Please try again.");
@@ -252,7 +275,7 @@ public class MainUI {
                 System.out.println("🔙 Back to Search Menu");
                 return;
             } else if (keyword.equals("h")) {
-                runMainMenu();
+                currentState = NavigationState.MAIN_MENU;
                 return;
             }
             ArrayList<ArrayList<String>> songResults = libraryModel.searchSong(keyword, location.equals("STORE"));
@@ -284,7 +307,7 @@ public class MainUI {
                 }
                 case "HOME" -> {
                     System.out.println("🚪 Back to Main Menu");
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
                 }
                 case "ALL" -> {
@@ -407,6 +430,7 @@ public class MainUI {
             }
             System.out.println("4) ➕ Add to a playlist");
             System.out.println("5) ❌ Remove from a playlist");
+            System.out.println("6) Open Album");
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -438,11 +462,14 @@ public class MainUI {
                         libraryModel.removeSongFromPlayLists();
                     }
                     break;
+                case "6":
+                    libraryModel.getSongAlbum();
+                    break;
                 case "0":
                     searchSongsPipeline(songTitle);
                     return;
                 case "h":
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
@@ -474,7 +501,7 @@ public class MainUI {
                 break;
             } else if (keyword.equals("h")) {
                 System.out.println("🚪 Back to Main Menu");
-                runMainMenu();
+                currentState = NavigationState.MAIN_MENU;
                 return;
             }
             ArrayList<ArrayList<String>> albumResults;
@@ -483,7 +510,6 @@ public class MainUI {
             } else {
                 albumResults = libraryModel.searchAlbum(keyword, false);
             }
-
             if (albumResults == null || albumResults.isEmpty()) {
                 System.out.println("❗ No albums found for '" + keyword + "'.");
             } else {
@@ -513,7 +539,7 @@ public class MainUI {
                 }
                 case "HOME" -> {
                     System.out.println("🚪 Back to Main Menu");
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
                 }
                 case "ALL" -> {
@@ -624,6 +650,9 @@ public class MainUI {
             System.out.println("Actions: ");
             System.out.println("1) ▶️ Play album");
             System.out.println("2) \uD83D\uDCC2 Open album");
+            if(!libraryModel.isCurrentAlbumComplete()) {
+                System.out.println("3) 📝 Check complete album");
+            }
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -638,11 +667,19 @@ public class MainUI {
                 case "2":
                     openAlbum(albumTitle);
                     continue;
+                case "3":
+                    if (!libraryModel.isCurrentAlbumComplete()) {
+                        showCompleteAlbum(albumTitle);
+                        continue;
+                    } else
+                        System.out.println("❗ Invalid choice. Please try again.");
                 case "0":
                     return;
                 case "h":
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
+                default:
+                    System.out.println("❗ Invalid choice. Please try again.");
             }
         }
 
@@ -678,6 +715,14 @@ public class MainUI {
 
     }
 
+    private static void showCompleteAlbum(String albumTitle) {
+        if (libraryModel.showCompleteAlbumStore(albumTitle)) {
+            System.out.println("Please add Songs through search in Music Store.");
+        } else {
+            System.out.println("❗ System wrong. 12");
+        }
+    }
+
     // -------------------------------------------------------------------------
     //                  PLAYLIST MENU (EXAMPLE)
     // -------------------------------------------------------------------------
@@ -696,8 +741,7 @@ public class MainUI {
             System.out.println("6) ⏩ Play next song in playlist");
             System.out.println("7) ⭐ Rate a song in playlist");
             System.out.println("8) ❤️ Favorite a song in playlist");
-            System.out.println("9) 🔄 Shuffle playlist");
-            System.out.println("10) 🔢 Sorting");
+            System.out.println("9) 🔢 Sorting");
             System.out.println("0) 🔙 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
 
@@ -733,15 +777,12 @@ public class MainUI {
                     libraryModel.printPlaylist(sortOrder);
                     break;
                 case "9":
-                    libraryModel.shufflePlaylist();
-                    libraryModel.printPlaylist(sortOrder);
-                    break;
-                case "10":
                     System.out.println("\n---------- How do you want to sort playlists? ----------");
                     System.out.println("1) 🎸 By Title");
                     System.out.println("2) \uD83E\uDDD1\u200D\uD83C\uDFA8 By Artist");
                     System.out.println("3) ⭐ By Rating");
                     System.out.println("4) 🔢 No Sorting");
+                    System.out.println("5) 🔀 Shuffle");
                     System.out.println("0) 🔙 Back to Playlist Menu");
                     System.out.print("👉 Enter your choice: ");
                     String sortChoice = SCANNER.nextLine().trim();
@@ -761,6 +802,10 @@ public class MainUI {
                         case "4":
                             sortOrder = "none";
                             System.out.println("No Sorting selected.");
+                            break;
+                        case "5":
+                            sortOrder = "shuffle";
+                            System.out.println("Shuffle selected.");
                             break;
                         case "0":
                             break;
@@ -846,6 +891,7 @@ public class MainUI {
         System.out.println("2) \uD83E\uDDD1\u200D\uD83C\uDFA8 By Artist");
         System.out.println("3) ⭐ By Rating");
         System.out.println("4) 🔢 No Sorting");
+        System.out.println("5) 🔀 Shuffle");
         System.out.print("👉 Enter your choice: ");
         String choice = SCANNER.nextLine().trim();
         switch (choice) {
@@ -857,6 +903,8 @@ public class MainUI {
                 return "rating";
             case "4":
                 return "none";
+            case "5":
+                return "shuffle";
             default:
                 System.out.println("❗No Sorting");
                 return "none";
@@ -966,7 +1014,7 @@ public class MainUI {
                 break;
             } else if (keyword.equals("h")) {
                 System.out.println("🚪 Back to Main Menu");
-                runMainMenu();
+                currentState = NavigationState.MAIN_MENU;
                 return;
             }
             String sortKey = chooseSortingMethod();
@@ -1043,7 +1091,7 @@ public class MainUI {
                 case "0":
                     return;
                 case "h":
-                    runMainMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     return;
                 default:
                     System.out.println("❗ Invalid choice. Try again.");

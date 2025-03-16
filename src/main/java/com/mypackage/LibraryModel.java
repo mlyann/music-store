@@ -66,6 +66,18 @@ public class LibraryModel {
         return new ArrayList<>(searchSongList);
     }
 
+    public HashMap<String, Song> getUserSongs() {
+        return new HashMap<>(UserSongs);
+    }
+
+    public HashMap<String, Album> getUserAlbums() {
+        return new HashMap<>(UserAlbums);
+    }
+
+    public String getSongAlbum() {
+        return currentSong.getAlbum().toString();
+    }
+
     // -------------------------------------------------------------------------
     //                  ALL CURRENT VARIABLE
     // -------------------------------------------------------------------------
@@ -119,6 +131,10 @@ public class LibraryModel {
 
     public String getCurrentAlbumInfo() {
         return currentAlbum.getAlbumInfoString();
+    }
+
+    public Boolean isCurrentAlbumComplete() {
+        return currentAlbum.isComplete();
     }
 
 
@@ -286,6 +302,10 @@ public class LibraryModel {
         }
         for (Song song : searchSongList) {
             addSong(song);
+            if (song.getAlbum() != null) {
+                addAlbum(song.getAlbum());
+                song.getAlbum().addSongToAlbumLibrary(song);
+            }
         }
         return true;
     }
@@ -300,7 +320,12 @@ public class LibraryModel {
         if (checkSize != searchSongList.size()) {
             return false;
         }
-        addSong(searchSongList.get(index));
+        Song song = searchSongList.get(index);
+        addSong(song);
+        if (song.getAlbum() != null) {
+            addAlbum(song.getAlbum());
+            song.getAlbum().addSongToAlbumLibrary(song);
+        }
         return true;
     }
 
@@ -364,6 +389,9 @@ public class LibraryModel {
                 case "rating":
                     Collections.sort(songs, (s1, s2) -> Integer.compare(s2.getRatingInt(), s1.getRatingInt()));
                     break;
+                case "shuffle":
+                    Collections.shuffle(songs);
+                    break;
                 default:
                     Collections.sort(songs, (s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
                     break;
@@ -387,7 +415,7 @@ public class LibraryModel {
             row.add(String.valueOf(song.getYear()));
             row.add(song.getFavourite());
             row.add(song.getRating());
-            row.add(song.getAlbum() != null ? song.getAlbum() : "");
+            row.add(song.getAlbumTitle() != null ? song.getAlbumTitle() : "");
             tableData.add(row);
         }
         TablePrinter.printDynamicTable("User Songs Library", tableData);
@@ -437,9 +465,8 @@ public class LibraryModel {
         searchAlbumList = albums;
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (Album album : albums) {
-            result.add(album.toStringList());
+            result.add(album.toStringList(isMusicStore));
         }
-        System.out.println(result);
         return result;
     }
 
@@ -489,6 +516,7 @@ public class LibraryModel {
             return false;
         }
         for (Album album : searchAlbumList) {
+            album.addAllSongsToLibrary();
             addAlbum(album);
         }
         return true;
@@ -509,7 +537,9 @@ public class LibraryModel {
         if (searchAlbumList.size() == 0){
             return false;
         }
-        addAlbum(searchAlbumList.get(index));
+        Album album = searchAlbumList.get(index);
+        album.addAllSongsToLibrary();
+        addAlbum(album);
         return true;
     }
 
@@ -535,6 +565,16 @@ public class LibraryModel {
         return true;
     }
 
+    public boolean showCompleteAlbumStore(String albumTitle) {
+        if (!albumTitle.equals(currentAlbum.getTitle())) {
+            return false;
+        }
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        result.add(currentAlbum.toStringList(true));
+        printAlbumSearchResults(result);
+        return true;
+    }
+
     /**
      * Get the list of album in the user's library
      * @return a list of albums in the user's library in String format
@@ -542,7 +582,7 @@ public class LibraryModel {
     public ArrayList<ArrayList<String>> getAlbumList () {
         ArrayList<ArrayList<String>> result = new ArrayList<>();
         for (Album album : UserAlbums.values()) {
-            result.add(album.toStringList());
+            result.add(album.toStringList(false));
         }
         return result;
     }
@@ -872,9 +912,6 @@ public class LibraryModel {
         playingList.getPlaying();
     }
 
-    public void shufflePlaylist() {
-        playingList.shuffle();
-    }
 
     // -------------------------------------------------------------------------
     //                  RATING FUNCTIONS
@@ -1074,6 +1111,9 @@ public class LibraryModel {
                         return row1.get(1).compareToIgnoreCase(row2.get(1));
                     });
                     break;
+                case "shuffle":
+                    Collections.shuffle(songResults);
+                    break;
                 default:
                     break;
             }
@@ -1133,6 +1173,9 @@ public class LibraryModel {
                 break;
             case "rating":
                 Collections.sort(searchSongList, (s1, s2) -> Integer.compare(s2.getRatingInt(), s1.getRatingInt()));
+                break;
+            case "shuffle":
+                Collections.shuffle(searchSongList);
                 break;
             default:
                 break;
