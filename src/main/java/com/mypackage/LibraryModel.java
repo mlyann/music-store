@@ -22,7 +22,7 @@ public class LibraryModel {
     private List<Song> recentPlays = new ArrayList<>();
 
     private transient MusicStore musicStore;
-    private static FavoriteList favoriteList;
+    private FavoriteList favoriteList;
 
     public LibraryModel(String UserID, MusicStore musicStore) {
         this.UserID = UserID;

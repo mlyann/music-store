@@ -220,7 +220,7 @@ public class MainUI {
             String keyword = SCANNER.nextLine().trim();
             if (keyword.equals("0")) {
                 System.out.println("🔙 Back to Search Menu");
-                break;
+                return;
             } else if (keyword.equals("h")) {
                 System.out.println("🚪 Back to Main Menu");
                 runMainMenu();
