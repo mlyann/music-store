@@ -86,8 +86,10 @@ public class Playlist {
     /**
      * use table to print
      */
-    public void printAsTable() {
-        sortSongs();
+    public void printAsTable(String key) {
+        if (key.toLowerCase().equals("title")){sortSongsByTitle();}
+        else if (key.toLowerCase().equals("rating")){sortSongsByRating();}
+        else if (key.toLowerCase().equals("year")){sortSongsByYear();}
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
             return;
@@ -174,9 +176,8 @@ public class Playlist {
 
 //    Tutorials for how to customize sorting algorithm. @Author: Ming
 //    https://stackoverflow.com/questions/16425127/how-to-use-collections-sort-in-java
-    public void sortSongs() {
-        Collections.sort(songs,
-                (s1, s2) -> {
+    public void sortSongsByTitle() {
+        Collections.sort(songs, (s1, s2) -> {
             int cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
             if (cmp != 0) {
                 return cmp;
@@ -188,5 +189,35 @@ public class Playlist {
             return Integer.compare(s1.getRatingInt(), s2.getRatingInt());
         });
     }
+
+        // rating sorting
+        public void sortSongsByRating() {
+            Collections.sort(songs, (s1, s2) -> {
+                int cmp = Integer.compare(s2.getRatingInt(), s1.getRatingInt()); // 降序
+                if (cmp != 0) {
+                    return cmp;
+                }
+                cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+                if (cmp != 0) {
+                    return cmp;
+                }
+                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            });
+        }
+
+        // year sorting
+        public void sortSongsByYear() {
+            Collections.sort(songs, (s1, s2) -> {
+                int cmp = Integer.compare(s1.getYear(), s2.getYear());
+                if (cmp != 0) {
+                    return cmp;
+                }
+                cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+                if (cmp != 0) {
+                    return cmp;
+                }
+                return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            });
+        }
 
 }

@@ -19,9 +19,9 @@ public class PlayLists {
         }
     }
 
-    public void printPlayList(String name) {
+    public void printPlayList(String name, String key) {
         if (playLists.containsKey(name)) {
-            playLists.get(name).printAsTable();
+            playLists.get(name).printAsTable(key);
             System.out.println("Playlist [" + name + "] FOUND.");
         } else {
             System.out.println("Playlist [" + name + "] does not exist.");
@@ -47,14 +47,14 @@ public class PlayLists {
         return playLists.size();
     }
 
-    public void printAllPlayLists() {
+    public void printAllPlayLists(String key) {
         int count = 1;
         if (playLists.isEmpty()) {
             System.out.println("No playlist found.");
         } else {
             for (String name : playLists.keySet()) {
                 System.out.println("Playlist " + count++ + ": " + name);
-                playLists.get(name).printAsTable();
+                playLists.get(name).printAsTable(key);
             }
         }
     }

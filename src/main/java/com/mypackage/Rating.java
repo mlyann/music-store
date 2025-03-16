@@ -1,17 +1,23 @@
 package la1;
 
-
 /**
  * Represents a rating with values ranging from 0 (unrated) to 5.
  * Each rating is associated with a numeric value and a visual representation using stars.
  */
-
 public enum Rating {
-    UNRATED(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5);
+    UNRATED(0),
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5);
+
     private final int value;
+
     Rating(int value) {
         this.value = value;
     }
+
     public int getValue() {
         return value;
     }
@@ -37,7 +43,7 @@ public enum Rating {
     @Override
     public String toString() {
         if (value == 0) {
-            return "DEFAULT";
+            return "UNRATED";
         }
         int empty = 5 - value;
         return "★".repeat(value) + "☆".repeat(empty);
