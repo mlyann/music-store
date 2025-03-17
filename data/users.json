@@ -985,7 +985,107 @@
       "playLists": {}
     },
     "playingList": {
-      "songs": [],
+      "songs": [
+        {
+          "title": "Cold Shoulder",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "First Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Right as Rain",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Hometown Glory",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "My Same",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Chasing Pavements",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Tired",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Daydreamer",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Melt My Heart to Stone",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Best for Last",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Make You Feel My Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        }
+      ],
       "name": "Playing List"
     },
     "searchSongList": [
@@ -1089,9 +1189,792 @@
         "Favourite": false
       }
     ],
-    "searchAlbumList": [],
-    "playCounts": {},
-    "recentPlays": [],
+    "searchAlbumList": [
+      {
+        "title": "19",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "songs": [
+          {
+            "title": "Daydreamer",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Best for Last",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Chasing Pavements",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Cold Shoulder",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Crazy for You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Melt My Heart to Stone",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "First Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Right as Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Make You Feel My Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "My Same",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Tired",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Hometown Glory",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "Crazy for You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Cold Shoulder",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "First Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Right as Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Hometown Glory",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "My Same",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Chasing Pavements",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Tired",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daydreamer",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Melt My Heart to Stone",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Best for Last",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Make You Feel My Love",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2008,
+            "albumTitle": "19",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      },
+      {
+        "title": "21",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2011,
+        "songs": [
+          {
+            "title": "Rolling in the Deep",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rumour Has It",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Turning Tables",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Don\u0027t You Remember",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Set Fire to the Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "He Won\u0027t Go",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Take It All",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I\u0027ll Be Waiting",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "One and Only",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Lovesong",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Someone Like You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I Found a Boy",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "I\u0027ll Be Waiting",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Someone Like You",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "He Won\u0027t Go",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "I Found a Boy",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Lovesong",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Turning Tables",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Take It All",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Don\u0027t You Remember",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "One and Only",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rumour Has It",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Set Fire to the Rain",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Rolling in the Deep",
+            "artist": "Adele",
+            "genre": "POP",
+            "year": 2011,
+            "albumTitle": "21",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      }
+    ],
+    "currentAlbum": {
+      "title": "19",
+      "artist": "Adele",
+      "genre": "POP",
+      "year": 2008,
+      "songs": [
+        {
+          "title": "Daydreamer",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Best for Last",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Chasing Pavements",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Cold Shoulder",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Crazy for You",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Melt My Heart to Stone",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "First Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Right as Rain",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Make You Feel My Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "My Same",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Tired",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Hometown Glory",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        }
+      ],
+      "songInLibrary": [
+        {
+          "title": "Crazy for You",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Cold Shoulder",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "First Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Right as Rain",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Hometown Glory",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "My Same",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Chasing Pavements",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Tired",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Daydreamer",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Melt My Heart to Stone",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Best for Last",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "Make You Feel My Love",
+          "artist": "Adele",
+          "genre": "POP",
+          "year": 2008,
+          "albumTitle": "19",
+          "rating": "UNRATED",
+          "Favourite": false
+        }
+      ]
+    },
+    "playCounts": {
+      "[Make You Feel My Love, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Best for Last, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Melt My Heart to Stone, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Daydreamer, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Tired, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Chasing Pavements, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[My Same, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Hometown Glory, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Right as Rain, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[First Love, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Cold Shoulder, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1,
+      "[Crazy for You, by Adele (Pop, 2008) [♡, UNRATED] [19]": 1
+    },
+    "recentPlays": [
+      {
+        "title": "Crazy for You",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Cold Shoulder",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "First Love",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Right as Rain",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Hometown Glory",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "My Same",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Chasing Pavements",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Tired",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Daydreamer",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      {
+        "title": "Melt My Heart to Stone",
+        "artist": "Adele",
+        "genre": "POP",
+        "year": 2008,
+        "albumTitle": "19",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    ],
     "favoriteList": {
       "songs": [],
       "name": "Favorite List"

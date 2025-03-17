@@ -7,5 +7,6 @@ public enum NavigationState {
     FAVORITE_MENU,
     LOGIN_MENU,
     LIBRARY_LISTS_MENU,
+    STATS_MENU,
     EXIT
 }

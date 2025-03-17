@@ -83,7 +83,9 @@ public class MainUI {
                     inputSongs();
                     break;
                 case "7":
+                    currentState = NavigationState.STATS_MENU;
                     runStatsMenu();
+                    currentState = NavigationState.MAIN_MENU;
                     break;
                 case "0":
                     running = false;
@@ -1396,8 +1398,7 @@ public class MainUI {
         libraryModel.printFrequentSongs();
         System.out.println("\n10 Most Recently Played Songs:");
         libraryModel.printRecentSongs();
-        runMainMenu();
-
+        currentState = NavigationState.MAIN_MENU;
     }
 }
 
