@@ -13,7 +13,7 @@ public class LibraryModel {
     private final PlayLists PlayLists;
     private Playlist playingList;
     private final transient Scanner scanner;
-    private ArrayList<Song> searchSongList;
+    private static ArrayList<Song> searchSongList;
     private ArrayList<Album> searchAlbumList;
     private Playlist currentPlaylist;
     private Song currentSong;
@@ -1117,6 +1117,7 @@ public class LibraryModel {
         if (!sortOption.equals("none")) {
             switch (sortOption) {
                 case "title":
+                    sortSearchSongList("title");
                     Collections.sort(songResults, (row1, row2) -> {
                         int cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
                         if (cmp != 0) return cmp;
@@ -1124,11 +1125,13 @@ public class LibraryModel {
                     });
                     break;
                 case "artist":
+                    sortSearchSongList("artist");
                     Collections.sort(songResults, (row1, row2) ->
                             row1.get(1).compareToIgnoreCase(row2.get(1))
                     );
                     break;
                 case "rating":
+                    sortSearchSongList("rating");
                     Collections.sort(songResults, (row1, row2) -> {
                         if (isStore) {
                             return row1.get(0).compareToIgnoreCase(row2.get(0));
@@ -1192,7 +1195,7 @@ public class LibraryModel {
         TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
 
-    public void sortSearchSongList(String sortOption) {
+    public static void sortSearchSongList(String sortOption) {
         if (searchSongList == null || sortOption == null) return;
         switch (sortOption.toLowerCase()) {
             case "title":
@@ -1202,7 +1205,15 @@ public class LibraryModel {
                 Collections.sort(searchSongList, (s1, s2) -> s1.getArtist().compareToIgnoreCase(s2.getArtist()));
                 break;
             case "rating":
-                Collections.sort(searchSongList, (s1, s2) -> Integer.compare(s2.getRatingInt(), s1.getRatingInt()));
+                Collections.sort(searchSongList, (s1, s2) -> {
+                    int star1 = s1.getRating().contains("★") ? s1.getRating().replace("☆", "").length() : 0;
+                    int star2 = s2.getRating().contains("★") ? s2.getRating().replace("☆", "").length() : 0;
+                    int cmp = Integer.compare(star2, star1);
+                    if (cmp != 0) return cmp;
+                    cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+                    if (cmp != 0) return cmp;
+                    return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+                });
                 break;
             case "shuffle":
                 Collections.shuffle(searchSongList);

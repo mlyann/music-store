@@ -207,20 +207,20 @@ public class MainUI {
                 case "1":
                     searchSongsPipeline(location);
                     if (currentState == NavigationState.MAIN_MENU) {
-                        return; // 立即退出searchSongsPipeline
+                        return;
                     }
                     break;
                 case "2":
                     searchAlbumsPipeline(location);
                     if (currentState == NavigationState.MAIN_MENU) {
-                        return; // 立即退出searchSongsPipeline
+                        return;
                     }
                     break;
                 case "3":
                     if (location.equals("LIBRARY")) {
                         searchPlaylistsPipeline();
                         if (currentState == NavigationState.MAIN_MENU) {
-                            return; // 立即退出searchSongsPipeline
+                            return;
                         }
                     } else {
                         System.out.println("❗ Invalid choice. Please try again.");
@@ -286,24 +286,21 @@ public class MainUI {
                 System.out.println("🔙 Back to Search Menu");
                 return;
             } else if (keyword.equals("h")) {
-                currentState = NavigationState.MAIN_MENU;
+                runMainMenu();
                 return;
             }
             ArrayList<ArrayList<String>> songResults = libraryModel.searchSong(keyword, location.equals("STORE"));
             if (songResults == null || songResults.isEmpty()) {
                 System.out.println("❗ No songs found for '" + keyword + "'.");
             } else {
-                String sortOption = chooseSortingMethod();
-                libraryModel.sortSearchSongList(sortOption);
+                String sort = chooseSortingMethod();
+                libraryModel.sortSearchSongList(sort);
                 ArrayList<ArrayList<String>> sortedResults = new ArrayList<>();
                 for (Song s : libraryModel.getSearchSongList()) {
                     sortedResults.add(s.toStringList());
                 }
-                printSongSearchResults("Search Results (Songs)", sortedResults, location, sortOption);
+                printSongSearchResults("Search Results (Songs)", sortedResults, location, sort);
                 songSelectionMenu(sortedResults, location);
-                if (currentState == NavigationState.MAIN_MENU) {
-                    return; // 立即退出searchSongsPipeline
-                }
             }
         }
     }
@@ -385,7 +382,7 @@ public class MainUI {
 
     private static void handleSongSelection(ArrayList<ArrayList<String>> songResults, String location, String title) {
         while (true) {
-            System.out.println("UserSongs: " + libraryModel.getSongListSize());
+            System.out.println("UserSongs: " + libraryModel.getSearchSongList().size());
             if (location.equals("STORE")) {
                 System.out.println("\nWhich song would you like to add to library?");
             } else {
@@ -396,9 +393,6 @@ public class MainUI {
             if (choice.equals("0")) {
                 break;
             }
-            if (currentState == NavigationState.MAIN_MENU) {
-                return; // 立即退出searchSongsPipeline
-            }
             try {
                 int index = Integer.parseInt(choice);
                 if (index < 1 || index > songResults.size()) {
@@ -408,13 +402,13 @@ public class MainUI {
                 String songTitle = songResults.get(index - 1).get(0);
                 if (location.equals("STORE")) {
                     if (!libraryModel.handleSongSelection(index - 1, songResults.size())) {
-                        System.out.println("❗ System wrong. 2 ");
+                        System.out.println("❗ System wrong. ");
                         break;
                     }
                     System.out.println(String.format("Song [%s] added to library! ", songTitle));
                 } else {
                     if (!libraryModel.setCurrentSong(index - 1, songTitle)){
-                        System.out.println("❗ System wrong. 3");
+                        System.out.println("❗ System wrong. ");
                         break;
                     }
                     handleSongActions(songTitle);
