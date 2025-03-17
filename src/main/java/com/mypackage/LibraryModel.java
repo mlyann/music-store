@@ -1066,25 +1066,13 @@ public class LibraryModel {
         }
         boolean isStore = location.equals("STORE");
 
-        // songResults based on sortOption
         if (!sortOption.equals("none")) {
             switch (sortOption) {
                 case "title":
                     Collections.sort(songResults, (row1, row2) -> {
-                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0)); // 标题比较
+                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
                         if (cmp != 0) return cmp;
-                        cmp = row1.get(1).compareToIgnoreCase(row2.get(1)); // 歌手比较
-                        if (cmp != 0) return cmp;
-                        if (!isStore && row1.size() > 5 && row2.size() > 5) {
-                            try {
-                                int rating1 = Integer.parseInt(row1.get(5));
-                                int rating2 = Integer.parseInt(row2.get(5));
-                                return Integer.compare(rating1, rating2);
-                            } catch (NumberFormatException e) {
-                                return 0;
-                            }
-                        }
-                        return 0;
+                        return row1.get(1).compareToIgnoreCase(row2.get(1));
                     });
                     break;
                 case "artist":
@@ -1097,16 +1085,11 @@ public class LibraryModel {
                         if (isStore) {
                             return row1.get(0).compareToIgnoreCase(row2.get(0));
                         }
-                        try {
-                            int rating1 = Integer.parseInt(row1.get(5));
-                            int rating2 = Integer.parseInt(row2.get(5));
-                            int cmp = Integer.compare(rating2, rating1); // 降序排序
-                            if (cmp != 0) return cmp;
-                        } catch (NumberFormatException e) {
-                            int cmp = row1.get(5).compareToIgnoreCase(row2.get(5));
-                            if (cmp != 0) return cmp;
-                        }
-                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
+                        int star1 = row1.get(5).contains("★") ? row1.get(5).replace("☆", "").length() : 0;
+                        int star2 = row2.get(5).contains("★") ? row2.get(5).replace("☆", "").length() : 0;
+                        int cmp = Integer.compare(star2, star1); // 降序排序：星数多的排前面
+                        if (cmp != 0) return cmp;
+                        cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
                         if (cmp != 0) return cmp;
                         return row1.get(1).compareToIgnoreCase(row2.get(1));
                     });
@@ -1118,7 +1101,6 @@ public class LibraryModel {
                     break;
             }
         }
-
         List<String> header = new ArrayList<>();
         header.add("No.");
         header.add("Title");
