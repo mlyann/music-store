@@ -206,13 +206,22 @@ public class MainUI {
             switch (choice) {
                 case "1":
                     searchSongsPipeline(location);
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return; // 立即退出searchSongsPipeline
+                    }
                     break;
                 case "2":
                     searchAlbumsPipeline(location);
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return; // 立即退出searchSongsPipeline
+                    }
                     break;
                 case "3":
                     if (location.equals("LIBRARY")) {
                         searchPlaylistsPipeline();
+                        if (currentState == NavigationState.MAIN_MENU) {
+                            return; // 立即退出searchSongsPipeline
+                        }
                     } else {
                         System.out.println("❗ Invalid choice. Please try again.");
                     }
@@ -292,6 +301,9 @@ public class MainUI {
                 }
                 printSongSearchResults("Search Results (Songs)", sortedResults, location, sortOption);
                 songSelectionMenu(sortedResults, location);
+                if (currentState == NavigationState.MAIN_MENU) {
+                    return; // 立即退出searchSongsPipeline
+                }
             }
         }
     }
@@ -327,6 +339,7 @@ public class MainUI {
             }
         }
         handleSongSelection(songResults, location, "Search Results (Songs)");
+        return;
     }
 
 
@@ -383,6 +396,9 @@ public class MainUI {
             if (choice.equals("0")) {
                 break;
             }
+            if (currentState == NavigationState.MAIN_MENU) {
+                return; // 立即退出searchSongsPipeline
+            }
             try {
                 int index = Integer.parseInt(choice);
                 if (index < 1 || index > songResults.size()) {
@@ -402,6 +418,7 @@ public class MainUI {
                         break;
                     }
                     handleSongActions(songTitle);
+                    return;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("❗ Please enter a valid number.");
@@ -432,7 +449,10 @@ public class MainUI {
             }
             System.out.println("4) ➕ Add to a playlist");
             System.out.println("5) ❌ Remove from a playlist");
-            System.out.println("6) Open Album");
+            System.out.println("6) ❗ Remove from Library");
+            if (libraryModel.isCurrentSongAlbum()) {
+                System.out.println("7) 🎼 Open Album");
+            }
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
             System.out.print("👉 Enter choice: ");
@@ -465,10 +485,14 @@ public class MainUI {
                     }
                     break;
                 case "6":
-                    libraryModel.getSongAlbum();
+                    if (removeSongFromLibrary()) {
+                        return;
+                    }
+                    break;
+                case "7":
+                    openSongAlbum();
                     break;
                 case "0":
-                    searchSongsPipeline(songTitle);
                     return;
                 case "h":
                     currentState = NavigationState.MAIN_MENU;
@@ -476,6 +500,30 @@ public class MainUI {
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
                     break;
+            }
+        }
+    }
+
+    private static boolean removeSongFromLibrary() {
+        System.out.print("Are you sure to remove ");
+        System.out.print(libraryModel.getCurrentSongInfo());
+        System.out.println(" from the library? ");
+        System.out.println("1) ❌ Remove it ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
+        String choice = SCANNER.nextLine().trim();
+        while (true) {
+            if (choice.equals("1")) {
+                if (!libraryModel.removeSongFromLibrary()) {
+                    System.out.println("❗ System wrong. 4");
+                } else {
+                    System.out.println("Song removed from library.");
+                    return true;
+                }
+            } else if (choice.equals("0")) {
+                return false;
+            } else {
+                System.out.println("❗ Invalid choice. Please try again.");
             }
         }
     }
@@ -652,8 +700,9 @@ public class MainUI {
             System.out.println("Actions: ");
             System.out.println("1) ▶️ Play album");
             System.out.println("2) \uD83D\uDCC2 Open album");
+            System.out.println("3) ❗ Remove from Library");
             if(!libraryModel.isCurrentAlbumComplete()) {
-                System.out.println("3) 📝 Check complete album");
+                System.out.println("4) 📝 Check complete album");
             }
             System.out.println("0) 🔙 Go back");
             System.out.println("h) 🚪 Back to Main Menu");
@@ -670,6 +719,11 @@ public class MainUI {
                     openAlbum(albumTitle);
                     continue;
                 case "3":
+                    if (removeAlbumFromLibrary()) {
+                        return;
+                    }
+                    break;
+                case "4":
                     if (!libraryModel.isCurrentAlbumComplete()) {
                         showCompleteAlbum(albumTitle);
                         continue;
@@ -711,10 +765,18 @@ public class MainUI {
         sb.append(", ");
         sb.append(albumInfo.get(3));
         sb.append(")\n");
-        String sortkey = chooseSortingMethod();
-        printSongSearchResults("Album Songs", albumSongs, "LIBRARY", sortkey);
+        printSongSearchResults("Album Songs", albumSongs, "LIBRARY", sort);
         handleSongSelection(albumSongs, "LIBRARY", sb.toString());
 
+    }
+
+    private static void openSongAlbum() {
+        if (libraryModel.getSongAlbum() == null) {
+            System.out.println("❗ System wrong. 14");
+            return;
+        }
+        String albumTitle = libraryModel.getSongAlbum();
+        openAlbum(albumTitle);
     }
 
     private static void showCompleteAlbum(String albumTitle) {
@@ -722,6 +784,31 @@ public class MainUI {
             System.out.println("Please add Songs through search in Music Store.");
         } else {
             System.out.println("❗ System wrong. 12");
+        }
+    }
+
+
+    private static boolean removeAlbumFromLibrary() {
+        System.out.print("Are you sure to remove ");
+        System.out.print(libraryModel.getCurrentAlbumInfo());
+        System.out.println(" from the library? ");
+        System.out.println("1) ❌ Remove it ");
+        System.out.println("0) 🔙 Go back");
+        System.out.print("👉 Enter choice: ");
+        String choice = SCANNER.nextLine().trim();
+        while (true) {
+            if (choice.equals("1")) {
+                if (!libraryModel.removeAlbumFromLibrary()) {
+                    System.out.println("❗ System wrong. 4");
+                } else {
+                    System.out.println("Album removed from library.");
+                    return true;
+                }
+            } else if (choice.equals("0")) {
+                return false;
+            } else {
+                System.out.println("❗ Invalid choice. Please try again.");
+            }
         }
     }
 

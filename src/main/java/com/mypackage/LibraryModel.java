@@ -18,7 +18,7 @@ public class LibraryModel {
     private Playlist currentPlaylist;
     private Song currentSong;
     private Album currentAlbum;
-    private Map<Song, Integer> playCounts = new HashMap<>();
+    private Map<String, Integer> playCounts = new HashMap<>();
     private List<Song> recentPlays = new ArrayList<>();
 
     private transient MusicStore musicStore;
@@ -59,9 +59,15 @@ public class LibraryModel {
         this.musicStore = musicStore;
     }
 
-    public String generateKey(String title, String artist, String genre) {
-        return (title + "|" + artist + "|" + genre).toLowerCase();
+    public String generateKey(Song song) {
+        return (song.getTitle() + "|" + song.getArtist() + "|" + song.getGenre()).toLowerCase();
     }
+
+    public String generateKey(Album album) {
+        return (album.getTitle() + "|" + album.getArtist() + "|" + album.getGenre()).toLowerCase();
+    }
+
+
     public ArrayList<Song> getSearchSongList() {
         return new ArrayList<>(searchSongList);
     }
@@ -75,7 +81,15 @@ public class LibraryModel {
     }
 
     public String getSongAlbum() {
-        return currentSong.getAlbum().toString();
+        currentAlbum = currentSong.getAlbum();
+        if (currentAlbum == null) {
+            return null;
+        }
+        return currentAlbum.getTitle();
+    }
+
+    public boolean isCurrentSongAlbum() {
+        return currentSong.getAlbum() != null;
     }
 
     // -------------------------------------------------------------------------
@@ -111,6 +125,7 @@ public class LibraryModel {
     public void setCurrentSongWithoutCheck(int index) {
         currentSong = searchSongList.get(index);
     }
+
 
     // -------------------------------------------------------------------------
     //                  CURRENT ALBUM GETTER
@@ -204,7 +219,7 @@ public class LibraryModel {
      * Title|artist as key, class Song as value
      */
     private void addSong(Song song) {
-        UserSongs.put(generateKey(song.getTitle(), song.getArtist(), song.getGenre()), song);
+        UserSongs.put(generateKey(song), song);
     }
 
     /* [TODO] Ming: search for genre
@@ -430,6 +445,19 @@ public class LibraryModel {
         return result;
     }
 
+    public boolean removeSongFromLibrary() {
+        if (currentSong == null) {
+            System.out.println("No song selected.");
+            return false;
+        }
+        UserSongs.remove(generateKey(currentSong));
+        if (currentSong.getAlbum() != null) {
+            currentSong.getAlbum().removeSongFromAlbumLibrary(currentSong);
+        }
+        currentSong = null;
+        return true;
+    }
+
 
     // -------------------------------------------------------------------------
     //                  ALBUM FUNCTIONS
@@ -441,9 +469,9 @@ public class LibraryModel {
      * also add all songs in the album to the library
      */
     public void addAlbum(Album album) {
-        UserAlbums.put(generateKey(album.getTitle(), album.getArtist(), album.getGenre()), album);
+        UserAlbums.put(generateKey(album), album);
         for (Song song : album.getSongs()) {
-            UserSongs.put(generateKey(song.getTitle(), song.getArtist(),  album.getGenre()), song);
+            UserSongs.put(generateKey(song), song);
         }
     }
 
@@ -587,6 +615,19 @@ public class LibraryModel {
         return result;
     }
 
+    public boolean removeAlbumFromLibrary() {
+        if (currentAlbum == null) {
+            System.out.println("No album selected.");
+            return false;
+        }
+        UserAlbums.remove(generateKey(currentAlbum));
+        for (Song song : currentAlbum.getSongs()) {
+            UserSongs.remove(generateKey(song));
+        }
+        currentAlbum = null;
+        return true;
+    }
+
     // -------------------------------------------------------------------------
     //                  PLAYINGLIST FUNCTIONS
     // -------------------------------------------------------------------------
@@ -618,7 +659,7 @@ public class LibraryModel {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playCounts.put(currentSong, playCounts.getOrDefault(currentSong, 0) + 1);
+            playCounts.put(generateKey(currentSong), playCounts.getOrDefault(currentSong, 0) + 1);
             recentPlays.remove(currentSong);
             recentPlays.add(0, currentSong);
             if (recentPlays.size() > 10) {
@@ -647,7 +688,7 @@ public class LibraryModel {
 
             for (Song song : songs) {
                 // Update stats as well [TODO] Haocheng
-                playCounts.put(song, playCounts.getOrDefault(song, 0) + 1);
+                playCounts.put(generateKey(song), playCounts.getOrDefault(song, 0) + 1);
                 // Update recent plays
                 recentPlays.remove(song);
                 recentPlays.add(0, song);
@@ -796,7 +837,7 @@ public class LibraryModel {
 
         for (Song song : songs) {
             // Update stats first
-            playCounts.put(song, playCounts.getOrDefault(song, 0) + 1);
+            playCounts.put(generateKey(song), playCounts.getOrDefault(song, 0) + 1);
             recentPlays.remove(song);
             recentPlays.add(0, song);
             if (recentPlays.size() > 10) {
@@ -898,7 +939,7 @@ public class LibraryModel {
         Collections.reverse(songs);
 
         for (Song song : songs) {
-            playCounts.put(song, playCounts.getOrDefault(song,0) + 1);
+            playCounts.put(generateKey(song), playCounts.getOrDefault(song,0) + 1);
             recentPlays.remove(song);
             recentPlays.add(0, song);
             if (recentPlays.size() > 10) {
@@ -937,26 +978,32 @@ public class LibraryModel {
         return playCounts.entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .limit(10)
-                .map(Map.Entry::getKey)
+                .map(entry -> {
+                    String songKey = entry.getKey();
+                    return UserSongs.get(songKey); // 在这里获得 Song
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
     public void printFrequentSongs() {
         List<Song> frequentSongs = getTopFrequentSongs();
 
-        // if there are any songs to display
         if (frequentSongs.isEmpty()) {
             System.out.println("❗No frequent songs to display.");
             return;
         }
+
         List<List<String>> tableData = new ArrayList<>();
-        List<String> header = Arrays.asList("Rank", "Title", "Artist", "Play Count");
-        tableData.add(header);
+        tableData.add(Arrays.asList("Rank", "Title", "Artist", "Play Count"));
         tableData.add(Arrays.asList("###SEPARATOR###"));
 
         int rank = 1;
         for (Song song : frequentSongs) {
-            int count = playCounts.get(song);
+            String key = generateKey(song);  // 跟插入playCounts时一致
+            Integer count = playCounts.get(key);
+            if (count == null) count = 0;   // 安全处理
+
             List<String> row = Arrays.asList(
                     String.valueOf(rank),
                     song.getTitle(),
@@ -969,6 +1016,7 @@ public class LibraryModel {
 
         TablePrinter.printDynamicTable("10 Most Frequently Played Songs", tableData);
     }
+
 
     public List<Song> getRecentSongs() {
         return new ArrayList<>(recentPlays);

@@ -127,10 +127,6 @@ public class Song extends TablePrinter {
     }
 
 
-    public void setAlbum(String albumTitle) {
-        this.albumTitle = albumTitle;
-    }
-
     /**
      * set numbers for rating, if null, it will be Rating.UNRATED。
      */
@@ -147,7 +143,7 @@ public class Song extends TablePrinter {
      * @return a formatted string with song details
      */
     public String toString() {
-        String result = String.format("[%s, by %s (%s, %d) [%s, %s]", title, artist,
+        String result = String.format("[%s, by %s (%s, %d) [%s, %s]]", title, artist,
                 genre.getGenre(), year, getFavourite(), rating.toString());
         if (albumTitle != null) {
             result += " [" + albumTitle + "]";

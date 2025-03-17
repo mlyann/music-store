@@ -98,6 +98,11 @@ public class Album {
         }
         return result.toString();
     }
+
+    public void removeSongFromAlbumLibrary(Song song) {
+        songInLibrary.remove(song);
+    }
+
     /**
      * Returns the album's basic information as an ArrayList of strings.
      * The list contains the title, artist, year (as a string), and genre.
