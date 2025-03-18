@@ -697,7 +697,7 @@ public class LibraryModelTest {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
         library.setCurrentAlbum(0, "19");
-        assertFalse(library.openAlbum("19", "rating"));
+        assertFalse(library.openAlbum("19", "year"));
         library.openAlbum("19", "title");
         assertEquals(12, library.getSearchSongListSize());
     }

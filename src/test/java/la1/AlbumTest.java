@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AlbumTest {
     private Song createSong(String title) {
@@ -103,5 +103,80 @@ public class AlbumTest {
         Album album = new Album("1", "AA", "Electronic", 2022, songs);
         ArrayList<String> expected = new ArrayList<>(Arrays.asList("1", "AA", "2022", "Electronic", "1", "2"));
         assertEquals(expected, album.toStringList(true));
+    }
+    @Test
+    public void testAddSongToAlbumLibrary() {
+        List<Song> songs = new ArrayList<>();
+        Song songA = createSong("A");
+        Song songB = createSong("B");
+        songs.add(songA);
+        songs.add(songB);
+        Album album = new Album("Album1", "Artist1", "Rock", 2021, songs);
+        assertEquals(0, album.getSongs().size());
+        album.addSongToAlbumLibrary(songA);
+        ArrayList<Song> librarySongs = album.getSongs();
+        assertEquals(1, librarySongs.size());
+        assertTrue(librarySongs.contains(songA));
+        album.addSongToAlbumLibrary(songA);
+        librarySongs = album.getSongs();
+        assertEquals(1, librarySongs.size());
+    }
+
+    @Test
+    public void testRemoveSongFromAlbumLibrary() {
+        List<Song> songs = new ArrayList<>();
+        Song songA = createSong("A");
+        Song songB = createSong("B");
+        songs.add(songA);
+        songs.add(songB);
+        Album album = new Album("Album1", "Artist1", "Rock", 2021, songs);
+        album.addSongToAlbumLibrary(songA);
+        album.addSongToAlbumLibrary(songB);
+        assertEquals(2, album.getSongs().size());
+        album.removeSongFromAlbumLibrary(songA);
+        ArrayList<Song> librarySongs = album.getSongs();
+        assertEquals(1, librarySongs.size());
+        assertFalse(librarySongs.contains(songA));
+        assertTrue(librarySongs.contains(songB));
+    }
+
+    @Test
+    public void testIsComplete() {
+        List<Song> songs = new ArrayList<>();
+        Song songA = createSong("A");
+        Song songB = createSong("B");
+        songs.add(songA);
+        songs.add(songB);
+        Album album = new Album("Album1", "Artist1", "Rock", 2021, songs);
+        assertFalse(album.isComplete());
+        String infoString = album.getAlbumInfoString();
+        assertTrue(infoString.contains("Not all songs are in the library."));
+        album.addSongToAlbumLibrary(songA);
+        assertFalse(album.isComplete());
+        infoString = album.getAlbumInfoString();
+        assertTrue(infoString.contains("Not all songs are in the library."));
+        album.addSongToAlbumLibrary(songB);
+        assertTrue(album.isComplete());
+        infoString = album.getAlbumInfoString();
+        assertFalse(infoString.contains("Not all songs are in the library."));
+    }
+
+    @Test
+    public void testToStringListNonMusicStore() {
+        List<Song> songs = new ArrayList<>();
+        Song songA = createSong("A");
+        Song songB = createSong("B");
+        songs.add(songA);
+        songs.add(songB);
+        Album album = new Album("Album1", "Artist1", "Pop", 2021, songs);
+        ArrayList<String> listNoLibrary = album.toStringList(false);
+        ArrayList<String> expected = new ArrayList<>(List.of("Album1", "Artist1", "2021", "Pop"));
+        assertEquals(expected, listNoLibrary);
+        album.addSongToAlbumLibrary(songA);
+        album.addSongToAlbumLibrary(songB);
+        ArrayList<String> listWithLibrary = album.toStringList(false);
+        expected.add("A");
+        expected.add("B");
+        assertEquals(expected, listWithLibrary);
     }
 }

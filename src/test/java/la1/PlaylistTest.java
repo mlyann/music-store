@@ -228,6 +228,147 @@ public class PlaylistTest {
         assertTrue(str.contains("1) With Album Song"));
         assertTrue(str.contains("2) No Album Song"));
     }
+    @Test
+    public void testSortSongsByTitle() {
+        Song songA = createSong("Alpha", "ArtistZ", "Pop", 2018);
+        Song songB = createSong("Alpha", "ArtistY", "Rock", 2019);
+        Song songC = createSong("Beta", "ArtistX", "Jazz", 2020);
+        playlist.addSong(songC, false);
+        playlist.addSong(songB, false);
+        playlist.addSong(songA, false);
 
+        playlist.sortSongsByTitle();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals("Alpha", sorted.get(0).getTitle());
+        assertEquals("ArtistY", sorted.get(0).getArtist());
+        assertEquals("Alpha", sorted.get(1).getTitle());
+        assertEquals("ArtistZ", sorted.get(1).getArtist());
+        assertEquals("Beta", sorted.get(2).getTitle());
+    }
 
+    @Test
+    public void testSortSongsByRating() {
+        Song song1 = createSong("Song 1", "ArtistA", "Pop", 2019);
+        Song song2 = createSong("Song 2", "ArtistB", "Rock", 2018);
+        Song song3 = createSong("Song 3", "ArtistC", "Jazz", 2020);
+        // 假设 Rating 枚举中，FIVE > FOUR > THREE
+        song1.setRating(Rating.THREE);
+        song2.setRating(Rating.FIVE);
+        song3.setRating(Rating.FOUR);
+
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        playlist.addSong(song3, false);
+
+        playlist.sortSongsByRating();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals("Song 2", sorted.get(0).getTitle());
+        assertEquals("Song 3", sorted.get(1).getTitle());
+        assertEquals("Song 1", sorted.get(2).getTitle());
+    }
+
+    @Test
+    public void testSortSongsByYear() {
+        Song song1 = createSong("Song A", "ArtistA", "Pop", 2021);
+        Song song2 = createSong("Song B", "ArtistB", "Rock", 2019);
+        Song song3 = createSong("Song C", "ArtistC", "Jazz", 2020);
+
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        playlist.addSong(song3, false);
+
+        playlist.sortSongsByYear();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals(2019, sorted.get(0).getYear());
+        assertEquals(2020, sorted.get(1).getYear());
+        assertEquals(2021, sorted.get(2).getYear());
+    }
+
+    @Test
+    public void testPrintAsTableKeyRating() {
+        Song song1 = createSong("Song A", "ArtistA", "Pop", 2020);
+        Song song2 = createSong("Song B", "ArtistB", "Rock", 2021);
+        song1.setRating(Rating.THREE);
+        song2.setRating(Rating.FIVE);
+
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        outContent.reset();
+
+        playlist.printAsTable("rating");
+        String output = outContent.toString();
+        assertTrue(output.contains("Rating"));
+    }
+
+    @Test
+    public void testPrintAsTableKeyYear() {
+        Song song1 = createSong("Song A", "ArtistA", "Pop", 2020);
+        Song song2 = createSong("Song B", "ArtistB", "Rock", 2018);
+
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        outContent.reset();
+
+        playlist.printAsTable("year");
+        String output = outContent.toString();
+        assertTrue(output.contains("Year"));
+        assertTrue(output.indexOf("Song B") < output.indexOf("Song A"));
+    }
+
+    @Test
+    public void testPrintAsTableKeyShuffle() {
+        Song song1 = createSong("Song A", "ArtistA", "Pop", 2020);
+        Song song2 = createSong("Song B", "ArtistB", "Rock", 2018);
+
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        outContent.reset();
+
+        playlist.printAsTable("shuffle");
+        String output = outContent.toString();
+        assertTrue(output.contains("Shuffling the playlist..."));
+        assertTrue(output.contains("The playlist has been shuffled."));
+    }
+    @Test
+    public void testSortSongsByRatingEqualRatingAndTitle() {
+        Song songA = createSong("Same Title", "Alpha", "Pop", 2020);
+        Song songB = createSong("Same Title", "Beta", "Pop", 2020);
+        songA.setRating(Rating.FOUR);
+        songB.setRating(Rating.FOUR);
+        playlist.addSong(songB, false);
+        playlist.addSong(songA, false);
+
+        playlist.sortSongsByRating();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals("Alpha", sorted.get(0).getArtist());
+        assertEquals("Beta", sorted.get(1).getArtist());
+    }
+
+    @Test
+    public void testSortSongsByTitleEqualTitleAndArtist() {
+        Song songA = createSong("Same", "Same", "Pop", 2020);
+        Song songB = createSong("Same", "Same", "Pop", 2020);
+        songA.setRating(Rating.THREE);
+        songB.setRating(Rating.FOUR);
+        playlist.addSong(songB, false);
+        playlist.addSong(songA, false);
+
+        playlist.sortSongsByTitle();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals(3, sorted.get(0).getRatingInt());
+        assertEquals(4, sorted.get(1).getRatingInt());
+    }
+
+    @Test
+    public void testSortSongsByYearEqualYearAndTitle() {
+        Song songA = createSong("Same", "Alpha", "Pop", 2020);
+        Song songB = createSong("Same", "Beta", "Pop", 2020);
+        playlist.addSong(songB, false);
+        playlist.addSong(songA, false);
+
+        playlist.sortSongsByYear();
+        List<Song> sorted = playlist.getSongs();
+        assertEquals("Alpha", sorted.get(0).getArtist());
+        assertEquals("Beta", sorted.get(1).getArtist());
+    }
 }

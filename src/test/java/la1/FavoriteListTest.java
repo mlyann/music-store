@@ -135,6 +135,7 @@ public class FavoriteListTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
         favList.printAsTable("title");
+        favList.printAsTable("artist");
         System.out.flush();
         System.setOut(originalOut);
 
