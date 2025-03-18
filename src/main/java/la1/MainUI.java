@@ -1,8 +1,6 @@
 package la1; // Or wherever your package is
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 import static la1.LibraryModel.printSongSearchResults;

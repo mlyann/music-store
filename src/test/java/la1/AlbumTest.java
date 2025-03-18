@@ -1,12 +1,12 @@
 package la1;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AlbumTest {
     private Song createSong(String title) {
@@ -71,7 +71,7 @@ public class AlbumTest {
     public void testGetInfoString() {
         List<Song> songs = new ArrayList<>();
         Album album = new Album("1", "AA", "Country", 1988, songs);
-        String expected = String.format("%s, by %s (%d, %s)\n", "1", "AA", 1988, "Country");
+        String expected = String.format("%s, by %s (%d, %s), ", "1", "AA", 1988, "Country");
         assertEquals(expected, album.getAlbumInfoString());
     }
 
@@ -102,6 +102,6 @@ public class AlbumTest {
         songs.add(createSong("2"));
         Album album = new Album("1", "AA", "Electronic", 2022, songs);
         ArrayList<String> expected = new ArrayList<>(Arrays.asList("1", "AA", "2022", "Electronic", "1", "2"));
-        assertEquals(expected, album.toStringList());
+        assertEquals(expected, album.toStringList(true));
     }
 }

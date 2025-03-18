@@ -13,14 +13,14 @@ public class FavoriteListTest {
         FavoriteList favList = new FavoriteList();
         Song song = new Song("Title1", "Artist1", "Pop", 2020);
         assertEquals(0, favList.getSize());
-        favList.addSong(song);
+        favList.addSong(song,false);
         assertEquals(1, favList.getSize());
     }
     @Test
     public void testRemoveSongDecreasesSize() {
         FavoriteList favList = new FavoriteList();
         Song song = new Song("Title1", "Artist1", "Pop", 2020);
-        favList.addSong(song);
+        favList.addSong(song,false);
         assertEquals(1, favList.getSize());
         favList.removeSong(song);
         assertEquals(0, favList.getSize());
@@ -36,8 +36,8 @@ public class FavoriteListTest {
         FavoriteList favList = new FavoriteList();
         Song song1 = new Song("Title1", "Artist1", "Pop", 2020);
         Song song2 = new Song("Title2", "Artist2", "Rock", 2019);
-        favList.addSong(song1);
-        favList.addSong(song2);
+        favList.addSong(song1,false);
+        favList.addSong(song2,false);
 
         String output = favList.toString();
         String expectedPattern = "Favorite Songs:\\s*1\\) Title1\\s*2\\) Title2\\s*";
@@ -49,7 +49,7 @@ public class FavoriteListTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
-        favList.printAsTable();
+        favList.printAsTable("title");
         System.out.flush();
         System.setOut(originalOut);
         String printed = baos.toString();
@@ -61,14 +61,14 @@ public class FavoriteListTest {
         FavoriteList favList = new FavoriteList();
         Song song1 = new Song("Title1", "Artist1", "Pop", 2020);
         Song song2 = new Song("Title2", "Artist2", "Rock", 2019);
-        favList.addSong(song1);
-        favList.addSong(song2);
+        favList.addSong(song1,false);
+        favList.addSong(song2,false);
         song1.setAlbum(null);
         song2.setAlbum(null);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
-        favList.printAsTable();
+        favList.printAsTable("title");
         System.out.flush();
         System.setOut(originalOut);
 
@@ -88,13 +88,13 @@ public class FavoriteListTest {
         Song song1 = new Song("Title1", "Artist1", "Pop", 2020);
         Song song2 = new Song("Title2", "Artist2", "Rock", 2019);
         song2.setAlbum(new DummyAlbum("BestOf"));
-        favList.addSong(song1);
-        favList.addSong(song2);
+        favList.addSong(song1,false);
+        favList.addSong(song2,false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
 
-        favList.printAsTable();
+        favList.printAsTable("title");
         System.out.flush();
         System.setOut(originalOut);
         String printed = baos.toString();
@@ -111,9 +111,9 @@ public class FavoriteListTest {
         song1.setAlbum(new DummyAlbum("Album1"));
         song3.setAlbum(new DummyAlbum("Album3"));
 
-        favList.addSong(song1);
-        favList.addSong(song2);
-        favList.addSong(song3);
+        favList.addSong(song1,false);
+        favList.addSong(song2,false);
+        favList.addSong(song3,false);
         assertEquals(3, favList.getSize());
         favList.removeSong(song2);
         assertEquals(2, favList.getSize());
@@ -129,12 +129,12 @@ public class FavoriteListTest {
         FavoriteList favList = new FavoriteList();
         DummySongShort songShort = new DummySongShort("ShortSong", "ArtistX");
         DummySongLong songLong = new DummySongLong("LongSong", "ArtistY", "DummyAlbum");
-        favList.addSong(songShort);
-        favList.addSong(songLong);
+        favList.addSong(songShort,false);
+        favList.addSong(songLong,false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(baos));
-        favList.printAsTable();
+        favList.printAsTable("title");
         System.out.flush();
         System.setOut(originalOut);
 
@@ -185,7 +185,7 @@ public class FavoriteListTest {
             list.add(getFavourite());
             list.add(getRating());
             if (getAlbum() != null) {
-                list.add(getAlbum());
+                list.add(getAlbum().getTitle());
             } else {
                 list.add(null);
             }

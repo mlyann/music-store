@@ -211,11 +211,11 @@ public class LibraryModelTest {
     }
     @Test
     void testPrintFavoriteList() {
-        library.printFavoriteList();
+        library.printFavoriteList("title");
         Song s=new Song("SongA", "ArtistA");
         setCurrentSongField(s);
         library.addFavourite();
-        library.printFavoriteList();
+        library.printFavoriteList("rating");
     }
     @Test
     void testClearFavoriteList() {
@@ -283,7 +283,7 @@ public class LibraryModelTest {
         setCurrentSongField(s2);
         library.playSong();
         assertEquals(2, getPlayingListField().getSize());
-        library.shufflePlaylist();
+        library.printUserSongsTable("shuffle");
     }
     @Test
     void testPrintRating() {
@@ -316,7 +316,7 @@ public class LibraryModelTest {
         setCurrentSongField(songB);
         library.addFavourite();
         Playlist playing = getPlayingListField();
-        playing.addSong(songB);
+        playing.addSong(songB, false);
         library.playFavoriteList();
         assertEquals(2, playing.getSize());
         assertSame(songA, playing.getSongs().get(0));
@@ -420,9 +420,9 @@ public class LibraryModelTest {
     }
     @Test
     void testPrintAllPlayLists() {
-        library.printAllPlayLists();
+        library.printAllPlayLists("rating");
         library.createPlaylist("MyPL");
-        library.printAllPlayLists();
+        library.printAllPlayLists("artist");
     }
     @Test
     void testGetCurrentPlayList() {
@@ -437,11 +437,11 @@ public class LibraryModelTest {
     }
     @Test
     void testPrintPlaylist() {
-        library.printPlaylist();
+        library.printPlaylist("xxx");
         Song s2 = new Song("Song2", "Artist2");
         setCurrentSongField(s2);
         library.playSong();
-        library.printPlaylist();
+        library.printPlaylist("title");
     }
     @Test
     void testPlaySong() {
@@ -519,10 +519,10 @@ public class LibraryModelTest {
 
     @Test
     void testPrintUserSongsTable() {
-        library.printUserSongsTable();
+        library.printUserSongsTable("rating");
         library.searchSong("StoreSongA", true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.printUserSongsTable();
+        library.printUserSongsTable("title");
     }
     @Test
     void testGetSongList() {
@@ -539,7 +539,7 @@ public class LibraryModelTest {
     void testCheckCurrentSong() {
         library.searchSong("StoreSongA", true);
         library.handleSongSelection(0,library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0,"StoreSongA");
         assertTrue(library.checkCurrentSong("StoreSongA"));
         assertFalse(library.checkCurrentSong("NonExistingSong"));
@@ -549,7 +549,7 @@ public class LibraryModelTest {
     void testSetCurrentSong() {
         library.searchSong("StoreSongB", true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();;
         assertTrue(library.setCurrentSong(0, "StoreSongB"));
         assertFalse(library.setCurrentSong(0, "WrongTitle"));
     }
@@ -558,7 +558,7 @@ public class LibraryModelTest {
     void testGetCurrentSongInfo() {
         library.searchSong("StoreSongA",true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0, "StoreSongA");
 
         String info = library.getCurrentSongInfo();
@@ -570,7 +570,7 @@ public class LibraryModelTest {
     void testGetCurrentSongTitle() {
         library.searchSong("StoreSongB",true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0, "StoreSongB");
         assertEquals("StoreSongB",library.getCurrentSongTitle());
     }
@@ -579,7 +579,7 @@ public class LibraryModelTest {
     void testSetCurrentSongWithoutCheck() {
         library.searchSong("StoreSongA",true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSongWithoutCheck(0);
         assertTrue(library.getCurrentSongInfo().contains("StoreSongA"));
     }
@@ -587,7 +587,7 @@ public class LibraryModelTest {
     void testUserSongSerch() {
         library.searchSong("StoreSongA",true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
 
         assertEquals(1, library.getSearchSongListSize());
     }
@@ -595,7 +595,7 @@ public class LibraryModelTest {
     void testPlayListSearch() {
         library.searchSong("StoreSongA",true);
         library.handleSongSelection(0,library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0,"StoreSongA");
         library.playSong();
 
@@ -606,7 +606,7 @@ public class LibraryModelTest {
     void testFavoriteListSearch() {
         library.searchSong("StoreSongA", true);
         library.handleSongSelection(0, library.getSearchSongListSize());
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0, "StoreSongA");
         library.addFavourite();
 
@@ -677,7 +677,7 @@ public class LibraryModelTest {
     }
     @Test
     void testSetCurrentAlbumEmpty() {
-        library.searchAlbum("adele", true);
+        library.searchAlbum("adele", false);
         assertEquals(2, library.getSearchAlbumList().size());
         assertFalse(library.setCurrentAlbum(0, "21"));
     }
@@ -697,8 +697,8 @@ public class LibraryModelTest {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
         library.setCurrentAlbum(0, "19");
-        assertFalse(library.openAlbum("21"));
-        library.openAlbum("19");
+        assertFalse(library.openAlbum("19", "rating"));
+        library.openAlbum("19", "title");
         assertEquals(12, library.getSearchSongListSize());
     }
     @Test
@@ -712,7 +712,7 @@ public class LibraryModelTest {
     void testPlayListsCurrent() {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
-        library.userSongSerch();
+        library.userSongSearch();
         library.setCurrentSong(0, "Someone Like You");
         library.createPlaylist("tests");
         library.selectCurrentPlaylist(0);

@@ -3,10 +3,6 @@ package la1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.SplittableRandom;
-
-import la1.TablePrinter;
-import la1.Song;
 
 public class Playlist {
     private final ArrayList<Song> songs;

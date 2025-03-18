@@ -1,7 +1,6 @@
 package la1;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileReader;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.io.BufferedReader;
 
 
@@ -92,21 +90,21 @@ public class MusicStoreTest {
     }
     @Test
     void testPlaylistAddSong() {
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
         assertEquals(1, testPlaylist.getSize());
         assertEquals("Test Song", testPlaylist.getSongs().get(0).getTitle());
     }
 
     @Test
     void testPlaylistAddSongDuplicate() {
-        testPlaylist.addSong(testSong);
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
+        testPlaylist.addSong(testSong, false);
         assertEquals(1, testPlaylist.getSize());
     }
 
     @Test
     void testPlaylistRemoveSong() {
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
         testPlaylist.removeSong(testSong);
         assertEquals(0, testPlaylist.getSize());
     }
@@ -125,7 +123,7 @@ public class MusicStoreTest {
 
     @Test
     void testPlaylistGetPlayingNonEmpty() {
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
         testPlaylist.getPlaying();
         assertEquals(1, testPlaylist.getSize());
     }
@@ -138,7 +136,7 @@ public class MusicStoreTest {
 
     @Test
     void testPlaylistPlayNextOneSong() {
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
         testPlaylist.playNext();
         assertTrue(testPlaylist.getSongs().isEmpty() || testPlaylist.getSongs().size() == 1);
     }
@@ -147,8 +145,8 @@ public class MusicStoreTest {
     void testPlaylistPlayNextMultipleSongs() {
         Song s1 = new Song("Song1", "Artist1");
         Song s2 = new Song("Song2", "Artist2");
-        testPlaylist.addSong(s1);
-        testPlaylist.addSong(s2);
+        testPlaylist.addSong(s1, false);
+        testPlaylist.addSong(s2, false);
         testPlaylist.playNext();
         assertEquals(1, testPlaylist.getSize());
     }
@@ -164,14 +162,14 @@ public class MusicStoreTest {
 
     @Test
     void testPlaylistClear() {
-        testPlaylist.addSong(testSong);
-        testPlaylist.clear();
+        testPlaylist.addSong(testSong, false);
+        testPlaylist.clear(false);
         assertEquals(0, testPlaylist.getSize());
     }
 
     @Test
     void testPlaylistPrintAsTableEmpty() {
-        testPlaylist.printAsTable();
+        testPlaylist.printAsTable("title");
         assertTrue(testPlaylist.getSongs().isEmpty());
     }
 
@@ -186,8 +184,8 @@ public class MusicStoreTest {
     void testPlaylistShuffle() {
         Song s1 = new Song("Song1", "Artist1");
         Song s2 = new Song("Song2", "Artist2");
-        testPlaylist.addSong(s1);
-        testPlaylist.addSong(s2);
+        testPlaylist.addSong(s1, false);
+        testPlaylist.addSong(s2, false);
         testPlaylist.shuffle();
         // Just ensure we still have 2 songs
         assertEquals(2, testPlaylist.getSize());
@@ -201,7 +199,7 @@ public class MusicStoreTest {
 
     @Test
     void testPlaylistToStringNonEmpty() {
-        testPlaylist.addSong(testSong);
+        testPlaylist.addSong(testSong, false);
         String result = testPlaylist.toString();
         assertTrue(result.contains("Test Song"));
     }
@@ -212,27 +210,27 @@ public class MusicStoreTest {
 
     @Test
     void testFavoriteListAddSong() {
-        favoriteList.addSong(testSong);
+        favoriteList.addSong(testSong, false);
         assertEquals(1, favoriteList.getSize());
     }
 
     @Test
     void testFavoriteListRemoveSong() {
-        favoriteList.addSong(testSong);
+        favoriteList.addSong(testSong, false);
         favoriteList.removeSong(testSong);
         assertEquals(0, favoriteList.getSize());
     }
 
     @Test
     void testFavoriteListPrintAsTableEmpty() {
-        favoriteList.printAsTable();
+        favoriteList.printAsTable("title");
         assertEquals(0, favoriteList.getSize());
     }
 
     @Test
     void testFavoriteListPrintAsTableNonEmpty() {
-        favoriteList.addSong(testSong);
-        favoriteList.printAsTable();
+        favoriteList.addSong(testSong, false);
+        favoriteList.printAsTable("title");
         assertEquals(1, favoriteList.getSize());
     }
 
@@ -244,7 +242,7 @@ public class MusicStoreTest {
 
     @Test
     void testFavoriteListToStringNonEmpty() {
-        favoriteList.addSong(testSong);
+        favoriteList.addSong(testSong, true);
         String result = favoriteList.toString();
         assertTrue(result.contains("Test Song"));
     }

@@ -39,9 +39,10 @@ public class PlaylistTest {
     }
     @Test
     public void testPrintAsTableWithoutAnyAlbum() {
-        playlist.addSong(songWithoutAlbum);
+        boolean auto = false;
+        playlist.addSong(songWithoutAlbum, auto);
         outContent.reset();
-        playlist.printAsTable();
+        playlist.printAsTable("title");
         String output = outContent.toString();
         assertFalse(output.contains("THE ALBUM"));
         assertFalse(output.contains("NO ALBUM"));
@@ -49,9 +50,9 @@ public class PlaylistTest {
 
     @Test
     public void testPrintAsTableWithAlbumColumnWhenAlbumInfoPresent() {
-        playlist.addSong(songWithAlbum);
+        playlist.addSong(songWithAlbum,false);
         outContent.reset();
-        playlist.printAsTable();
+        playlist.printAsTable("title");
         String output = outContent.toString();
         assertTrue(output.contains("THE ALBUM"));
         assertTrue(output.contains("Test Album"));
@@ -59,7 +60,7 @@ public class PlaylistTest {
 
     @Test
     public void testPrintAsTableWithAlbumColumnWhenAlbumInfoMissing() {
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum,false);
         Song songCustom = new Song("Custom Song", "Artist3", "Jazz", 2019) {
             @Override
             public ArrayList<String> toStringList() {
@@ -70,16 +71,16 @@ public class PlaylistTest {
                 return list;
             }
         };
-        playlist.addSong(songCustom);
+        playlist.addSong(songCustom,false);
         outContent.reset();
-        playlist.printAsTable();
+        playlist.printAsTable("title");
         String output = outContent.toString();
         assertFalse(output.contains("THE ALBUM"));
     }
     @Test
     public void testGetSongsAndSize() {
         assertEquals(0, playlist.getSize());
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum,false);
         assertEquals(1, playlist.getSize());
         assertTrue(playlist.getSongs().contains(songWithoutAlbum));
     }
@@ -132,23 +133,23 @@ public class PlaylistTest {
 
     @Test
     public void testAddSongNew() {
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum, true);
         assertTrue(outContent.toString().contains("Song [No Album Song] added to the playlist."));
         outContent.reset();
     }
 
     @Test
     public void testAddSongExisting() {
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum, true);
         outContent.reset();
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum, true);
         assertTrue(outContent.toString().contains("Song [No Album Song] is already in the playlist."));
         outContent.reset();
     }
 
     @Test
     public void testRemoveSongExisting() {
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum, true);
         outContent.reset();
         playlist.removeSong(songWithoutAlbum);
         assertTrue(outContent.toString().contains("Song [No Album Song] removed from the playlist."));
@@ -157,7 +158,7 @@ public class PlaylistTest {
 
     @Test
     public void testRemoveSongNonExisting() {
-        playlist.addSong(songWithoutAlbum);
+        playlist.addSong(songWithoutAlbum, true);
         outContent.reset();
         playlist.removeSong(songWithAlbum);
         assertTrue(outContent.toString().contains("Song [With Album Song] not found in the playlist."));
@@ -166,10 +167,10 @@ public class PlaylistTest {
 
     @Test
     public void testClear() {
-        playlist.addSong(songWithoutAlbum);
-        playlist.addSong(songWithAlbum);
+        playlist.addSong(songWithoutAlbum, true);
+        playlist.addSong(songWithAlbum, true);
         outContent.reset();
-        playlist.clear();
+        playlist.clear(true);
         assertEquals(0, playlist.getSize());
         assertTrue(outContent.toString().contains("The playlist has been cleared."));
         outContent.reset();
@@ -177,17 +178,17 @@ public class PlaylistTest {
 
     @Test
     public void testPrintAsTableEmpty() {
-        playlist.printAsTable();
+        playlist.printAsTable("title");
         assertTrue(outContent.toString().contains("The playlist is empty."));
         outContent.reset();
     }
 
     @Test
     public void testPrintAsTableNonEmpty() {
-        playlist.addSong(songWithoutAlbum);
-        playlist.addSong(songWithAlbum);
+        playlist.addSong(songWithoutAlbum, true);
+        playlist.addSong(songWithAlbum, false);
         outContent.reset();
-        playlist.printAsTable();
+        playlist.printAsTable("title");
         String output = outContent.toString();
         assertTrue(output.contains("THE ALBUM"));
         assertTrue(output.contains("Test Album"));
@@ -204,8 +205,8 @@ public class PlaylistTest {
 
     @Test
     public void testShuffleNonEmpty() {
-        playlist.addSong(songWithoutAlbum);
-        playlist.addSong(songWithAlbum);
+        playlist.addSong(songWithoutAlbum, false);
+        playlist.addSong(songWithAlbum, false);
         outContent.reset();
         playlist.shuffle();
         String output = outContent.toString();

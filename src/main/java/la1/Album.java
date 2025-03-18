@@ -7,7 +7,7 @@ import java.util.List;
 public class Album {
     private final String title;
     private final String artist;
-    private final Genre genre;
+    private final la1.Genre genre;
     private final int year;
     private final ArrayList<Song> songs;
     private final ArrayList<Song> songInLibrary;

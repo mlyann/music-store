@@ -4,8 +4,6 @@ package la1;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +20,7 @@ public class SongTest {
         assertNull(song.getAlbum());
         DummyAlbum album = new DummyAlbum("Test Album");
         song.setAlbum(album);
-        assertEquals("Test Album", song.getAlbum());
+        assertEquals("Test Album, by DummyArtist (2020, Other)\n", song.getAlbum().toString());
     }
     @Test
     public void testCopyConstructorWithAlbum() {
@@ -32,7 +30,8 @@ public class SongTest {
         original.setFavourite(true);
         original.setRating(Rating.FOUR);
         Song copy = new Song(original);
-        assertEquals("Copy Album", copy.getAlbum());
+        System.out.println();
+        assertEquals("Copy Album", copy.getAlbumTitle());
         assertEquals(original.getFavourite(), copy.getFavourite());
         assertEquals(original.getRating(), copy.getRating());
     }
@@ -85,7 +84,7 @@ public class SongTest {
     @Test
     public void testToStringWithoutAndWithAlbum() {
         Song song = new Song("My Song", "My Artist", "Pop", 2020);
-        String expectedWithoutAlbum = String.format("[%s, by %s (%s, %d) [%s, %s]",
+        String expectedWithoutAlbum = String.format("[%s, by %s (%s, %d) [%s, %s]]",
                 "My Song", "My Artist", "Pop", 2020, "♡", Rating.UNRATED.toString());
         String actual = song.toString();
         assertEquals(expectedWithoutAlbum, actual);

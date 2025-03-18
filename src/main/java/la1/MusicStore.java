@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.net.URL;
-import java.net.URISyntaxException;
 
 public class MusicStore {
     private final Map<String, Album> albumMap;
