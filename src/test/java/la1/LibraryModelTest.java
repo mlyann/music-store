@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryModelTest {
@@ -697,7 +700,7 @@ public class LibraryModelTest {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
         library.setCurrentAlbum(0, "19");
-        assertFalse(library.openAlbum("19", "year"));
+        assertFalse(library.openAlbum("19", "rating"));
         library.openAlbum("19", "title");
         assertEquals(12, library.getSearchSongListSize());
     }
@@ -740,4 +743,240 @@ public class LibraryModelTest {
         assertTrue(albumList.get(1).contains("Album2"));
         assertTrue(albumList.get(1).contains("Artist2"));
     }
+
+    @Test
+    void testSongToString() throws Exception {
+        Field searchSongListField = LibraryModel.class.getDeclaredField("searchSongList");
+        searchSongListField.setAccessible(true);
+        ArrayList<Song> searchSongs = new ArrayList<>();
+        Song song1 = new Song("Beta", "ArtistA", "Rock", 2012);
+        Song song2 = new Song("Alpha", "ArtistB", "Pop", 2010);
+        Song song3 = new Song("Alpha", "ArtistA", "Pop", 2010);
+        searchSongs.add(song1);
+        searchSongs.add(song2);
+        searchSongs.add(song3);
+        searchSongListField.set(null, searchSongs);
+        Field currentAlbumField = LibraryModel.class.getDeclaredField("currentAlbum");
+        currentAlbumField.setAccessible(true);
+        Album album = createSampleAlbum("AlbumX", "ArtistX", "Jazz", 2005, 3);
+        currentAlbumField.set(library, album);
+        ArrayList<ArrayList<String>> result = library.SongToString();
+        ArrayList<String> albumInfo = album.getAlbumInfo();
+        assertEquals(albumInfo, result.get(0));
+        assertEquals(song3.toStringList(), result.get(1));
+        assertEquals(song2.toStringList(), result.get(2));
+        assertEquals(song1.toStringList(), result.get(3));
+    }
+
+    @Test
+    void testRemoveSongFromLibrary() throws Exception {
+        Song song = new Song("TestSong", "TestArtist", "Pop", 2020);
+        String key = library.generateKey(song);
+        Field userSongsField = LibraryModel.class.getDeclaredField("UserSongs");
+        userSongsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Song> userSongs = (HashMap<String, Song>) userSongsField.get(library);
+        userSongs.put(key, song);
+        Field currentSongField = LibraryModel.class.getDeclaredField("currentSong");
+        currentSongField.setAccessible(true);
+        currentSongField.set(library, song);
+        boolean removed = library.removeSongFromLibrary();
+        assertTrue(removed);
+        assertNull(currentSongField.get(library));
+        @SuppressWarnings("unchecked")
+        HashMap<String, Song> updatedUserSongs = (HashMap<String, Song>) userSongsField.get(library);
+        assertFalse(updatedUserSongs.containsKey(key));
+    }
+
+    @Test
+    void testPlayCurrentPlayList() throws Exception {
+        Playlist playlist = new Playlist("TestPlaylist");
+        Song song1 = new Song("Song1", "Artist1", "Pop", 2010);
+        Song song2 = new Song("Song2", "Artist2", "Rock", 2011);
+        playlist.addSong(song1, false);
+        playlist.addSong(song2, false);
+        Field currentPlaylistField = LibraryModel.class.getDeclaredField("currentPlaylist");
+        currentPlaylistField.setAccessible(true);
+        currentPlaylistField.set(library, playlist);
+        Field playingListField = LibraryModel.class.getDeclaredField("playingList");
+        playingListField.setAccessible(true);
+        Playlist playingList = (Playlist) playingListField.get(library);
+        playingList.clear(false);
+        Field playCountsField = LibraryModel.class.getDeclaredField("playCounts");
+        playCountsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Integer> playCounts = (HashMap<String, Integer>) playCountsField.get(library);
+        playCounts.clear();
+        Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
+        recentPlaysField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        ArrayList<Song> recentPlays = (ArrayList<Song>) recentPlaysField.get(library);
+        recentPlays.clear();
+        library.playCurrentPlayList();
+        String key1 = library.generateKey(song1);
+        String key2 = library.generateKey(song2);
+        assertEquals(1, playCounts.get(key1));
+        assertEquals(1, playCounts.get(key2));
+        assertTrue(recentPlays.contains(song1));
+        assertTrue(recentPlays.contains(song2));
+        assertTrue(playingList.getSongs().contains(song1));
+        assertTrue(playingList.getSongs().contains(song2));
+    }
+
+    @Test
+    void testGetTopFrequentSongs() throws Exception {
+        Field userSongsField = LibraryModel.class.getDeclaredField("UserSongs");
+        userSongsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Song> userSongs = (HashMap<String, Song>) userSongsField.get(library);
+        Song song1 = new Song("Song1", "Artist1", "Pop", 2010);
+        Song song2 = new Song("Song2", "Artist2", "Rock", 2011);
+        Song song3 = new Song("Song3", "Artist3", "Jazz", 2012);
+        userSongs.put(library.generateKey(song1), song1);
+        userSongs.put(library.generateKey(song2), song2);
+        userSongs.put(library.generateKey(song3), song3);
+        Field playCountsField = LibraryModel.class.getDeclaredField("playCounts");
+        playCountsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Integer> playCounts = (HashMap<String, Integer>) playCountsField.get(library);
+        playCounts.clear();
+        playCounts.put(library.generateKey(song1), 5);
+        playCounts.put(library.generateKey(song2), 10);
+        playCounts.put(library.generateKey(song3), 7);
+        List<Song> topSongs = library.getTopFrequentSongs();
+        assertEquals(3, topSongs.size());
+        assertEquals(song2, topSongs.get(0));
+        assertEquals(song3, topSongs.get(1));
+        assertEquals(song1, topSongs.get(2));
+    }
+
+    @Test
+    void testPrintFrequentSongsEmpty() {
+        try {
+            Field playCountsField = LibraryModel.class.getDeclaredField("playCounts");
+            playCountsField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            HashMap<String, Integer> playCounts = (HashMap<String, Integer>) playCountsField.get(library);
+            playCounts.clear();
+        } catch (Exception e) {
+            fail(e);
+        }
+        library.printFrequentSongs();
+        String output = outContent.toString();
+        assertTrue(output.contains("❗No frequent songs to display."));
+        outContent.reset();
+    }
+
+    @Test
+    void testGetRecentSongs() throws Exception {
+        Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
+        recentPlaysField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        ArrayList<Song> recentPlays = (ArrayList<Song>) recentPlaysField.get(library);
+        recentPlays.clear();
+        Song song1 = new Song("Recent1", "Artist1", "Pop", 2010);
+        Song song2 = new Song("Recent2", "Artist2", "Rock", 2011);
+        recentPlays.add(song1);
+        recentPlays.add(song2);
+        List<Song> returnedRecent = library.getRecentSongs();
+        assertEquals(2, returnedRecent.size());
+        assertEquals(song1, returnedRecent.get(0));
+        assertEquals(song2, returnedRecent.get(1));
+    }
+
+    @Test
+    void testPrintRecentSongsEmpty() {
+        try {
+            Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
+            recentPlaysField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            ArrayList<Song> recentPlays = (ArrayList<Song>) recentPlaysField.get(library);
+            recentPlays.clear();
+        } catch (Exception e) {
+            fail(e);
+        }
+        library.printRecentSongs();
+        String output = outContent.toString();
+        assertTrue(output.contains("❗No recent songs to display."));
+        outContent.reset();
+    }
+
+    @Test
+    void testGenerateAutomaticPlaylists() throws Exception {
+        Field userSongsField = LibraryModel.class.getDeclaredField("UserSongs");
+        userSongsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Song> userSongs = (HashMap<String, Song>) userSongsField.get(library);
+        Song songFav = new Song("FavSong", "FavArtist", "Pop", 2020);
+        songFav.setRating(Rating.FIVE);
+        Song songOther = new Song("OtherSong", "OtherArtist", "Pop", 2020);
+        songOther.setRating(Rating.THREE);
+        userSongs.put(library.generateKey(songFav), songFav);
+        userSongs.put(library.generateKey(songOther), songOther);
+        Field favoriteListField = LibraryModel.class.getDeclaredField("favoriteList");
+        favoriteListField.setAccessible(true);
+        FavoriteList favoriteList = (FavoriteList) favoriteListField.get(library);
+        favoriteList.getSongs().clear();
+        favoriteList.getSongs().add(songFav);
+        Field playlistsField = LibraryModel.class.getDeclaredField("PlayLists");
+        playlistsField.setAccessible(true);
+        PlayLists playlists = (PlayLists) playlistsField.get(library);
+        library.generateAutomaticPlaylists();
+        assertTrue(playlists.getPlayListNames().contains("Favorite Songs"));
+        assertTrue(playlists.getPlayListNames().contains("Top Rated"));
+    }
+
+    @Test
+    void testPrintSongSearchResults() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        ArrayList<String> row1 = new ArrayList<>();
+        row1.add("SongA");
+        row1.add("ArtistA");
+        row1.add("Pop");
+        row1.add("2000");
+        row1.add("♡");
+        row1.add("★★★☆☆");
+        songResults.add(row1);
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
+        String output = outContent.toString();
+        assertTrue(output.contains("Test Songs"));
+        assertTrue(output.contains("SongA"));
+        outContent.reset();
+    }
+
+    @Test
+    void testSortSearchSongList() throws Exception {
+        Field searchSongListField = LibraryModel.class.getDeclaredField("searchSongList");
+        searchSongListField.setAccessible(true);
+        ArrayList<Song> searchSongs = new ArrayList<>();
+        Song song1 = new Song("Beta", "ArtistB", "Rock", 2010);
+        Song song2 = new Song("Alpha", "ArtistA", "Pop", 2010);
+        searchSongs.add(song1);
+        searchSongs.add(song2);
+        searchSongListField.set(null, searchSongs);
+        LibraryModel.sortSearchSongList("title");
+        @SuppressWarnings("unchecked")
+        ArrayList<Song> sortedSongs = (ArrayList<Song>) searchSongListField.get(null);
+        assertEquals("Alpha", sortedSongs.get(0).getTitle());
+        assertEquals("Beta", sortedSongs.get(1).getTitle());
+    }
+
+    @Test
+    void testPrintAlbumSearchResults() {
+        ArrayList<ArrayList<String>> albumResults = new ArrayList<>();
+        ArrayList<String> albumRow = new ArrayList<>();
+        albumRow.add("Album1");
+        albumRow.add("Artist1");
+        albumRow.add("2000");
+        albumRow.add("Pop");
+        albumRow.add("Track1");
+        albumRow.add("Track2");
+        albumResults.add(albumRow);
+        LibraryModel.printAlbumSearchResults(albumResults);
+        String output = outContent.toString();
+        assertTrue(output.contains("Album Search Results"));
+        assertTrue(output.contains("Album1"));
+        outContent.reset();
+    }
+
 }
