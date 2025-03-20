@@ -138,6 +138,7 @@ public class LibraryModel {
     public boolean setCurrentAlbum(int index, String albumTitle) {
         Album album = searchAlbumList.get(index);
         if (!album.getTitle().equalsIgnoreCase(albumTitle)) {
+            System.out.println(album.getTitle());
             return false;
         }
         currentAlbum = album;
@@ -687,7 +688,7 @@ public class LibraryModel {
             Collections.reverse(songs);
 
             for (Song song : songs) {
-                // Update stats as well [TODO] Haocheng
+                // Update stats as well
                 playCounts.put(generateKey(song), playCounts.getOrDefault(song, 0) + 1);
                 // Update recent plays
                 recentPlays.remove(song);
@@ -861,9 +862,6 @@ public class LibraryModel {
 
     public String getCurrentPlaylistName() {
         return currentPlaylist.getName();
-    }
-    public ArrayList<Song> getCurrentPlaylist() {
-        return new ArrayList<>(currentPlaylist.getSongs());
     }
 
     //-------------------------------------------------------------------------

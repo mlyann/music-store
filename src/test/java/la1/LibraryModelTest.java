@@ -104,6 +104,7 @@ public class LibraryModelTest {
         Album album = new Album("MyAlbum", "Artist", "Rock", 2020, songs);
 
         setCurrentAlbumField(album);
+        album.addAllSongsToLibrary();
         boolean ok = library.playAlbum("MyAlbum");
         assertTrue(ok);
         Playlist playing = getPlayingListField();
@@ -669,17 +670,20 @@ public class LibraryModelTest {
     void testGetID() {
         assertEquals("TestUser",library.getUserID());
     }
+
     @Test
     void testCheckCurrentAlbum() {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
         assertEquals(2, library.getSearchAlbumList().size());
-        library.setCurrentAlbum(0, "19");
+        library.setCurrentAlbum(1, "19");
         assertTrue(library.checkCurrentAlbum("19"));
         assertFalse(library.checkCurrentAlbum("21"));
     }
     @Test
     void testSetCurrentAlbumEmpty() {
+        library.searchAlbum("adele", true);
+        library.allAlbumSelection(2);
         library.searchAlbum("adele", false);
         assertEquals(2, library.getSearchAlbumList().size());
         assertFalse(library.setCurrentAlbum(0, "21"));
@@ -699,8 +703,8 @@ public class LibraryModelTest {
     void testOpenAlbum() {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
-        library.setCurrentAlbum(0, "19");
-        assertFalse(library.openAlbum("19", "rating"));
+        library.setCurrentAlbum(1, "19");
+        assertFalse(library.openAlbum("21", "rating"));
         library.openAlbum("19", "title");
         assertEquals(12, library.getSearchSongListSize());
     }
@@ -715,8 +719,9 @@ public class LibraryModelTest {
     void testPlayListsCurrent() {
         library.searchAlbum("adele",true);
         library.allAlbumSelection(2);
+        library.searchAlbum("adele",false);
         library.userSongSearch();
-        library.setCurrentSong(0, "Someone Like You");
+        library.setCurrentSong(0, "Crazy for You");
         library.createPlaylist("tests");
         library.selectCurrentPlaylist(0);
         library.addSongToPlayLists();
@@ -738,10 +743,10 @@ public class LibraryModelTest {
 
         // Verify
         assertEquals(2, albumList.size());
-        assertTrue(albumList.get(0).contains("Album1"));
-        assertTrue(albumList.get(0).contains("Artist1"));
-        assertTrue(albumList.get(1).contains("Album2"));
-        assertTrue(albumList.get(1).contains("Artist2"));
+        assertTrue(albumList.get(0).contains("Album2"));
+        assertTrue(albumList.get(0).contains("Artist2"));
+        assertTrue(albumList.get(1).contains("Album1"));
+        assertTrue(albumList.get(1).contains("Artist1"));
     }
 
     @Test

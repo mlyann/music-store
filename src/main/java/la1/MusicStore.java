@@ -155,9 +155,6 @@ public class MusicStore {
         }
     }
 
-    public Album getAlbumByTitle(String title) {
-        return albumMap.get(title.toLowerCase());
-    }
 
     public Album getAlbum(String title, String artist) {
         return albumMap.get(generateKey(title, artist));
