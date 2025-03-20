@@ -1,7 +1,7 @@
 package la1; // Or wherever your package is
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static la1.LibraryModel.printSongSearchResults;
 
@@ -1474,10 +1474,76 @@ public class MainUI {
 
         // Print the 10 Most Frequently Played Songs.
         System.out.println("\n10 Most Frequently Played Songs:");
-        libraryModel.printFrequentSongs();
+        printFrequentSongs();
         System.out.println("\n10 Most Recently Played Songs:");
-        libraryModel.printRecentSongs();
+        printRecentSongs();
         currentState = NavigationState.MAIN_MENU;
+    }
+
+    public List<Song> getTopFrequentSongs() {
+        return libraryModel.getPlayCounts().entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .limit(10)
+                .map(entry -> {
+                    String songKey = entry.getKey();
+                    return libraryModel.getUserSongs().get(songKey); // 在这里获得 Song
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    private static void printFrequentSongs() {
+        List<Song> frequentSongs = libraryModel.getTopFrequentSongs();
+
+        if (frequentSongs.isEmpty()) {
+            System.out.println("❗No frequent songs to display.");
+            return;
+        }
+
+        List<List<String>> tableData = new ArrayList<>();
+        tableData.add(Arrays.asList("Rank", "Title", "Artist", "Play Count"));
+        tableData.add(Arrays.asList("###SEPARATOR###"));
+
+        int rank = 1;
+        for (Song song : frequentSongs) {
+            String key = libraryModel.generateKey(song);
+            Integer count = libraryModel.getPlayCounts().get(key);
+            if (count == null) count = 0;
+
+            List<String> row = Arrays.asList(
+                    String.valueOf(rank),
+                    song.getTitle(),
+                    song.getArtist(),
+                    String.valueOf(count)
+            );
+            tableData.add(row);
+            rank++;
+        }
+        TablePrinter.printDynamicTable("10 Most Frequently Played Songs", tableData);
+    }
+
+    private static void printRecentSongs() {
+        List<Song> recentSongs = libraryModel.getRecentSongs();
+        if (recentSongs.isEmpty()) {
+            System.out.println("❗No recent songs to display.");
+            return;
+        }
+        List<List<String>> tableData = new ArrayList<>();
+        List<String> header = Arrays.asList("Rank", "Title", "Artist");
+        tableData.add(header);
+        tableData.add(Arrays.asList("###SEPARATOR###"));
+
+        int rank = 1;
+        for (Song song : recentSongs) {
+            List<String> row = Arrays.asList(
+                    String.valueOf(rank),
+                    song.getTitle(),
+                    song.getArtist()
+            );
+            tableData.add(row);
+            rank++;
+        }
+        TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
     }
 }
 

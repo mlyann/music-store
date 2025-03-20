@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -856,23 +857,6 @@ public class LibraryModelTest {
     }
 
     @Test
-    void testPrintFrequentSongsEmpty() {
-        try {
-            Field playCountsField = LibraryModel.class.getDeclaredField("playCounts");
-            playCountsField.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            HashMap<String, Integer> playCounts = (HashMap<String, Integer>) playCountsField.get(library);
-            playCounts.clear();
-        } catch (Exception e) {
-            fail(e);
-        }
-        library.printFrequentSongs();
-        String output = outContent.toString();
-        assertTrue(output.contains("❗No frequent songs to display."));
-        outContent.reset();
-    }
-
-    @Test
     void testGetRecentSongs() throws Exception {
         Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
         recentPlaysField.setAccessible(true);
@@ -890,24 +874,7 @@ public class LibraryModelTest {
     }
 
     @Test
-    void testPrintRecentSongsEmpty() {
-        try {
-            Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
-            recentPlaysField.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            ArrayList<Song> recentPlays = (ArrayList<Song>) recentPlaysField.get(library);
-            recentPlays.clear();
-        } catch (Exception e) {
-            fail(e);
-        }
-        library.printRecentSongs();
-        String output = outContent.toString();
-        assertTrue(output.contains("❗No recent songs to display."));
-        outContent.reset();
-    }
-
-    @Test
-    void testGenerateAutomaticPlaylists() throws Exception {
+    void testGenerateAutomaticlyPlaylists() throws Exception {
         Field userSongsField = LibraryModel.class.getDeclaredField("UserSongs");
         userSongsField.setAccessible(true);
         @SuppressWarnings("unchecked")
@@ -943,6 +910,8 @@ public class LibraryModelTest {
         row1.add("★★★☆☆");
         songResults.add(row1);
         LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
         String output = outContent.toString();
         assertTrue(output.contains("Test Songs"));
         assertTrue(output.contains("SongA"));
@@ -960,6 +929,8 @@ public class LibraryModelTest {
         searchSongs.add(song2);
         searchSongListField.set(null, searchSongs);
         LibraryModel.sortSearchSongList("title");
+        LibraryModel.sortSearchSongList("rating");
+        LibraryModel.sortSearchSongList("year");
         @SuppressWarnings("unchecked")
         ArrayList<Song> sortedSongs = (ArrayList<Song>) searchSongListField.get(null);
         assertEquals("Alpha", sortedSongs.get(0).getTitle());
@@ -982,6 +953,156 @@ public class LibraryModelTest {
         assertTrue(output.contains("Album Search Results"));
         assertTrue(output.contains("Album1"));
         outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsNullInput() {
+        LibraryModel.printSongSearchResults("Test Songs", null, "LIBRARY", "none");
+        String output = outContent.toString();
+        assertTrue(output.contains("❗ No Songs in Library."));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsEmptyInput() {
+        LibraryModel.printSongSearchResults("Test Songs", new ArrayList<>(), "LIBRARY", "none");
+        String output = outContent.toString();
+        assertTrue(output.contains("❗ No Songs in Library."));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsSortByTitle() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
+        songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
+        String output = outContent.toString();
+        assertTrue(output.contains("Alpha"));
+        assertTrue(output.contains("Beta"));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsSortByArtist() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
+        songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
+        String output = outContent.toString();
+        assertTrue(output.contains("ArtistA"));
+        assertTrue(output.contains("ArtistB"));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsSortByRating() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
+        songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
+        String output = outContent.toString();
+        assertTrue(output.contains("★★★☆☆"));
+        assertTrue(output.contains("★★☆☆☆"));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsShuffle() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
+        songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "shuffle");
+        String output = outContent.toString();
+        assertTrue(output.contains("Beta") || output.contains("Alpha"));
+        outContent.reset();
+    }
+
+    @Test
+    void testPrintSongSearchResultsStoreLocation() {
+        ArrayList<ArrayList<String>> songResults = new ArrayList<>();
+        songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
+        songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
+        LibraryModel.printSongSearchResults("Test Songs", songResults, "STORE", "rating");
+        String output = outContent.toString();
+        assertTrue(output.contains("Beta"));
+        assertTrue(output.contains("Alpha"));
+        outContent.reset();
+    }
+
+    @Test
+    void testGenerateAutomaticPlaylists() {
+        // Setup: Create 10 Rock songs.
+        Song song1 = new Song("Song1", "Artist1", "Rock", 2010);
+        Song song2 = new Song("Song2", "Artist2", "Rock", 2011);
+        Song song3 = new Song("Song3", "Artist3", "Rock", 2012);
+        Song song4 = new Song("Song4", "Artist4", "Rock", 2013);
+        Song song5 = new Song("Song5", "Artist5", "Rock", 2014);
+        Song song6 = new Song("Song6", "Artist6", "Rock", 2015);
+        Song song7 = new Song("Song7", "Artist7", "Rock", 2016);
+        Song song8 = new Song("Song8", "Artist8", "Rock", 2017);
+        Song song9 = new Song("Song9", "Artist9", "Rock", 2018);
+        Song song10 = new Song("Song10", "Artist10", "Rock", 2019);
+
+        library.addSong(song1);
+        library.addSong(song2);
+        library.addSong(song3);
+        library.addSong(song4);
+        library.addSong(song5);
+        library.addSong(song6);
+        library.addSong(song7);
+        library.addSong(song8);
+        library.addSong(song9);
+        library.addSong(song10);
+
+        // Execute: Generate automatic playlists.
+        library.generateAutomaticPlaylists();
+
+        // Verify: Retrieve the "Rock" playlist and check it contains all 10 songs.
+        Playlist rockPlaylist = library.getPlaylistByName("Rock");
+        assertNotNull(rockPlaylist, "Rock playlist should exist");
+        assertEquals(10, rockPlaylist.getSize(), "Rock playlist should contain 10 songs");
+    }
+
+    @Test
+    void testGetUserAlbums() {
+        // Setup
+        Album album = new Album("Album1", "Artist1", "Genre1", 2021, new ArrayList<>());
+        library.addAlbum(album);
+
+        // Execute
+        HashMap<String, Album> userAlbums = library.getUserAlbums();
+
+        // Verify
+        assertEquals(1, userAlbums.size());
+        assertTrue(userAlbums.containsKey(library.generateKey(album)));
+    }
+
+    @Test
+    void testGetSongAlbum() {
+        // Setup
+        Song song = new Song("Song1", "Artist1", "Genre1", 2021);
+        Album album = new Album("Album1", "Artist1", "Genre1", 2021, Arrays.asList(song));
+        song.setAlbum(album);
+        setCurrentSongField(song);
+
+        // Execute
+        String albumTitle = library.getSongAlbum();
+
+        // Verify
+        assertEquals("Album1", albumTitle);
+    }
+
+    @Test
+    void testIsCurrentSongAlbum() {
+        // Setup
+        Song song = new Song("Song1", "Artist1", "Genre1", 2021);
+        Album album = new Album("Album1", "Artist1", "Genre1", 2021, Arrays.asList(song));
+        song.setAlbum(album);
+        setCurrentSongField(song);
+
+        // Execute & Verify
+        assertTrue(library.isCurrentSongAlbum());
     }
 
 }

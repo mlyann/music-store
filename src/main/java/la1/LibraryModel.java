@@ -219,12 +219,10 @@ public class LibraryModel {
      * Add a song to the user's library
      * Title|artist as key, class Song as value
      */
-    private void addSong(Song song) {
+    public void addSong(Song song) {
         UserSongs.put(generateKey(song), song);
     }
 
-    /* [TODO] Ming: search for genre
-    */
     public ArrayList<ArrayList<String>> searchSong (String keyword, boolean isMusicStore) {
         searchSongList = new ArrayList<>();
         ArrayList<Song> songs;
@@ -928,6 +926,14 @@ public class LibraryModel {
         }
     }
 
+    public Map<String, Integer> getPlayCounts() {
+        return new HashMap<>(playCounts);
+    }
+
+    public List<Song> getRecentPlays() {
+        return new ArrayList<>(recentPlays);
+    }
+
     /**
      * Play the favorite list in playing list
      */
@@ -984,64 +990,11 @@ public class LibraryModel {
                 .collect(Collectors.toList());
     }
 
-    public void printFrequentSongs() {
-        List<Song> frequentSongs = getTopFrequentSongs();
-
-        if (frequentSongs.isEmpty()) {
-            System.out.println("❗No frequent songs to display.");
-            return;
-        }
-
-        List<List<String>> tableData = new ArrayList<>();
-        tableData.add(Arrays.asList("Rank", "Title", "Artist", "Play Count"));
-        tableData.add(Arrays.asList("###SEPARATOR###"));
-
-        int rank = 1;
-        for (Song song : frequentSongs) {
-            String key = generateKey(song);  // 跟插入playCounts时一致
-            Integer count = playCounts.get(key);
-            if (count == null) count = 0;   // 安全处理
-
-            List<String> row = Arrays.asList(
-                    String.valueOf(rank),
-                    song.getTitle(),
-                    song.getArtist(),
-                    String.valueOf(count)
-            );
-            tableData.add(row);
-            rank++;
-        }
-
-        TablePrinter.printDynamicTable("10 Most Frequently Played Songs", tableData);
-    }
-
 
     public List<Song> getRecentSongs() {
         return new ArrayList<>(recentPlays);
     }
-    public void printRecentSongs() {
-        List<Song> recentSongs = getRecentSongs();
-        if (recentSongs.isEmpty()) {
-            System.out.println("❗No recent songs to display.");
-            return;
-        }
-        List<List<String>> tableData = new ArrayList<>();
-        List<String> header = Arrays.asList("Rank", "Title", "Artist");
-        tableData.add(header);
-        tableData.add(Arrays.asList("###SEPARATOR###"));
 
-        int rank = 1;
-        for (Song song : recentSongs) {
-            List<String> row = Arrays.asList(
-                    String.valueOf(rank),
-                    song.getTitle(),
-                    song.getArtist()
-            );
-            tableData.add(row);
-            rank++;
-        }
-        TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
-    }
 
 //    C: F generate automatic playlists.
     public void generateAutomaticPlaylists() {
@@ -1136,7 +1089,7 @@ public class LibraryModel {
                         }
                         int star1 = row1.get(5).contains("★") ? row1.get(5).replace("☆", "").length() : 0;
                         int star2 = row2.get(5).contains("★") ? row2.get(5).replace("☆", "").length() : 0;
-                        int cmp = Integer.compare(star2, star1); // 降序排序：星数多的排前面
+                        int cmp = Integer.compare(star2, star1);
                         if (cmp != 0) return cmp;
                         cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
                         if (cmp != 0) return cmp;
@@ -1265,6 +1218,10 @@ public class LibraryModel {
             }
         }
         TablePrinter.printDynamicTable("Album Search Results", tableRows);
+    }
+
+    public Playlist getPlaylistByName(String name) {
+        return PlayLists.getPlayListByName(name);
     }
 }
 
