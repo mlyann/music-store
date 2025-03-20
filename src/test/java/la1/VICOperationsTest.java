@@ -19,6 +19,7 @@ class VICOperationsTest {
         // 测试不同长度
         assertEquals("135", VICOperations.noCarryAddition("12", "123"));
         assertEquals("3", VICOperations.noCarryAddition("9", "4"));
+        assertEquals("13", VICOperations.noCarryAddition("19", "4"));
         // Leading zeros strip
         assertEquals("4", VICOperations.noCarryAddition("001", "003"));
     }
@@ -51,7 +52,7 @@ class VICOperationsTest {
     @DisplayName("Test digitPermutation")
     void testDigitPermutation() {
         // At least 10 characters
-        String input = "abcdefghij"; // 10 letters
+        String input = "abcdefghii"; // 10 letters
         String perm = VICOperations.digitPermutation(input);
         // Should be 10 digits (0-9 in some order)
         assertNotNull(perm);
@@ -63,6 +64,15 @@ class VICOperationsTest {
 
         // If input < 10 chars => return null
         assertNull(VICOperations.digitPermutation("abc"));
+
+        // test null
+        String input2 = null;
+        perm = VICOperations.digitPermutation(input2);
+        assertNull(perm);
+
+        String input3 = "abc";
+        perm = VICOperations.digitPermutation(input3);
+        assertNull(perm);
     }
 
     @Test
@@ -83,6 +93,18 @@ class VICOperationsTest {
         // Just check size if it matches 26 distinct letters?
         // Actually the result is the sortedBoard (A to Z?), but we have 10-len anagram, so let's do a simple check
         assertTrue(list.size() >= 26, "We expect codes for A-Z at least");
+
+        String number2 = null;
+        assertNull(VICOperations.get2DTable(number2, letter));
+        number2 = "012345678";
+        assertNull(VICOperations.get2DTable(number2, letter));
+        number2 = "01234a6c89";
+        assertNull(VICOperations.get2DTable(number2, letter));
+
+        String letter2 = "abcdefghi";
+        assertNull(VICOperations.get2DTable(number, letter2));
+        letter2 = "0123456789";
+        assertNull(VICOperations.get2DTable(number, letter2));
     }
 
     @Test
@@ -98,7 +120,17 @@ class VICOperationsTest {
 
         String decoded = VICOperations.checkerboardDecode(number, anagram, encoded);
         assertEquals(message, decoded);
+
+        String message2 = "Z";
+        encoded = VICOperations.checkerboardEncode(number, anagram, message2);
+        assertNotNull(encoded);
+        assertFalse(encoded.isEmpty());
+
+        decoded = VICOperations.checkerboardDecode(number, anagram, encoded);
+        assertEquals(message2, decoded);
+
     }
+
 
     @Test
     @DisplayName("Test insertID, extractID, extractEncodedMessage")
