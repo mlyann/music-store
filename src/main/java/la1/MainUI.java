@@ -3,8 +3,6 @@ package la1; // Or wherever your package is
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static la1.LibraryModel.printSongSearchResults;
-
 public class MainUI {
     private static NavigationState currentState;
     private static MusicStore musicStore;
@@ -1544,6 +1542,93 @@ public class MainUI {
             rank++;
         }
         TablePrinter.printDynamicTable("10 Most Recently Played Songs", tableData);
+    }
+    static void printSongSearchResults(String tableTitle, ArrayList<ArrayList<String>> songResults, String location, String sortOption) {
+        if (songResults == null || songResults.isEmpty()) {
+            System.out.println("❗ No Songs in Library.");
+            return;
+        }
+        boolean isStore = location.equals("STORE");
+
+        if (!sortOption.equals("none")) {
+            switch (sortOption) {
+                case "title":
+                    LibraryModel.sortSearchSongList("title");
+                    Collections.sort(songResults, (row1, row2) -> {
+                        int cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
+                        if (cmp != 0) return cmp;
+                        return row1.get(1).compareToIgnoreCase(row2.get(1));
+                    });
+                    break;
+                case "artist":
+                    LibraryModel.sortSearchSongList("artist");
+                    Collections.sort(songResults, (row1, row2) ->
+                            row1.get(1).compareToIgnoreCase(row2.get(1))
+                    );
+                    break;
+                case "rating":
+                    LibraryModel.sortSearchSongList("rating");
+                    Collections.sort(songResults, (row1, row2) -> {
+                        if (isStore) {
+                            return row1.get(0).compareToIgnoreCase(row2.get(0));
+                        }
+                        int star1 = row1.get(5).contains("★") ? row1.get(5).replace("☆", "").length() : 0;
+                        int star2 = row2.get(5).contains("★") ? row2.get(5).replace("☆", "").length() : 0;
+                        int cmp = Integer.compare(star2, star1);
+                        if (cmp != 0) return cmp;
+                        cmp = row1.get(0).compareToIgnoreCase(row2.get(0));
+                        if (cmp != 0) return cmp;
+                        return row1.get(1).compareToIgnoreCase(row2.get(1));
+                    });
+                    break;
+                case "shuffle":
+                    Collections.shuffle(songResults);
+                    break;
+                default:
+                    break;
+            }
+        }
+        List<String> header = new ArrayList<>();
+        header.add("No.");
+        header.add("Title");
+        header.add("Artist");
+        header.add("Genre");
+        header.add("Year");
+        if (!isStore) {
+            header.add("Favorite");
+            header.add("Rating  ");
+        }
+        boolean anyAlbum = false;
+        for (List<String> row : songResults) {
+            if (row.size() > 6 && row.get(6) != null && !row.get(6).isBlank()) {
+                anyAlbum = true;
+                break;
+            }
+        }
+        if (anyAlbum) {
+            header.add("Album");
+        }
+        List<List<String>> tableRows = new ArrayList<>();
+        tableRows.add(header);
+        int index = 1;
+        for (List<String> row : songResults) {
+            List<String> newRow = new ArrayList<>();
+            newRow.add(String.valueOf(index++));
+            newRow.add(row.get(0));
+            newRow.add(row.get(1));
+            newRow.add(row.get(2));
+            newRow.add(row.get(3));
+            if (!isStore) {
+                newRow.add(row.get(4));
+                newRow.add(row.get(5));
+            }
+            if (anyAlbum) {
+                String album = (row.size() > 6) ? row.get(6) : "";
+                newRow.add(album == null ? "" : album);
+            }
+            tableRows.add(newRow);
+        }
+        TablePrinter.printDynamicTable(tableTitle, tableRows);
     }
 }
 

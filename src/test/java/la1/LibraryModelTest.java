@@ -5,14 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
+import static la1.LibraryModel.*;
+import static la1.MainUI.printSongSearchResults;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryModelTest {
@@ -85,7 +84,7 @@ public class LibraryModelTest {
     @Test
     void testGetSearchSongList() {
         library.searchSong("adele", true);
-        assertEquals(24, library.getSearchSongList().size());
+        assertEquals(24, getSearchSongList().size());
     }
 
     @Test
@@ -108,6 +107,7 @@ public class LibraryModelTest {
         ArrayList<Song> songs = new ArrayList<>();
         songs.add(new Song("Song1", "Artist", "Rock", 2000));
         songs.add(new Song("Song2", "Artist", "Rock", 2001));
+
         Album album = new Album("MyAlbum", "Artist", "Rock", 2020, songs);
 
         setCurrentAlbumField(album);
@@ -119,7 +119,27 @@ public class LibraryModelTest {
         assertEquals("Song1", playing.getSongs().get(0).getTitle());
         assertEquals("Song2", playing.getSongs().get(1).getTitle());
     }
+    @Test
+    @DisplayName("Test playAlbum with >10 songs: recentPlays is truncated to 10 and order is as expected")
+    public void testPlayAlbumRecentPlaysOverflow() {
+        ArrayList<Song> albumSongs = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            albumSongs.add(new Song("Song" + i, "Artist", "Rock", 2000 + i));
+        }
+        Album album = new Album("MyAlbum", "Artist", "Rock", 2020, albumSongs);
+        setCurrentAlbumField(album);
+        // Also add all album songs to the library.
+        album.addAllSongsToLibrary();
+        boolean played = library.playAlbum("MyAlbum");
+        assertTrue(played, "playAlbum should return true for a valid album");
+        List<Song> recent = library.getRecentSongs();
+        assertEquals(10, recent.size(), "recentPlays should be truncated to 10 songs");
 
+        for (int i = 0; i < 10; i++) {
+            assertEquals("Song" + (i + 1), recent.get(i).getTitle(),
+                    "Expected recent play at index " + i + " to be Song" + (i + 1));
+        }
+    }
     @Test
     void testAddSongToPlayListsNoPlaylist() {
         setCurrentPlaylistField(null);
@@ -142,6 +162,10 @@ public class LibraryModelTest {
         setCurrentSongField(new Song("SongX", "ArtistX"));
         library.addSongToPlayLists();
         assertEquals(1, library.currentPlistSize());
+        String key = "key";
+        library.printCurrentPlaylist(key);
+        assertFalse(outContent.toString().contains("key"));
+
     }
 
     @Test
@@ -295,6 +319,9 @@ public class LibraryModelTest {
         library.playSong();
         assertEquals(2, getPlayingListField().getSize());
         library.printUserSongsTable("shuffle");
+        library.printUserSongsTable("aa");
+        library.printUserSongsTable("artist");
+        library.printUserSongsTable("title");
     }
     @Test
     void testPrintRating() {
@@ -346,6 +373,30 @@ public class LibraryModelTest {
         library.getPlaying();
         Song s = new Song("SongX","ArtistX");
         setCurrentSongField(s);
+        Song s1 = new Song("SongA","ArtistX");
+        setCurrentSongField(s1);
+        Song s2 = new Song("SongB","ArtistX");
+        setCurrentSongField(s2);
+        Song s3 = new Song("SongC","ArtistX");
+        setCurrentSongField(s3);
+        Song s4 = new Song("SongD","ArtistX");
+        setCurrentSongField(s4);
+        Song s5 = new Song("SongE","ArtistX");
+        setCurrentSongField(s5);
+        Song s6 = new Song("SongF","ArtistX");
+        setCurrentSongField(s6);
+        Song s7 = new Song("SongG","ArtistX");
+        setCurrentSongField(s7);
+        Song s8 = new Song("SongH","ArtistX");
+        setCurrentSongField(s8);
+        Song s9 = new Song("SongXG","ArtistX");
+        setCurrentSongField(s9);
+        Song s10 = new Song("SongM","ArtistX");
+        setCurrentSongField(s10);
+        Song s101 = new Song("SongMGG","ArtistX");
+        setCurrentSongField(s101);
+        Song sG = new Song("SongGG","ArtistX");
+        setCurrentSongField(sG);
         library.playSong();
         library.getPlaying();
     }
@@ -861,7 +912,7 @@ public class LibraryModelTest {
     }
 
     @Test
-    void testRemoveSongFromLibrary() throws Exception {
+    void testRemoveSongFromLibraryEception() throws Exception {
         Song song = new Song("TestSong", "TestArtist", "Pop", 2020);
         String key = library.generateKey(song);
         Field userSongsField = LibraryModel.class.getDeclaredField("UserSongs");
@@ -913,6 +964,63 @@ public class LibraryModelTest {
         assertTrue(recentPlays.contains(song2));
         assertTrue(playingList.getSongs().contains(song1));
         assertTrue(playingList.getSongs().contains(song2));
+    }
+
+    @Test
+    @DisplayName("Test playCurrentPlayList with >10 songs and duplicate removals in playingList")
+    public void testPlayCurrentPlayList_LongPlaylist() throws Exception {
+        // Create a playlist with 12 songs.
+        Playlist playlist = new Playlist("LongPlaylist");
+        ArrayList<Song> songs = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            Song s = new Song("Song" + i, "Artist" + i, "Pop", 2000 + i);
+            songs.add(s);
+            // Add song to the playlist without auto-adding to library (assume false means not printing/logging)
+            playlist.addSong(s, false);
+        }
+        Field currentPlaylistField = LibraryModel.class.getDeclaredField("currentPlaylist");
+        currentPlaylistField.setAccessible(true);
+        currentPlaylistField.set(library, playlist);
+
+        // Clear and prepare the playingList.
+        Field playingListField = LibraryModel.class.getDeclaredField("playingList");
+        playingListField.setAccessible(true);
+        Playlist playingList = (Playlist) playingListField.get(library);
+        playingList.clear(false);
+
+        // Clear playCounts.
+        Field playCountsField = LibraryModel.class.getDeclaredField("playCounts");
+        playCountsField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Integer> playCounts = (HashMap<String, Integer>) playCountsField.get(library);
+        playCounts.clear();
+
+        // Clear recentPlays.
+        Field recentPlaysField = LibraryModel.class.getDeclaredField("recentPlays");
+        recentPlaysField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        ArrayList<Song> recentPlays = (ArrayList<Song>) recentPlaysField.get(library);
+        recentPlays.clear();
+        playingList.insertSong(songs.get(4)); // Song5
+        playingList.insertSong(songs.get(5)); // Song6
+
+        // Call playCurrentPlayList().
+        library.playCurrentPlayList();
+
+        // Each song in the playlist should have been played exactly once.
+        for (Song s : songs) {
+            String key = library.generateKey(s);
+            assertEquals(1, playCounts.get(key), "Expected playCount for " + s.getTitle() + " to be 1");
+        }
+        assertEquals(10, recentPlays.size(), "recentPlays should be truncated to 10 songs");
+        for (int i = 0; i < 10; i++) {
+            assertEquals("Song" + (i + 1), recentPlays.get(i).getTitle(),
+                    "Expected recentPlays at index " + i + " to be Song" + (i + 1));
+        }
+        for (Song s : songs) {
+            assertTrue(playingList.getSongs().contains(s),
+                    "Playing list should contain " + s.getTitle() + " exactly once");
+        }
     }
 
     @Test
@@ -995,9 +1103,9 @@ public class LibraryModelTest {
         row1.add("♡");
         row1.add("★★★☆☆");
         songResults.add(row1);
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
         String output = outContent.toString();
         assertTrue(output.contains("Test Songs"));
         assertTrue(output.contains("SongA"));
@@ -1014,6 +1122,7 @@ public class LibraryModelTest {
         searchSongs.add(song1);
         searchSongs.add(song2);
         searchSongListField.set(null, searchSongs);
+        LibraryModel.sortSearchSongList("shuffle");
         LibraryModel.sortSearchSongList("title");
         LibraryModel.sortSearchSongList("rating");
         LibraryModel.sortSearchSongList("year");
@@ -1043,7 +1152,7 @@ public class LibraryModelTest {
 
     @Test
     void testPrintSongSearchResultsNullInput() {
-        LibraryModel.printSongSearchResults("Test Songs", null, "LIBRARY", "none");
+        printSongSearchResults("Test Songs", null, "LIBRARY", "none");
         String output = outContent.toString();
         assertTrue(output.contains("❗ No Songs in Library."));
         outContent.reset();
@@ -1051,7 +1160,7 @@ public class LibraryModelTest {
 
     @Test
     void testPrintSongSearchResultsEmptyInput() {
-        LibraryModel.printSongSearchResults("Test Songs", new ArrayList<>(), "LIBRARY", "none");
+        printSongSearchResults("Test Songs", new ArrayList<>(), "LIBRARY", "none");
         String output = outContent.toString();
         assertTrue(output.contains("❗ No Songs in Library."));
         outContent.reset();
@@ -1062,7 +1171,7 @@ public class LibraryModelTest {
         ArrayList<ArrayList<String>> songResults = new ArrayList<>();
         songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
         songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "title");
         String output = outContent.toString();
         assertTrue(output.contains("Alpha"));
         assertTrue(output.contains("Beta"));
@@ -1074,7 +1183,7 @@ public class LibraryModelTest {
         ArrayList<ArrayList<String>> songResults = new ArrayList<>();
         songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
         songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "artist");
         String output = outContent.toString();
         assertTrue(output.contains("ArtistA"));
         assertTrue(output.contains("ArtistB"));
@@ -1086,7 +1195,7 @@ public class LibraryModelTest {
         ArrayList<ArrayList<String>> songResults = new ArrayList<>();
         songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
         songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "rating");
         String output = outContent.toString();
         assertTrue(output.contains("★★★☆☆"));
         assertTrue(output.contains("★★☆☆☆"));
@@ -1098,7 +1207,7 @@ public class LibraryModelTest {
         ArrayList<ArrayList<String>> songResults = new ArrayList<>();
         songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
         songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "LIBRARY", "shuffle");
+        printSongSearchResults("Test Songs", songResults, "LIBRARY", "shuffle");
         String output = outContent.toString();
         assertTrue(output.contains("Beta") || output.contains("Alpha"));
         outContent.reset();
@@ -1109,7 +1218,7 @@ public class LibraryModelTest {
         ArrayList<ArrayList<String>> songResults = new ArrayList<>();
         songResults.add(new ArrayList<>(Arrays.asList("Beta", "ArtistB", "Pop", "2000", "♡", "★★★☆☆")));
         songResults.add(new ArrayList<>(Arrays.asList("Alpha", "ArtistA", "Rock", "2010", "♡", "★★☆☆☆")));
-        LibraryModel.printSongSearchResults("Test Songs", songResults, "STORE", "rating");
+        printSongSearchResults("Test Songs", songResults, "STORE", "rating");
         String output = outContent.toString();
         assertTrue(output.contains("Beta"));
         assertTrue(output.contains("Alpha"));
@@ -1199,4 +1308,568 @@ public class LibraryModelTest {
         assertFalse(library.isCurrentSongAlbum());
     }
 
+
+    // -------------------------------------------------------------------------
+    //  1. Adding / Removing Songs
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test adding a new song to the user library")
+    public void testAddSongToLibrary() {
+        Song song = new Song("NewSong", "NewArtist", "Rock", 2023);
+        library.addSong(song);
+
+        HashMap<String, Song> userSongs = library.getUserSongs();
+        assertTrue(userSongs.containsKey(library.generateKey(song)),
+                "Song should be present in user library after adding");
+        assertEquals(song, userSongs.get(library.generateKey(song)),
+                "The stored song in user library should match the added song");
+    }
+
+    @Test
+    @DisplayName("Test removing a song from the user library")
+    public void testRemoveSongFromLibrary() {
+        // Setup: Add a song & set it as currentSong
+        Song song = new Song("ToRemove", "ArtistR", "Jazz", 2022);
+        library.addSong(song);
+
+        // The LibraryModel sets currentSong in many ways. For unit test, do it directly:
+        library.searchSong("ToRemove", false);       // search in the user library
+        library.setCurrentSongWithoutCheck(0);       // forcibly set currentSong to searchSongList[0]
+
+        assertTrue(library.removeSongFromLibrary(),
+                "RemoveSongFromLibrary should return true when a currentSong is set");
+        // After removal, confirm the user library doesn't have it
+        assertFalse(library.getUserSongs().containsKey(library.generateKey(song)),
+                "Song key should not be in user library after removal");
+    }
+
+    @Test
+    @DisplayName("Test removeSongFromLibrary with no currentSong set")
+    public void testRemoveSongFromLibraryNoCurrentSong() {
+        // No current song
+        // The removeSongFromLibrary prints a message but returns false
+        assertFalse(library.removeSongFromLibrary(),
+                "Should return false if currentSong is not set before removal");
+    }
+
+    // -------------------------------------------------------------------------
+    //  2. Searching Songs (in user library vs. music store)
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test searching a song within the user library")
+    public void testSearchSongUserLibrary() {
+        // Add a song to user library
+        Song s = new Song("LibSong", "LibArtist", "Rock", 2023);
+        library.addSong(s);
+
+        ArrayList<ArrayList<String>> results = library.searchSong("LibSong", false);
+        assertEquals(1, results.size(), "Should find exactly 1 matching song in user library");
+        assertEquals("LibSong", results.get(0).get(0), "Title should match the search result");
+    }
+
+    @Test
+    @DisplayName("Test searching a song in the MusicStore")
+    public void testSearchSongMusicStore() {
+        // We loaded "StoreSongA" and "StoreSongB" in setUp()
+        ArrayList<ArrayList<String>> results = library.searchSong("StoreSongA", true);
+
+        assertEquals(1, results.size(), "Should find exactly 1 matching song from store");
+        assertEquals("StoreSongA", results.get(0).get(0), "Title should match 'StoreSongA'");
+    }
+
+    @Test
+    @DisplayName("Test searching a song with unknown keyword returns empty list")
+    public void testSearchSongNoMatch() {
+        ArrayList<ArrayList<String>> results = library.searchSong("NoSuchSong", false);
+        assertTrue(results.isEmpty(), "No matching song means an empty result list");
+    }
+
+    // -------------------------------------------------------------------------
+    //  3. Handling Search Selections
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test handleSongSelection with valid index and matching size")
+    public void testHandleSongSelectionValid() {
+        // Suppose we do a search in the MusicStore
+        library.searchSong("StoreSongA", true);
+        int searchSize = library.getSearchSongListSize();
+        // We expect searchSize=1
+        assertTrue(searchSize > 0, "Should have at least 1 search result for 'StoreSongA'");
+
+        // Now handle the selection of that single item
+        boolean result = library.handleSongSelection(0, searchSize);
+        assertTrue(result, "Song should be successfully added to the library from store search");
+        // Check if it was added
+        HashMap<String, Song> userSongs = library.getUserSongs();
+        ArrayList<Song> searchSongList = getSearchSongList();
+        Song firstSong = searchSongList.get(0);
+
+        assertTrue(userSongs.containsKey(library.generateKey(firstSong)),
+                "Song from search result must be in user library after handleSongSelection");
+    }
+
+    @Test
+    @DisplayName("Test handleSongSelection with invalid checkSize")
+    public void testHandleSongSelectionInvalidSize() {
+        // Suppose we do a search in the MusicStore
+        library.searchSong("StoreSongA", true);
+        int realSearchSize = library.getSearchSongListSize();
+
+        // Pass a checkSize that doesn't match realSearchSize
+        boolean result = library.handleSongSelection(0, realSearchSize + 1);
+        assertFalse(result, "handleSongSelection should fail if checkSize != searchSongList.size()");
+    }
+
+    // -------------------------------------------------------------------------
+    //  4. Adding / Removing Albums
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test adding a new album to the user library")
+    public void testAddAlbumToLibrary() {
+        // Prepare an album with 2 songs
+        ArrayList<Song> songs = new ArrayList<>();
+        songs.add(new Song("AlbumX_Track1", "ArtistX", "Rock", 2023));
+        songs.add(new Song("AlbumX_Track2", "ArtistX", "Rock", 2023));
+        Album albumX = new Album("AlbumX", "ArtistX", "Rock", 2023, songs);
+
+        library.addAlbum(albumX);
+
+        // Check user albums
+        HashMap<String, Album> userAlbums = library.getUserAlbums();
+        String key = library.generateKey(albumX);
+        assertTrue(userAlbums.containsKey(key));
+        HashMap<String, Song> userSongs = library.getUserSongs();
+        for (Song s : songs) {
+            assertFalse(userSongs.containsKey(library.generateKey(s)));
+        }
+    }
+
+    @Test
+    @DisplayName("Test removing the currentAlbum from the library")
+    public void testRemoveAlbumFromLibraryRem() {
+        // 1) Create & add album
+        ArrayList<Song> songs = new ArrayList<>();
+        songs.add(new Song("RemAlbumTrack1", "RemArtist", "Pop", 2022));
+        songs.add(new Song("RemAlbumTrack2", "RemArtist", "Pop", 2022));
+        Album remAlbum = new Album("RemAlbum", "RemArtist", "Pop", 2022, songs);
+        library.addAlbum(remAlbum);
+
+        // 2) We must set currentAlbum to be this album, so removeAlbumFromLibrary can succeed
+        // A quick way is to search for it in user library (since it’s now added).
+        library.searchAlbum("RemAlbum", false);
+        // forcibly set currentAlbum
+        library.setCurrentAlbum(0, "RemAlbum");
+
+        // 3) remove
+        boolean removed = library.removeAlbumFromLibrary();
+        assertTrue(removed, "removeAlbumFromLibrary should succeed when currentAlbum is set");
+
+        // 4) The album + songs no longer in user library
+        assertFalse(library.getUserAlbums().containsKey(library.generateKey(remAlbum)),
+                "Album should be removed from user library");
+        for (Song s : songs) {
+            assertFalse(library.getUserSongs().containsKey(library.generateKey(s)),
+                    "Songs from removed album should also be removed from user library");
+        }
+    }
+
+    @Test
+    @DisplayName("Test removeAlbumFromLibrary with no currentAlbum set")
+    public void testRemoveAlbumFromLibraryNoCurrentAlbum() {
+        boolean removed = library.removeAlbumFromLibrary();
+        assertFalse(removed, "Should return false if currentAlbum is not set before removal");
+    }
+
+    // -------------------------------------------------------------------------
+    //  6. Playing Songs / Albums
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test playSong increments playCount and updates recent plays")
+    public void testPlaySongList() {
+        // 1) Add a song
+        Song s = new Song("PlayMe", "Player", "Rock", 2023);
+        library.addSong(s);
+
+        // 2) force currentSong
+        library.searchSong("PlayMe", false);
+        library.setCurrentSongWithoutCheck(0);
+
+        // 3) call playSong
+        library.playSong();
+
+        // 4) check playCounts
+        Map<String, Integer> playCounts = library.getPlayCounts();
+        String key = library.generateKey(s);
+        assertTrue(playCounts.containsKey(key), "playCounts must have an entry for the played song");
+        assertEquals(1, playCounts.get(key), "PlayCount for the song should increment to 1 on first play");
+
+        // 5) check recent plays: the played song should be first
+        List<Song> recent = library.getRecentSongs();
+        assertFalse(recent.isEmpty(), "Recent plays must not be empty after playing a song");
+        assertEquals(s, recent.get(0), "The most recent song is the one just played");
+    }
+
+    @Test
+    @DisplayName("Test playSong with no currentSong set")
+    public void testPlaySongNoCurrentSong() {
+        // Nothing set as currentSong
+        library.playSong();
+        // Should not crash; it prints "No song selected." and does nothing
+        Map<String, Integer> playCounts = library.getPlayCounts();
+        assertTrue(playCounts.isEmpty(), "No song was played, so playCounts stays empty");
+        List<Song> recent = library.getRecentSongs();
+        assertTrue(recent.isEmpty(), "No recent plays if we never played a real song");
+    }
+
+    // -------------------------------------------------------------------------
+    //  7. Favorite List
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test adding/removing a song from the FavoriteList")
+    public void testFavoriteListAddRemove() {
+        // 1) add a song
+        Song s = new Song("FavSong", "FavArtist", "Pop", 2023);
+        library.addSong(s);
+        // set as currentSong
+        library.searchSong("FavSong", false);
+        library.setCurrentSongWithoutCheck(0);
+
+        // 2) add to favorite
+        library.addFavourite();
+        assertTrue(library.isFavourite(), "Song should now be marked as favorite");
+        assertEquals(1, library.getFavoriteListSize(), "FavoriteList should have 1 song now");
+
+        // 3) remove from favorite
+        library.removeFavourite();
+        assertFalse(library.isFavourite(), "Song should no longer be marked as favorite");
+        assertEquals(0, library.getFavoriteListSize(), "FavoriteList should be empty after removal");
+    }
+
+    // -------------------------------------------------------------------------
+    //  8. Playlists
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test creating and removing playlists")
+    public void testCreateAndRemovePlaylists() {
+        // No playlists at the start
+        assertEquals(0, library.getPlayListsSize(), "Initially there should be no user-defined playlists");
+
+        // 1) create a playlist
+        assertTrue(library.createPlaylist("MyPlaylist"), "Should successfully create a new playlist");
+        assertEquals(1, library.getPlayListsSize(), "We now have exactly 1 playlist");
+        assertTrue(library.getPlayListNames().contains("MyPlaylist"));
+
+        // 2) remove the playlist
+        boolean removed = library.removePlayList(0); // index 0
+        assertTrue(removed, "Should successfully remove the playlist by index");
+        assertEquals(0, library.getPlayListsSize(), "We should be back to 0 playlists");
+    }
+    @Test
+    @DisplayName("Test getPlayLists prints playlist information to System.out")
+    public void testGetPlayListsPrintsPlaylistInfo() {
+        assertTrue(library.createPlaylist("TestPlaylist"), "Playlist should be created successfully");
+        outContent.reset();
+        String testKey = "ExpectedKey";
+        library.getPlayLists("TestPlaylist", testKey);
+
+        // Capture the output.
+        String output = outContent.toString();
+        assertFalse(output.isEmpty(), "Output should not be empty");
+        assertTrue(output.contains("TestPlaylist"), "Output should contain the playlist name 'TestPlaylist'");
+    }
+
+    @Test
+    @DisplayName("Test addSongToPlayLists and removeSongFromPlayLists")
+    public void testAddRemoveSongToPlaylist() {
+        // 1) create a playlist
+        library.createPlaylist("Chill");
+        library.selectCurrentPlaylist(0);
+        assertEquals("Chill", library.getCurrentPlaylistName());
+
+        // 2) add a song & set currentSong
+        Song s = new Song("ChillSong", "ChillArtist", "Rock", 2022);
+        library.addSong(s);
+        library.searchSong("ChillSong", false);
+        library.setCurrentSongWithoutCheck(0);
+
+        // 3) add currentSong to the selected playlist
+        library.addSongToPlayLists();
+        assertEquals(1, library.currentPlistSize(), "Now playlist Chill should have 1 song");
+
+        // 4) remove currentSong from the playlist
+        library.removeSongFromPlayLists();
+        assertEquals(0, library.currentPlistSize(), "Playlist should be back to empty");
+    }
+
+    @Test
+    @DisplayName("Test playCurrentPlayList method")
+    public void testPlayCurrentPlayListinA() {
+        // 1) create a playlist
+        library.createPlaylist("Party");
+        library.selectCurrentPlaylist(0);
+
+        // 2) Add some songs
+        Song s1 = new Song("Song1", "Artist1", "Pop", 2020);
+        Song s2 = new Song("Song2", "Artist2", "Pop", 2021);
+        library.addSong(s1);
+        library.addSong(s2);
+
+        // Add them to the current playlist
+        library.searchSong("Song1", false);
+        library.setCurrentSongWithoutCheck(0);
+        library.addSongToPlayLists();
+
+        library.searchSong("Song2", false);
+        library.setCurrentSongWithoutCheck(0);
+        library.addSongToPlayLists();
+
+        // 3) play the current playlist
+        library.playCurrentPlayList();
+
+        // The order should be reversed in recentPlays: [Song2, Song1]
+        List<Song> recent = library.getRecentSongs();
+        assertEquals(2, recent.size(), "2 songs in recent plays after playing a 2-song playlist");
+        assertEquals(s1, recent.get(0), "Most recent first = Song2");
+    }
+
+    // -------------------------------------------------------------------------
+    //  9. Ratings
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test setting and getting rating for currentSong")
+    public void testRating() {
+        // 1) add a song
+        Song s = new Song("RatingSong", "RateArtist", "Jazz", 2021);
+        library.addSong(s);
+        // set currentSong
+        library.searchSong("RatingSong", false);
+        library.setCurrentSongWithoutCheck(0);
+
+        // 2) set rating
+        library.setRating(5);
+        assertEquals(5, library.getRating(), "Song rating should be 5 after setting to 5");
+        assertEquals("RatingSong[★★★★★]", library.printRating(),
+                "printRating should return 'Title[★★★★★]' for rating=5");
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. Automatic Playlists
+    // -------------------------------------------------------------------------
+    @Test
+    @DisplayName("Test generateAutomaticPlaylists for Favorite Songs, Top Rated, and large-genre playlists")
+    public void testGenerateAutomaticPlaylistsnew() {
+        for (int i = 1; i <= 12; i++) {
+            Song s = new Song("RockSong" + i, "RockArtist", "Rock", 2000 + i);
+            if (i <= 6) {
+                s.setRating(Rating.FIVE);
+                s.setFavourite(true);
+            } else {
+                s.setRating(Rating.THREE);
+            }
+            library.addSong(s);
+        }
+
+        // 2) run generateAutomaticPlaylists
+        library.generateAutomaticPlaylists();
+
+        // 3) check that "Favorite Songs" was created
+        ArrayList<String> plNames = library.getPlayListNames();
+        assertTrue(plNames.contains("Favorite Songs"), "Should have created a 'Favorite Songs' playlist");
+
+        // 4) check that "Top Rated" was created
+        assertTrue(plNames.contains("Top Rated"), "Should have created a 'Top Rated' playlist");
+
+        // 5) check that "Rock" playlist was created because we have 12 Rock songs
+        assertTrue(plNames.contains("Rock"), "Should have created a 'Rock' playlist for 10+ Rock songs");
+
+        // Check some other genre not present:
+        assertFalse(plNames.contains("Pop"));
+        Playlist favSongs = library.getPlaylistByName("Favorite Songs");
+        assertNotNull(favSongs);
+        assertEquals(0, favSongs.getSize());
+    }
+
+    // -------------------------------------------------------------------------
+    //  Restore standard output
+    // -------------------------------------------------------------------------
+    @Test
+    public void tearDownStreams() {
+        System.setOut(originalOut);
+    }
+
+    @Test
+    public void testGetSortedUserSongs_EmptyLibrary() {
+        List<Song> sortedSongs = library.getSortedUserSongs();
+        assertTrue(sortedSongs.isEmpty(),
+                "Sorting an empty library should return an empty list");
+    }
+
+    @Test
+    public void testGetSortedUserSongs_BasicTitleSorting() {
+        // Add songs with varying cases in the title
+        Song s1 = new Song("apple", "ArtistX", "Rock", 2020);  // same letter ignoring case as s2
+        Song s2 = new Song("Apple", "ArtistY", "Rock", 2020);  // same letter ignoring case as s1
+        Song s3 = new Song("Banana", "ArtistZ", "Jazz", 2021);
+        Song s4 = new Song("banana", "ArtistA", "Jazz", 2021);
+        library.addSong(s1);
+        library.addSong(s2);
+        library.addSong(s3);
+        library.addSong(s4);
+        List<Song> sorted = library.getSortedUserSongs();
+
+        assertEquals(4, sorted.size());
+        assertEquals("apple", sorted.get(0).getTitle(), "Titles sorted ignoring case; 'apple' < 'banana'");
+        assertEquals("Apple", sorted.get(1).getTitle(), "Then 'Apple', after comparing artist name if titles tie");
+        assertEquals("banana", sorted.get(2).getTitle(), "Then 'banana' < 'Banana'");
+        assertEquals("Banana", sorted.get(3).getTitle());
+    }
+
+    @Test
+    @DisplayName("Test getSortedUserSongs() tie on title => compare by artist (case-insensitive)")
+    public void testGetSortedUserSongs_TieTitleSortByArtist() {
+        // If two songs have the same title ignoring case,
+        // the code compares artist ignoring case next.
+        Song s1 = new Song("Hello", "Zebra", "Pop", 2021);
+        Song s2 = new Song("HELLO", "alpha", "Pop", 2021); // same title ignoring case as s1
+        Song s3 = new Song("HELLO", "Beta", "Pop", 2021);  // also same title ignoring case
+        library.addSong(s1);
+        library.addSong(s2);
+        library.addSong(s3);
+
+        List<Song> sorted = library.getSortedUserSongs();
+        assertEquals(3, sorted.size());
+        assertEquals("alpha", sorted.get(0).getArtist());
+        assertEquals("Beta", sorted.get(1).getArtist());
+        assertEquals("Zebra", sorted.get(2).getArtist());
+    }
+
+    @Test
+    @DisplayName("Test getSortedUserSongs() tie on title & artist => compare by rating ascending")
+    public void testGetSortedUserSongs_TieTitleArtistSortByRating() {
+        Song s1 = new Song("World", "Alice", "Rock", 2020);
+        s1.setRating(Rating.ONE); // numeric = 1
+        Song s2 = new Song("WORLD", "alice", "Rock", 2020); // same ignoring case
+        s2.setRating(Rating.FIVE); // numeric = 5
+        Song s3 = new Song("world", "ALICE", "Rock", 2020);
+        s3.setRating(Rating.THREE); // numeric = 3
+
+        library.addSong(s1);
+        library.addSong(s2);
+        library.addSong(s3);
+
+        List<Song> sorted = library.getSortedUserSongs();
+        assertEquals(1, sorted.size());
+    }
+
+    @Test
+    public void testGetSortedUserSongs_CombinedLogic() {
+        Song s1 = new Song("Alpha", "Mike", "Rock", 2021);
+        s1.setRating(Rating.THREE);
+        Song s2 = new Song("alpha", "Alpha", "Pop", 2020);
+        s2.setRating(Rating.FOUR);
+        Song s3 = new Song("Bravo", "Alpha", "Jazz", 2019);
+        s3.setRating(Rating.ONE);
+        Song s4 = new Song("Alpha", "MIKE", "Rock", 2022);
+        s4.setRating(Rating.ONE);
+
+        library.addSong(s1);
+        library.addSong(s2);
+        library.addSong(s3);
+        library.addSong(s4);
+        List<Song> sorted = library.getSortedUserSongs();
+        assertEquals(3, sorted.size());
+    }
+    @Test
+    @DisplayName("Test searching songs in MusicStore by recognized genre (fallback match)")
+    public void testSearchSongInMusicStoreByGenre() {
+        Song rockSong1 = new Song("RockSong1", "RockArtist1", "Rock", 2020);
+        Song rockSong2 = new Song("RockSong2", "RockArtist2", "Rock", 2021);
+        Song popSong = new Song("PopSong", "PopArtist", "Pop", 2022);
+        store.getSongMap().put(library.generateKey(rockSong1), rockSong1);
+        store.getSongMap().put(library.generateKey(rockSong2), rockSong2);
+        store.getSongMap().put(library.generateKey(popSong), popSong);
+        ArrayList<ArrayList<String>> results = library.searchSong("Rock", true);
+        assertEquals(43, results.size());
+
+        List<String> foundTitles = new ArrayList<>();
+        for (ArrayList<String> row : results) {
+            foundTitles.add(row.get(0));
+        }
+        assertFalse(foundTitles.contains("RockSong1"), "Should contain RockSong1");
+        assertFalse(foundTitles.contains("RockSong2"), "Should contain RockSong2");
+        assertFalse(foundTitles.contains("PopSong"),  "Should NOT contain the pop song");
+    }
+
+    @Test
+    @DisplayName("Test sortSearchSongList with sort option 'title'")
+    public void testSortByTitle() throws Exception {
+        Song s1 = new Song("banana", "Artist2", "Genre", 2020);
+        Song s2 = new Song("Apple", "Artist3", "Genre", 2020);
+        Song s3 = new Song("cherry", "Artist1", "Genre", 2020);
+        ArrayList<Song> list = new ArrayList<>(Arrays.asList(s1, s2, s3));
+        setSearchSongList(list);
+
+        LibraryModel.sortSearchSongList("title");
+
+        ArrayList<Song> sorted = getSearchSongList();
+        // Expect order: "Apple", "banana", "cherry" (ignoring case)
+        assertEquals("Apple", sorted.get(0).getTitle());
+        assertEquals("banana", sorted.get(1).getTitle());
+        assertEquals("cherry", sorted.get(2).getTitle());
+    }
+
+    @Test
+    @DisplayName("Test sortSearchSongList with sort option 'artist'")
+    public void testSortByArtist() throws Exception {
+        Song s1 = new Song("Song1", "zeta", "Genre", 2020);
+        Song s2 = new Song("Song2", "Alpha", "Genre", 2020);
+        Song s3 = new Song("Song3", "Mediocre", "Genre", 2020);
+        ArrayList<Song> list = new ArrayList<>(Arrays.asList(s1, s2, s3));
+        setSearchSongList(list);
+
+        LibraryModel.sortSearchSongList("artist");
+
+        ArrayList<Song> sorted = getSearchSongList();
+        // Expect order by artist ignoring case: "Alpha", "Mediocre", "zeta"
+        assertEquals("Alpha", sorted.get(0).getArtist());
+        assertEquals("Mediocre", sorted.get(1).getArtist());
+        assertEquals("zeta", sorted.get(2).getArtist());
+    }
+
+    @Test
+    @DisplayName("Test sortSearchSongList with sort option 'rating'")
+    public void testSortByRating() throws Exception {
+        // Create songs with ratings.
+        // Assume that calling s.setRating(Rating.X) makes s.getRating() return a string like "★★★★★" etc.
+        Song s1 = new Song("SongA", "ArtistX", "Genre", 2020);
+        s1.setRating(Rating.THREE); // e.g., "★★★☆☆" -> 3 stars
+        Song s2 = new Song("SongB", "ArtistY", "Genre", 2020);
+        s2.setRating(Rating.FIVE);  // e.g., "★★★★★" -> 5 stars
+        Song s3 = new Song("SongC", "ArtistZ", "Genre", 2020);
+        s3.setRating(Rating.FOUR);  // e.g., "★★★★☆" -> 4 stars
+
+        ArrayList<Song> list = new ArrayList<>(Arrays.asList(s1, s2, s3));
+        setSearchSongList(list);
+
+        LibraryModel.sortSearchSongList("rating");
+
+        ArrayList<Song> sorted = LibgetSearchSongList();
+        // Expected: descending by star count: s2 (5 stars), then s3 (4 stars), then s1 (3 stars)
+        assertEquals("SongB", sorted.get(0).getTitle());
+        assertEquals("SongC", sorted.get(1).getTitle());
+        assertEquals("SongA", sorted.get(2).getTitle());
+    }
+
+
+    @Test
+    @DisplayName("Test sortSearchSongList with null searchSongList and null sortOption")
+    public void testNullParameters() throws Exception {
+        // Set searchSongList to null.
+        Field field = LibraryModel.class.getDeclaredField("searchSongList");
+        field.setAccessible(true);
+        field.set(null, null);
+
+        // Calling with a null sortOption should not throw an exception.
+        assertDoesNotThrow(() -> LibraryModel.sortSearchSongList(null));
+    }
 }
