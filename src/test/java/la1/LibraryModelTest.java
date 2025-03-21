@@ -709,6 +709,41 @@ public class LibraryModelTest {
         library.openAlbum("19", "title");
         assertEquals(12, library.getSearchSongListSize());
     }
+
+    @Test
+    void testShowCompleteAlbumStore() {
+        library.searchSong("coldplay", true);
+        library.handleSongSelection(0, library.getSearchSongListSize());
+        library.handleSongSelection(1, library.getSearchSongListSize());
+        library.searchSong("coldplay", false);
+        library.userSongSearch();
+        library.setCurrentSong(0, "Politik");
+        library.getSongAlbum();
+        assertTrue(library.showCompleteAlbumStore("A Rush of Blood to the Head"));
+        assertFalse(library.showCompleteAlbumStore("X&Y"));
+
+    }
+
+    @Test
+    void testRemoveAlbumFromLibrary() {
+        ArrayList<Song> songs = new ArrayList<>();
+        songs.add(new Song("Song1", "Artist1", "Rock", 2000));
+        songs.add(new Song("Song2", "Artist2", "Rock", 2001));
+        Album album = new Album("AlbumX", "ArtistX", "Jazz", 2005, songs);
+        album.addAllSongsToLibrary();
+        library.addAlbum(album);
+        assertFalse(library.removeAlbumFromLibrary());
+        assertEquals(1, library.getAlbumListSize());
+        library.searchAlbum("AlbumX", false);
+        library.setCurrentAlbum(0, "AlbumX");
+        library.removeAlbumFromLibrary();
+        assertEquals(0, library.getAlbumListSize());
+
+
+    }
+
+
+
     @Test
     void testGetAlbumList () {
         library.searchAlbum("adele", true);
