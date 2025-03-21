@@ -169,7 +169,8 @@ class LibraryUsersTest {
     void testSaveToJSONIOException() {
         LibraryUsers libraryUsers = new LibraryUsers(new MusicStore());
         // Attempt to save to an invalid path
-        String invalidPath = "C:\\Windows\\System32\\invalid\\test.json";
+        String invalidPath = "/System/Library/mytest.json";
+
         libraryUsers.saveToJSON(invalidPath);
 
         // Optionally verify the console output or logs to ensure catch block ran
@@ -182,7 +183,7 @@ class LibraryUsersTest {
     void testLoadFromJSONIOException() {
         LibraryUsers libraryUsers = new LibraryUsers(new MusicStore());
         // Provide a directory path (e.g., 'C:\Windows\System32') instead of a file
-        String invalidFilePath = "C:\\Windows\\System32";
+        String invalidFilePath = "/System/Library";
         libraryUsers.loadFromJSON(invalidFilePath);
 
         // Optionally check logs or console output if needed

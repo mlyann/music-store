@@ -282,7 +282,8 @@ public class MainUI {
                 System.out.println("🔙 Back to Search Menu");
                 return;
             } else if (keyword.equals("h")) {
-                runMainMenu();
+                System.out.println("🚪 Back to Main Menu");
+                currentState = NavigationState.MAIN_MENU;
                 return;
             }
             ArrayList<ArrayList<String>> songResults = libraryModel.searchSong(keyword, location.equals("STORE"));
@@ -1118,25 +1119,45 @@ public class MainUI {
             String choice = SCANNER.nextLine().trim();
             switch (choice) {
                 case "1":
-                    if (openPlayList()){
+                    if (openPlayList()) {
                         playListSubMenu();
                     }
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
+
                 case "2":
                     libraryModel.clearAllPlayLists();
                     System.out.println("🗑️ Cleared all playlists.");
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
+
                 case "3":
                     createNewPlaylist();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
+
                 case "4":
                     deletePlaylist();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
+
                 case "0":
                     return;
 
                 default:
                     System.out.println("❗ Invalid choice. Try again.");
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
+                    break;
             }
         }
     }
@@ -1160,12 +1181,21 @@ public class MainUI {
             switch (choice) {
                 case "1":
                     searchSongToPlaylists();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "2":
                     searchSongFromPlaylists();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "3":
                     libraryModel.playCurrentPlayList();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "0":
                     return;
@@ -1354,21 +1384,36 @@ public class MainUI {
                 case "1":
                     String sortKey = chooseSortingMethod();
                     libraryModel.printFavoriteList(sortKey);
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "2":
                     libraryModel.clearFavoriteList();
                     System.out.println("🗑️ Cleared all songs in the favourite list.");
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "3":
                     addSongToFavourite();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "4":
                     removeSongFromFavourite();
                     String sortKey1 = chooseSortingMethod();
                     libraryModel.printFavoriteList(sortKey1);
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "5":
                     playSongInFavourite();
+                    if (currentState == NavigationState.MAIN_MENU) {
+                        return;
+                    }
                     break;
                 case "0":
                     return;

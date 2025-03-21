@@ -1135,6 +1135,10 @@ public class LibraryModelTest {
     @Test
     void testPrintAlbumSearchResults() {
         ArrayList<ArrayList<String>> albumResults = new ArrayList<>();
+        LibraryModel.printAlbumSearchResults(albumResults);
+        albumResults = null;
+        LibraryModel.printAlbumSearchResults(albumResults);
+        albumResults = new ArrayList<>();
         ArrayList<String> albumRow = new ArrayList<>();
         albumRow.add("Album1");
         albumRow.add("Artist1");
