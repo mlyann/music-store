@@ -83,6 +83,12 @@ public class LibraryModelTest {
     }
 
     @Test
+    void testGetSearchSongList() {
+        library.searchSong("adele", true);
+        assertEquals(24, library.getSearchSongList().size());
+    }
+
+    @Test
     void testPlayAlbumNullCurrentAlbum() {
         boolean result = library.playAlbum("AnyTitle");
         assertFalse(result);
@@ -487,6 +493,9 @@ public class LibraryModelTest {
         boolean ok = library.allSongSelection(realSize);
         assertTrue(ok);
         assertEquals(realSize, library.getSongListSize());
+
+        library.searchSong("adele", true);
+        library.allSongSelection(24);
     }
 
     @Test
@@ -588,6 +597,7 @@ public class LibraryModelTest {
         library.setCurrentSongWithoutCheck(0);
         assertTrue(library.getCurrentSongInfo().contains("StoreSongA"));
     }
+
     @Test
     void testUserSongSerch() {
         library.searchSong("StoreSongA",true);
@@ -596,6 +606,31 @@ public class LibraryModelTest {
 
         assertEquals(1, library.getSearchSongListSize());
     }
+
+    @Test
+    void testRemoveSongFromUserLibrary() {
+        assertFalse(library.removeSongFromLibrary());
+        ArrayList<Song> songs = new ArrayList<>();
+        Song song1 = new Song("Song1", "Artist1", "Rock", 2000);
+        songs.add(song1);
+        Album album = new Album("AlbumX", "ArtistX", "Jazz", 2005, songs);
+        song1.setAlbum(album);
+        album.addAllSongsToLibrary();
+        library.addAlbum(album);
+        library.searchSong("Song1", false);
+        library.handleSongSelection(0, library.getSearchSongListSize());
+        library.userSongSearch();
+        library.setCurrentSong(0, "Song1");
+        assertTrue(library.removeSongFromLibrary());
+        Song song2 = new Song("Song2", "Artist2", "Rock", 2000);
+        library.addSong(song2);
+        library.searchSong("Song2", false);
+        library.handleSongSelection(0, library.getSearchSongListSize());
+        library.userSongSearch();
+        library.setCurrentSong(0, "Song2");
+        assertTrue(library.removeSongFromLibrary());
+    }
+
     @Test
     void testPlayListSearch() {
         library.searchSong("StoreSongA",true);
@@ -667,10 +702,26 @@ public class LibraryModelTest {
         assertFalse(ok);
         assertEquals(0, library.getAlbumListSize());
     }
+
     @Test
     void testGetID() {
         assertEquals("TestUser",library.getUserID());
     }
+
+    @Test
+    void testGetCurrentAlbumInfo() {
+        library.searchSong("adele", true);
+        library.handleSongSelection(0, library.getSearchSongListSize());
+        library.handleSongSelection(1, library.getSearchSongListSize());
+        library.searchSong("adele", false);
+        library.userSongSearch();
+        library.setCurrentSong(0, "Crazy for You");
+        library.getSongAlbum();
+        String output = "19, by Adele (2008, Pop),  Not all songs are in the library.";
+        assertEquals(output, library.getCurrentAlbumInfo());
+        assertFalse(library.isCurrentAlbumComplete());
+    }
+
 
     @Test
     void testCheckCurrentAlbum() {
@@ -1126,6 +1177,10 @@ public class LibraryModelTest {
 
         // Verify
         assertEquals("Album1", albumTitle);
+
+        Song song1 = new Song("Song2", "Artist2", "Genre2", 2021);
+        setCurrentSongField(song1);
+        assertNull(library.getSongAlbum());
     }
 
     @Test
@@ -1138,6 +1193,10 @@ public class LibraryModelTest {
 
         // Execute & Verify
         assertTrue(library.isCurrentSongAlbum());
+
+        Song song1 = new Song("Song2", "Artist2", "Genre2", 2021);
+        setCurrentSongField(song1);
+        assertFalse(library.isCurrentSongAlbum());
     }
 
 }

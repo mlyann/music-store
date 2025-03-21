@@ -70,14 +70,6 @@ public class LibraryUsers {
         return users.containsKey(userID);
     }
 
-    /**
-     * 获取MusicStore实例
-     * @return musicStore
-     */
-    public MusicStore getMusicStore() {
-        return musicStore;
-    }
-
     // ---- Function for JSON data ----
 
     // 保存数据到JSON文件，自动创建文件和目录

@@ -138,7 +138,6 @@ public class LibraryModel {
     public boolean setCurrentAlbum(int index, String albumTitle) {
         Album album = searchAlbumList.get(index);
         if (!album.getTitle().equalsIgnoreCase(albumTitle)) {
-            System.out.println(album.getTitle());
             return false;
         }
         currentAlbum = album;
@@ -183,9 +182,6 @@ public class LibraryModel {
         return searchSongList.size();
     }
 
-    public void printCurrentPlayList(String key) {
-        playingList.printAsTable(key);
-    }
 
 
 
@@ -928,10 +924,6 @@ public class LibraryModel {
 
     public Map<String, Integer> getPlayCounts() {
         return new HashMap<>(playCounts);
-    }
-
-    public List<Song> getRecentPlays() {
-        return new ArrayList<>(recentPlays);
     }
 
     /**

@@ -1,0 +1,22 @@
+{
+  "userX": {
+    "UserID": "userX",
+    "encryptedPassword": "null12345nullnullnull99",
+    "UserSongs": {},
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  }
+}
