@@ -23,7 +23,7 @@ public class MainUI {
         currentState = NavigationState.MAIN_MENU;
 
         if (libraryModel == null || musicStore == null) {
-            System.out.println("⚠️ MainUI未初始化，请先调用init()方法！");
+            System.out.println("⚠️ Main UI has not been initialized.");
             return;
         }
 

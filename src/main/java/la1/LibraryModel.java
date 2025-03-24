@@ -647,7 +647,10 @@ public List<Song> getSortedUserSongs() {
         if (currentSong == null) {
             System.out.println("No song selected.");
         } else {
-            playCounts.put(generateKey(currentSong), playCounts.getOrDefault(currentSong, 0) + 1);
+            String songKey = generateKey(currentSong);
+            System.out.println(songKey);
+            playCounts.put(songKey, playCounts.getOrDefault(songKey, 0) + 1);
+            System.out.println(playCounts.get(songKey));
             recentPlays.remove(currentSong);
             recentPlays.add(0, currentSong);
             if (recentPlays.size() > 10) {
@@ -676,7 +679,10 @@ public List<Song> getSortedUserSongs() {
 
             for (Song song : songs) {
                 // Update stats as well
-                playCounts.put(generateKey(song), playCounts.getOrDefault(song, 0) + 1);
+                String songKey = generateKey(song);
+                System.out.println(songKey);
+                playCounts.put(songKey, playCounts.getOrDefault(songKey, 0) + 1);
+                System.out.println(playCounts.get(songKey));
                 // Update recent plays
                 recentPlays.remove(song);
                 recentPlays.add(0, song);
@@ -825,7 +831,10 @@ public List<Song> getSortedUserSongs() {
 
         for (Song song : songs) {
             // Update stats first
-            playCounts.put(generateKey(song), playCounts.getOrDefault(song, 0) + 1);
+            String songKey = generateKey(song);
+            System.out.println(songKey);
+            playCounts.put(songKey, playCounts.getOrDefault(songKey, 0) + 1);
+            System.out.println(playCounts.get(songKey));
             recentPlays.remove(song);
             recentPlays.add(0, song);
             if (recentPlays.size() > 10) {
@@ -928,7 +937,8 @@ public List<Song> getSortedUserSongs() {
         Collections.reverse(songs);
 
         for (Song song : songs) {
-            playCounts.put(generateKey(song), playCounts.getOrDefault(song,0) + 1);
+            String songKey = generateKey(song);
+            playCounts.put(songKey, playCounts.getOrDefault(songKey, 0) + 1);
             recentPlays.remove(song);
             recentPlays.add(0, song);
             if (recentPlays.size() > 10) {
@@ -1082,7 +1092,7 @@ public List<Song> getSortedUserSongs() {
             return;
         }
         List<List<String>> tableRows = new ArrayList<>();
-        tableRows.add(Arrays.asList("No.", "Title", "Artist", "Genre", "Year", "Album"));
+        tableRows.add(Arrays.asList("No.", "Album", "Artist", "Genre", "Year", "Songs"));
 
         int albumNo = 1;
         for (ArrayList<String> albumStrList : albumList) {

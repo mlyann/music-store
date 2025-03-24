@@ -1,4 +1,436 @@
 {
+  "4": {
+    "UserID": "4",
+    "encryptedPassword": "null12345",
+    "UserSongs": {
+      "god put a smile upon your face|coldplay|other": {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "politik|coldplay|other": {
+        "title": "Politik",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "clocks|coldplay|other": {
+        "title": "Clocks",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a rush of blood to the head|coldplay|other": {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "in my place|coldplay|other": {
+        "title": "In My Place",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "warning sign|coldplay|other": {
+        "title": "Warning Sign",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "a whisper|coldplay|other": {
+        "title": "A Whisper",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "amsterdam|coldplay|other": {
+        "title": "Amsterdam",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "green eyes|coldplay|other": {
+        "title": "Green Eyes",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "daylight|coldplay|other": {
+        "title": "Daylight",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      },
+      "the scientist|coldplay|other": {
+        "title": "The Scientist",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    },
+    "UserAlbums": {
+      "a rush of blood to the head|coldplay|other": {
+        "title": "A Rush of Blood to the Head",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "songs": [
+          {
+            "title": "Politik",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "In My Place",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "God Put a Smile Upon Your Face",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Clocks",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daylight",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Green Eyes",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Warning Sign",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Whisper",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Rush of Blood to the Head",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Amsterdam",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ],
+        "songInLibrary": [
+          {
+            "title": "A Rush of Blood to the Head",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "A Whisper",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Amsterdam",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Clocks",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Daylight",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "God Put a Smile Upon Your Face",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Green Eyes",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "In My Place",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Politik",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "The Scientist",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          },
+          {
+            "title": "Warning Sign",
+            "artist": "Coldplay",
+            "genre": "OTHER",
+            "year": 2002,
+            "albumTitle": "A Rush of Blood to the Head",
+            "rating": "UNRATED",
+            "Favourite": false
+          }
+        ]
+      }
+    },
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        },
+        {
+          "title": "God Put a Smile Upon Your Face",
+          "artist": "Coldplay",
+          "genre": "OTHER",
+          "year": 2002,
+          "albumTitle": "A Rush of Blood to the Head",
+          "rating": "UNRATED",
+          "Favourite": false
+        }
+      ],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "currentSong": {
+      "title": "God Put a Smile Upon Your Face",
+      "artist": "Coldplay",
+      "genre": "OTHER",
+      "year": 2002,
+      "albumTitle": "A Rush of Blood to the Head",
+      "rating": "UNRATED",
+      "Favourite": false
+    },
+    "playCounts": {
+      "god put a smile upon your face|coldplay|other": 9
+    },
+    "recentPlays": [
+      {
+        "title": "God Put a Smile Upon Your Face",
+        "artist": "Coldplay",
+        "genre": "OTHER",
+        "year": 2002,
+        "albumTitle": "A Rush of Blood to the Head",
+        "rating": "UNRATED",
+        "Favourite": false
+      }
+    ],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  },
   "1": {
     "UserID": "1",
     "encryptedPassword": "null12345",
@@ -1341,51 +1773,6 @@
     "playingList": {
       "songs": [
         {
-          "title": "A Rush of Blood to the Head",
-          "artist": "Coldplay",
-          "genre": "OTHER",
-          "year": 2002,
-          "albumTitle": "A Rush of Blood to the Head",
-          "rating": "UNRATED",
-          "Favourite": false
-        },
-        {
-          "title": "A Whisper",
-          "artist": "Coldplay",
-          "genre": "OTHER",
-          "year": 2002,
-          "albumTitle": "A Rush of Blood to the Head",
-          "rating": "UNRATED",
-          "Favourite": false
-        },
-        {
-          "title": "Amsterdam",
-          "artist": "Coldplay",
-          "genre": "OTHER",
-          "year": 2002,
-          "albumTitle": "A Rush of Blood to the Head",
-          "rating": "THREE",
-          "Favourite": false
-        },
-        {
-          "title": "Clocks",
-          "artist": "Coldplay",
-          "genre": "OTHER",
-          "year": 2002,
-          "albumTitle": "A Rush of Blood to the Head",
-          "rating": "UNRATED",
-          "Favourite": false
-        },
-        {
-          "title": "Daylight",
-          "artist": "Coldplay",
-          "genre": "OTHER",
-          "year": 2002,
-          "albumTitle": "A Rush of Blood to the Head",
-          "rating": "UNRATED",
-          "Favourite": false
-        },
-        {
           "title": "God Put a Smile Upon Your Face",
           "artist": "Coldplay",
           "genre": "OTHER",
@@ -2454,6 +2841,26 @@
           "Favourite": true
         }
       ],
+      "name": "Favorite List"
+    }
+  },
+  "2": {
+    "UserID": "2",
+    "encryptedPassword": "null12345",
+    "UserSongs": {},
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
       "name": "Favorite List"
     }
   }
