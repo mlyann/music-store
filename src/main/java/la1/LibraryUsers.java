@@ -90,7 +90,7 @@ public class LibraryUsers {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("⚠️ 保存JSON文件失败！");
+            System.out.println("⚠️ Failed to save data! ");
         }
     }
 
@@ -100,7 +100,7 @@ public class LibraryUsers {
         Gson gson = new Gson();
         File file = new File(filePath);
         if (!file.exists()) {
-            System.out.println("⚠️ 文件不存在，跳过加载过程。");
+            System.out.println("⚠️ data.json is not exist");
             return;
         }
         try (Reader reader = new FileReader(file)) {
@@ -124,7 +124,7 @@ public class LibraryUsers {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("⚠️ 加载JSON文件失败！");
+            System.out.println("⚠️ Failed to load data!");
         }
     }
 

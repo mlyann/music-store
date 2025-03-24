@@ -570,7 +570,7 @@ public class MainUI {
      * @param albumResults the list of albums to choose from
      * @param location the location of the search (STORE or LIBRARY)
      */
-    public static void albumSelectionMenu(ArrayList<ArrayList<String>> albumResults, String location) {
+    private static void albumSelectionMenu(ArrayList<ArrayList<String>> albumResults, String location) {
         if (location.equals("STORE")) {
             String choice = albumSelectionStore();
             switch (choice) {
@@ -736,7 +736,7 @@ public class MainUI {
      * Open an album to view its songs.
      * @param albumTitle the title of the album to open
      */
-    public static void openAlbum(String albumTitle) {
+    private static void openAlbum(String albumTitle) {
         String sort = chooseSortingMethod();
         if (!libraryModel.openAlbum(albumTitle, sort)) {
             System.out.println("❗ System wrong. 10");
@@ -1521,18 +1521,6 @@ public class MainUI {
         System.out.println("\n10 Most Recently Played Songs:");
         printRecentSongs();
         currentState = NavigationState.MAIN_MENU;
-    }
-
-    public List<Song> getTopFrequentSongs() {
-        return libraryModel.getPlayCounts().entrySet().stream()
-                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                .limit(10)
-                .map(entry -> {
-                    String songKey = entry.getKey();
-                    return libraryModel.getUserSongs().get(songKey); // 在这里获得 Song
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
     }
 
     private static void printFrequentSongs() {

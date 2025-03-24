@@ -39,7 +39,7 @@ public class FavoriteList extends Playlist {
     public void printAsTable(String key) {
         if (key.equalsIgnoreCase("title")){sortSongsByTitle();}
         else if (key.equalsIgnoreCase("rating")){sortSongsByRating();}
-        else if (key.equalsIgnoreCase("year")){sortSongsByYear();}
+        else if (key.equalsIgnoreCase("year")){sortSongsByArtist();}
         if (getSongs().isEmpty()) {
             System.out.println("The playlist is empty.");
             return;

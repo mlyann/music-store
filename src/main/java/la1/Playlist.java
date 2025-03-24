@@ -85,7 +85,7 @@ public class Playlist {
     public void printAsTable(String key) {
         if (key.toLowerCase().equals("title")){sortSongsByTitle();}
         else if (key.toLowerCase().equals("rating")){sortSongsByRating();}
-        else if (key.toLowerCase().equals("year")){sortSongsByYear();}
+        else if (key.toLowerCase().equals("artist")){sortSongsByArtist();}
         else if (key.toLowerCase().equals("shuffle")){shuffle();}
         if (songs.isEmpty()) {
             System.out.println("The playlist is empty.");
@@ -203,9 +203,9 @@ public class Playlist {
     }
 
     // year sorting
-    public void sortSongsByYear() {
+    public void sortSongsByArtist() {
         Collections.sort(songs, (s1, s2) -> {
-            int cmp = Integer.compare(s1.getYear(), s2.getYear());
+            int cmp = s1.getArtist().compareToIgnoreCase(s2.getArtist());
             if (cmp != 0) {
                 return cmp;
             }
@@ -213,7 +213,7 @@ public class Playlist {
             if (cmp != 0) {
                 return cmp;
             }
-            return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+            return Integer.compare(s1.getRatingInt(), s2.getRatingInt());
         });
     }
 

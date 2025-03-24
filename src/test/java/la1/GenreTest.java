@@ -26,7 +26,7 @@ public class GenreTest {
         assertEquals(Genre.JAZZ, Genre.fromString("Jazz"));
         assertEquals(Genre.HIPHOP, Genre.fromString("HipHop"));
         assertEquals(Genre.CLASSICAL, Genre.fromString("Classical"));
-        assertEquals(Genre.COUNTRY, Genre.fromString("Country"));
+        assertEquals(Genre.COUNTRY, Genre.fromString("Traditional Country"));
         assertEquals(Genre.ELECTRONIC, Genre.fromString("Electronic"));
         assertEquals(Genre.FOLK, Genre.fromString("Folk"));
         assertEquals(Genre.BLUES, Genre.fromString("Blues"));
@@ -56,6 +56,7 @@ public class GenreTest {
         assertEquals(Genre.PSYCHEDELIC, Genre.fromString("Psychedelic"));
         assertEquals(Genre.ELECTRO, Genre.fromString("Electro"));
         assertEquals(Genre.ACOUSTIC, Genre.fromString("Acoustic"));
+        assertEquals(Genre.SINGER, Genre.fromString("Singer/Songwriter"));
         assertEquals(Genre.OTHER, Genre.fromString("Other"));
     }
 

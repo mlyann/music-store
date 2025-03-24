@@ -7,7 +7,7 @@ public enum Genre {
     JAZZ("Jazz"),
     HIPHOP("HipHop"),
     CLASSICAL("Classical"),
-    COUNTRY("Country"),
+    COUNTRY("Traditional Country"),
     ELECTRONIC("Electronic"),
     FOLK("Folk"),
     BLUES("Blues"),
@@ -37,6 +37,7 @@ public enum Genre {
     PSYCHEDELIC("Psychedelic"),
     ELECTRO("Electro"),
     ACOUSTIC("Acoustic"),
+    SINGER("Singer/Songwriter"),
     OTHER("Other");
 
     private final String genre;
