@@ -199,7 +199,7 @@ class LibraryUsersTest {
 
         LibraryUsers localLibraryUsers = new LibraryUsers(new MusicStore());
         localLibraryUsers.loadFromJSON(emptyFilePath.toString());
-        // Here, gson.fromJson(...) should produce null, covering 'loadedUsers == null'\
+        // Here, gson.fromJson(...) should produce null, covering 'loadedUsers == null'
 
     }
 

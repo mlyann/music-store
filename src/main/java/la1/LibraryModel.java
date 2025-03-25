@@ -522,9 +522,6 @@ public List<Song> getSortedUserSongs() {
         return result;
     }
 
-
-
-
     /**
      * Add all albums in the search result to the user's library
      * @param checkSize the size of the search result

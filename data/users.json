@@ -1,0 +1,62 @@
+{
+  "1": {
+    "UserID": "1",
+    "encryptedPassword": "null12345",
+    "UserSongs": {},
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  },
+  "2": {
+    "UserID": "2",
+    "encryptedPassword": "null12345",
+    "UserSongs": {},
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  },
+  "chcking2": {
+    "UserID": "chcking2",
+    "encryptedPassword": "0nul12345lnullnullnullnullnullnullnull",
+    "UserSongs": {},
+    "UserAlbums": {},
+    "PlayLists": {
+      "playLists": {}
+    },
+    "playingList": {
+      "songs": [],
+      "name": "Playing List"
+    },
+    "searchAlbumList": [],
+    "playCounts": {},
+    "recentPlays": [],
+    "favoriteList": {
+      "songs": [],
+      "name": "Favorite List"
+    }
+  }
+}

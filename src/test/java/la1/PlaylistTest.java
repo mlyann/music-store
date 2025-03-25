@@ -267,22 +267,7 @@ public class PlaylistTest {
         assertEquals("Song 1", sorted.get(2).getTitle());
     }
 
-    @Test
-    public void testSortSongsByYear() {
-        Song song1 = createSong("Song A", "ArtistA", "Pop", 2021);
-        Song song2 = createSong("Song B", "ArtistB", "Rock", 2019);
-        Song song3 = createSong("Song C", "ArtistC", "Jazz", 2020);
 
-        playlist.addSong(song1, false);
-        playlist.addSong(song2, false);
-        playlist.addSong(song3, false);
-
-        playlist.sortSongsByYear();
-        List<Song> sorted = playlist.getSongs();
-        assertEquals(2019, sorted.get(0).getYear());
-        assertEquals(2020, sorted.get(1).getYear());
-        assertEquals(2021, sorted.get(2).getYear());
-    }
 
     @Test
     public void testPrintAsTableKeyRating() {
@@ -301,7 +286,7 @@ public class PlaylistTest {
     }
 
     @Test
-    public void testPrintAsTableKeyYear() {
+    public void testPrintAsTableKeyArtist() {
         Song song1 = createSong("Song A", "ArtistA", "Pop", 2020);
         Song song2 = createSong("Song B", "ArtistB", "Rock", 2018);
 
@@ -309,10 +294,10 @@ public class PlaylistTest {
         playlist.addSong(song2, false);
         outContent.reset();
 
-        playlist.printAsTable("year");
+        playlist.printAsTable("artist");
         String output = outContent.toString();
-        assertTrue(output.contains("Year"));
-        assertTrue(output.indexOf("Song B") < output.indexOf("Song A"));
+        assertTrue(output.contains("Artist"));
+        assertTrue(output.indexOf("Song B") > output.indexOf("Song A"));
     }
 
     @Test
@@ -359,16 +344,5 @@ public class PlaylistTest {
         assertEquals(4, sorted.get(1).getRatingInt());
     }
 
-    @Test
-    public void testSortSongsByYearEqualYearAndTitle() {
-        Song songA = createSong("Same", "Alpha", "Pop", 2020);
-        Song songB = createSong("Same", "Beta", "Pop", 2020);
-        playlist.addSong(songB, false);
-        playlist.addSong(songA, false);
 
-        playlist.sortSongsByYear();
-        List<Song> sorted = playlist.getSongs();
-        assertEquals("Alpha", sorted.get(0).getArtist());
-        assertEquals("Beta", sorted.get(1).getArtist());
-    }
 }

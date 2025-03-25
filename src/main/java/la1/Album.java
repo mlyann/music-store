@@ -63,7 +63,7 @@ public class Album {
         for (Song song : songInLibrary) {
             deepCopy.add(new Song(song)); // DEEP COPY HERE
         }
-        return deepCopy; // DEEPCOPY HERE
+        return deepCopy;
     }
 
 

@@ -15,19 +15,19 @@ public class LibraryUsers {
     }
 
     /**
-     * 注册新用户并存储加密密码
-     *
-     * @param userID 用户名
-     * @param password 用户的明文密码
-     * @param vicData VIC加密相关数据
-     * @return 注册成功返回true，用户已存在返回false
-     */
+      * Register a new user and store the encrypted password
+      *
+      * @param userID Username
+      * @param password User's plain text password
+      * @param vicData VIC encryption related data
+      * @return Returns true if registration is successful, false if the user already exists
+      */
     public boolean registerUser(String userID, String password, VICData vicData) {
         if (users.containsKey(userID)) {
-            return false;  // 用户已存在
+            return false;  // User already exist
         }
 
-        // 使用EncryptVIC加密密码
+        // Use EncryptVIC to encrypt the password
         String encryptedPassword = EncryptVIC.encrypt(password, vicData);
 
         LibraryModel model = new LibraryModel(userID, musicStore);
@@ -37,15 +37,15 @@ public class LibraryUsers {
     }
 
     /**
-     * 验证用户登录信息是否正确
-     * @param userID 用户名
-     * @param inputPassword 输入的明文密码
-     * @param vicData VIC加密相关数据
-     * @return 验证成功返回true，否则false
+     * Verify if the user login information is correct
+     * @param userID Username
+     * @param inputPassword Plain text password entered by the user
+     * @param vicData VIC encryption related data
+     * @return Returns true if verification is successful, otherwise false
      */
     public boolean authenticateUser(String userID, String inputPassword, VICData vicData) {
         if (!users.containsKey(userID)) {
-            return false;  // 用户不存在
+            return false;
         }
         LibraryModel model = users.get(userID);
         String encryptedInput = EncryptVIC.encrypt(inputPassword, vicData);
@@ -53,18 +53,18 @@ public class LibraryUsers {
     }
 
     /**
-     * 根据用户名获取对应的LibraryModel实例
-     * @param userID 用户名
-     * @return LibraryModel实例，不存在返回null
+     * Get the corresponding LibraryModel instance by username
+     * @param userID Username
+     * @return LibraryModel instance, or null if not found
      */
     public LibraryModel getLibraryModel(String userID) {
         return users.get(userID);
     }
 
     /**
-     * 检查用户是否存在
-     * @param userID 用户名
-     * @return 存在返回true，不存在返回false
+     * Check if the user exists
+     * @param userID User ID
+     * @return exist return true, otherwise false
      */
     public boolean userExists(String userID) {
         return users.containsKey(userID);
@@ -72,19 +72,19 @@ public class LibraryUsers {
 
     // ---- Function for JSON data ----
 
-    // 保存数据到JSON文件，自动创建文件和目录
+    // save data to JSON file and create file and directory automatically
     public void saveToJSON(String filePath) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             File file = new File(filePath);
 
-            // 若文件不存在，则自动创建
+            // If the file does not exist, create it automatically
             if (!file.exists()) {
-                file.getParentFile().mkdirs(); // 创建目录（如果不存在）
-                file.createNewFile();          // 创建文件
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
 
-            // 写入数据
+            // Write data
             try (Writer writer = new FileWriter(file)) {
                 gson.toJson(users, writer);
             }
@@ -95,7 +95,7 @@ public class LibraryUsers {
     }
 
 
-    // 从JSON文件加载用户数据
+    // load data from JSON file
     public void loadFromJSON(String filePath) {
         Gson gson = new Gson();
         File file = new File(filePath);
@@ -109,12 +109,12 @@ public class LibraryUsers {
 
             if (loadedUsers != null) {
                 for (LibraryModel model : loadedUsers.values()) {
-                    model.setMusicStore(this.musicStore);  // 恢复MusicStore引用
+                    model.setMusicStore(this.musicStore);  // re-reference the MusicStore
 
                     for (Song song : model.getUserSongs().values()) {
                         Album album = model.getUserAlbums().get(song.getAlbumTitle());
                         if (album != null) {
-                            song.setAlbum(album);  // 恢复引用
+                            song.setAlbum(album);  // re-reference the album
                         }
                     }
                 }

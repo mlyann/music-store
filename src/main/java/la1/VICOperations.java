@@ -1,41 +1,4 @@
 package la1;
-/*=============================================================================
- |   Assignment:  Program #1: The VIC (VIC InComplete) Cipher
- |       Author:  Haocheng Cao (Cao8@arizona.edu)
- |
- |       Course:  CSC 345, Fall 2024
- |   Instructor:  L. McCann
- | Sect. Leader:  Haocheng Cao
- |     Due Date:  September 19th, 2024, at the beginning of class
- |
- |     Language:  Java(JDK 1.3)
- |     Packages:  Java.src
- |  Compile/Run:  [How to Compile and Run this program]
- |                JKD: Compile: EncryptVIC.java & DecryptVIC.java
-                  Run: EncryptVIC.java & DecryptVIC.java
- +-----------------------------------------------------------------------------
- |
- |  Description:  This program provide 4 basic VICOperations for EncryptVIC.java
- |                and DecryptVIC.java. Including
- |				  (a) No-Carry Addition
- |				  (b) Chain Addition
- |                (c) Digit Permutation
- |				  (d) The Straddling Checkerboard
- |
- |        Input:  None
- |       Output:  None
- |
- |   Techniques:  StringBuilder()
- |				  ArrayList<>
- |				  HashSet<>
- |				  LinkedHashMap<>
- |				  TreeMap<>
- |
- |   Required Features Not Included: All required features are included.
- |
- |   Known Bugs:  None; the program operates correctly.
- |
- *===========================================================================*/
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -374,7 +337,6 @@ public class VICOperations {
 		return encoded.toString();
 	}
 
-	// 新增解码函数
 	public static String checkerboardDecode(String numberPermutation, String anagram, String encodedMessage) {
 		LinkedHashMap<Character, String> board = get2DTable(numberPermutation, anagram);
 		String label = getLabel(numberPermutation, anagram);
@@ -402,22 +364,22 @@ public class VICOperations {
 		return decoded.toString();
 	}
 
-	// 插入agentID到加密消息中
+	// Insert agentID into the encrypted message
 	public static String insertID(String input, String agentID, String date) {
-		int index = Integer.parseInt(date.substring(5));
-		return input.substring(0, index) + agentID + input.substring(index);
+	    int index = Integer.parseInt(date.substring(5));
+	    return input.substring(0, index) + agentID + input.substring(index);
 	}
 
-	// 从加密消息中提取agentID
+	// Extract agentID from the encrypted message
 	public static String extractID(String encodedMessage, String date) {
-		int index = Integer.parseInt(date.substring(5));
-		return encodedMessage.substring(index, index + 5);
+	    int index = Integer.parseInt(date.substring(5));
+	    return encodedMessage.substring(index, index + 5);
 	}
 
-	// 提取除去agentID后的真实加密信息
+	// Extract the real encrypted message without the agentID
 	public static String extractEncodedMessage(String encodedMessage, String date) {
-		int index = Integer.parseInt(date.substring(5));
-		return encodedMessage.substring(0, index) + encodedMessage.substring(index + 5);
+	    int index = Integer.parseInt(date.substring(5));
+	    return encodedMessage.substring(0, index) + encodedMessage.substring(index + 5);
 	}
 
 }
