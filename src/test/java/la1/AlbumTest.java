@@ -116,7 +116,14 @@ public class AlbumTest {
         album.addSongToAlbumLibrary(songA);
         ArrayList<Song> librarySongs = album.getSongs();
         assertEquals(1, librarySongs.size());
-        assertTrue(librarySongs.contains(songA));
+        boolean contains = false;
+        for (Song s : librarySongs) {
+            if (s.compare(songA)) {
+                contains = true;
+                break;
+            }
+        }
+        assertTrue(contains);
         album.addSongToAlbumLibrary(songA);
         librarySongs = album.getSongs();
         assertEquals(1, librarySongs.size());
@@ -136,8 +143,22 @@ public class AlbumTest {
         album.removeSongFromAlbumLibrary(songA);
         ArrayList<Song> librarySongs = album.getSongs();
         assertEquals(1, librarySongs.size());
-        assertFalse(librarySongs.contains(songA));
-        assertTrue(librarySongs.contains(songB));
+        boolean contains = false;
+        for (Song s : librarySongs) {
+            if (s.compare(songA)) {
+                contains = true;
+                break;
+            }
+        }
+        assertFalse(contains);
+        contains = false;
+        for (Song s : librarySongs) {
+            if (s.compare(songB)) {
+                contains = true;
+                break;
+            }
+        }
+        assertTrue(contains);
     }
 
     @Test

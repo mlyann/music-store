@@ -171,4 +171,9 @@ public class Song extends TablePrinter {
         }
         return result;
     }
+
+    public boolean compare(Song other) {
+        return this.title.equals(other.title) && this.artist.equals(other.artist);
+    }
+
 }

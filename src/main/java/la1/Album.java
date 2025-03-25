@@ -17,7 +17,11 @@ public class Album {
         this.artist = artist;
         this.genre = Genre.fromString(genre);
         this.year = year;
-        this.songs = new ArrayList<Song>(songs); // DEEPCOPY HERE
+        this.songs = new ArrayList<>();
+        for (Song song : songs) {
+            this.songs.add(new Song(song)); // DEEP COPY HERE
+            song.setAlbum(this);
+        }
         this.songInLibrary = new ArrayList<Song>();
     }
 
@@ -55,8 +59,14 @@ public class Album {
 
 
     public ArrayList<Song> getSongs() {
-        return new ArrayList<Song>(songInLibrary); // DEEPCOPY HERE
+        ArrayList<Song> deepCopy = new ArrayList<>(songInLibrary.size());
+        for (Song song : songInLibrary) {
+            deepCopy.add(new Song(song)); // DEEP COPY HERE
+        }
+        return deepCopy; // DEEPCOPY HERE
     }
+
+
     /**
      * Get the some titles of the album
      *
@@ -144,15 +154,30 @@ public class Album {
 
     public void addAllSongsToLibrary() {
         for (Song song : songs) {
-            if (!songInLibrary.contains(song)) {
+            boolean contains = false;
+            for (Song s : songInLibrary) {
+                if (s.compare(song)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains) {
                 songInLibrary.add(song);
             }
         }
     }
 
     public void addSongToAlbumLibrary(Song song) {
-        if (!songInLibrary.contains(song)) {
+        boolean contains = false;
+        for (Song s : songInLibrary) {
+            if (s.compare(song)) {
+                contains = true;
+                break;
+            }
+        }
+        if (!contains) {
             songInLibrary.add(song);
         }
     }
+
 }
