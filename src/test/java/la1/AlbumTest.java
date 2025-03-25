@@ -70,8 +70,8 @@ public class AlbumTest {
     @Test
     public void testGetInfoString() {
         List<Song> songs = new ArrayList<>();
-        Album album = new Album("1", "AA", "Country", 1988, songs);
-        String expected = String.format("%s, by %s (%d, %s), ", "1", "AA", 1988, "Country");
+        Album album = new Album("1", "AA", "Traditional Country", 1988, songs);
+        String expected = String.format("%s, by %s (%d, %s), ", "1", "AA", 1988, "Traditional Country");
         assertEquals(expected, album.getAlbumInfoString());
     }
 

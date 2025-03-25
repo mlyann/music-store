@@ -68,7 +68,7 @@ public class GenreTest {
         assertEquals(Genre.JAZZ, Genre.fromString("JAZZ"));
         assertEquals(Genre.HIPHOP, Genre.fromString("hiphop"));
         assertEquals(Genre.CLASSICAL, Genre.fromString("classical"));
-        assertEquals(Genre.COUNTRY, Genre.fromString("COUNTRY"));
+        assertEquals(Genre.COUNTRY, Genre.fromString("Traditional Country"));
     }
 
     @Test

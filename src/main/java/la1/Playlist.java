@@ -218,5 +218,18 @@ public class Playlist {
     }
 
 
-
+    // year sorting
+    public void sortSongsByYear() {
+        Collections.sort(songs, (s1, s2) -> {
+            int cmp = Integer.compare(s1.getYear(), s2.getYear());
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = s1.getTitle().compareToIgnoreCase(s2.getTitle());
+            if (cmp != 0) {
+                return cmp;
+            }
+            return s1.getArtist().compareToIgnoreCase(s2.getArtist());
+        });
+    }
 }
