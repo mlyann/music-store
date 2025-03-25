@@ -382,7 +382,10 @@ public List<Song> getSortedUserSongs() {
      */
     public void printUserSongsTable(String sortMethod) {
         // make a deep copy first!
-        List<Song> songs = new ArrayList<>(UserSongs.values());
+        List<Song> songs = new ArrayList<>();
+        for (Song song : UserSongs.values()) {
+            songs.add(new Song(song));
+        }
         switch (sortMethod.toLowerCase()) {
             case "title":
                 Collections.sort(songs, (s1, s2) -> s1.getTitle().compareToIgnoreCase(s2.getTitle()));
@@ -459,6 +462,7 @@ public List<Song> getSortedUserSongs() {
     public void addAlbum(Album album) {
         UserAlbums.put(generateKey(album), album);
         for (Song song : album.getSongs()) {
+            song.setAlbum(album);
             UserSongs.put(generateKey(song), song);
         }
     }
